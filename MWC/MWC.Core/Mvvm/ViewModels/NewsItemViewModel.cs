@@ -2,6 +2,7 @@
 using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
+using MWC.BL.Managers;
 
 namespace MWC.Core.Mvvm.ViewModels
 {
@@ -13,12 +14,13 @@ namespace MWC.Core.Mvvm.ViewModels
         public DateTime Published { get; set; }
         public string Content { get; set; }
 
-        public NewsItemViewModel ()
+        public NewsItemViewModel (string id)
         {
+            var item = NewsManager.Get(int.Parse(id));
+            Update(item);
         }
 
         public NewsItemViewModel (RSSEntry item)
-            : this ()
         {
             Update (item);
         }
