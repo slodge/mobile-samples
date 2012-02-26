@@ -119,6 +119,7 @@ namespace MWC.Core.Mvvm.ViewModels
                 var favs = FavoritesManager
                     .GetFavorites ()
                     .Select (f => f.SessionKey)
+                    .Distinct()
                     .ToDictionary (x => x);
                 return from s in allSessions
                        where favs.ContainsKey (s.Key)
