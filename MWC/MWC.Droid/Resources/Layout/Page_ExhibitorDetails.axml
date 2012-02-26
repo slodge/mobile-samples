@@ -58,19 +58,19 @@
                 <TextView
                     android:id="@+id/CountryTextView"
                     android:textColor="@color/icongrey"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     local:MvxBind="{'Text':{'Path':'Country'}}"
                     />
             <TextView
                 android:textColor="@color/icongrey"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=", "
                     />
             <TextView
                 android:textColor="@color/icongrey"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 local:MvxBind="{'Text':{'Path':'City'}}"
                     />

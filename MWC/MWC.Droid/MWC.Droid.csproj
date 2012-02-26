@@ -79,7 +79,7 @@
     <Compile Include="Views\Home\SplashScreenActivity.cs" />
     <Compile Include="Views\Map\MapPinOverlay.cs" />
     <Compile Include="Views\Map\MapsView.cs" />
-    <Compile Include="Views\News\NewsDetailsScreen.cs" />
+    <Compile Include="Views\News\NewsDetailsView.cs" />
     <Compile Include="Views\News\NewsView.cs" />
     <Compile Include="Views\Home\MainView.cs" />
     <Compile Include="Views\Sessions\SessionDetailsView.cs" />

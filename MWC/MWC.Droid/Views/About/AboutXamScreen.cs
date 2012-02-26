@@ -7,7 +7,7 @@ using MWC.Core.Mvvm.ViewModels;
 namespace MWC.Views.About
 {
     [Activity(Label = "About Xamarin", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class AboutXamView : BaseView<AboutXamarinViewModel>
+    public class AboutXamarinView : BaseView<AboutXamarinViewModel>
     {
         protected override void OnViewModelSet()
         {
