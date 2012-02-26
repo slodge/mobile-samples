@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq; // requires System.Xml.Linq added to References
 using System.Collections.Generic;
 using System.Net;
 using System.Diagnostics;
+using Cirrious.MvvmCross.ExtensionMethods;
 
 namespace MWC.SAL
 {
@@ -29,19 +31,32 @@ namespace MWC.SAL
 		{
 			Debug.WriteLine ("Starting Parsing XML from " + Url);
 
-			XDocument rssFeed = XDocument.Parse(xml);
-			var items = 
-				from item in rssFeed.Descendants("item")
-				select new MWC.BL.RSSEntry
-				{
-					Title = item.Element("title").Value,
-					Content = item.Element("description").Value,
-					Published = DateTime.Parse(item.Element("pubDate").Value),
-					Url = item.Element("link").Value
-				};
-			Debug.WriteLine ("Finished Parsing XML");
 
-			return items.ToList();
+            try
+            {
+                XDocument rssFeed = XDocument.Parse(xml);
+                var items =
+                    from item in rssFeed.Descendants("item")
+                    select new MWC.BL.RSSEntry
+                               {
+                                   Title = item.Element("title").Value,
+                                   Content = item.Element("description").Value,
+                                   Published = DateTime.Parse(item.Element("pubDate").Value),
+                                   Url = item.Element("link").Value
+                               };
+                Debug.WriteLine("Finished Parsing XML");
+
+                return items.ToList();
+            }
+            catch (ThreadAbortException)
+            {
+                throw;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("Bummer - excpetion in xml " + exception.ToLongString());
+                return new List<BL.RSSEntry>();
+            }
 		}
 	}
 }

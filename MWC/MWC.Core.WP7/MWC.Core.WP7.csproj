@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MWC.Core.WP7</RootNamespace>
+    <RootNamespace>MWC.Core</RootNamespace>
     <AssemblyName>MWC.Core.WP7</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -41,18 +41,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cirrious.MvvmCross.WindowsPhone">
+      <HintPath>..\..\MvvxLibs\Cirrious.MvvmCross.WindowsPhone.dll</HintPath>
+    </Reference>
     <Reference Include="Community.CsharpSqlite.WP7">
       <HintPath>..\Dependencies\Community.CsharpSqlite\Community.CsharpSqlite.WP7.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\MvvxLibs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\MvvxLibs\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml.Serialization" />
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>..\..\MvvxLibs\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\MWC.Core\BL\Conference.cs">
@@ -121,6 +133,12 @@
     <Compile Include="..\MWC.Core\DL\SQLite.cs">
       <Link>DL\SQLite.cs</Link>
     </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\MoreViewModel.cs">
+      <Link>Mvvm\ViewModels\MoreViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\ScheduleViewModel.cs">
+      <Link>Mvvm\ViewModels\ScheduleViewModel.cs</Link>
+    </Compile>
     <Compile Include="..\MWC.Core\SAL\MwcSiteParser.cs">
       <Link>SAL\MwcSiteParser.cs</Link>
     </Compile>
@@ -140,7 +158,80 @@
       <Link>SAL\XmlFeedParserBase.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\MWC.Core\Mvvm\App.cs">
+      <Link>Mvvm\App.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ApplicationObjects\StartApplicationObject.cs">
+      <Link>Mvvm\ApplicationObjects\StartApplicationObject.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ApplicationSettings\ApplicationSettings.cs">
+      <Link>Mvvm\ApplicationSettings\ApplicationSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\JsonFileStore\IJsonStoreHelper.cs">
+      <Link>Mvvm\JsonFileStore\IJsonStoreHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\JsonFileStore\IJsonStoreHelperConsumer.cs">
+      <Link>Mvvm\JsonFileStore\IJsonStoreHelperConsumer.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\JsonFileStore\JsonFileStore.cs">
+      <Link>Mvvm\JsonFileStore\JsonFileStore.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\JsonFileStore\JsonStoreExtensionMethods.cs">
+      <Link>Mvvm\JsonFileStore\JsonStoreExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\JsonFileStore\JsonStoreHelper.cs">
+      <Link>Mvvm\JsonFileStore\JsonStoreHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModelLocators\SingletonViewModelLocator.cs">
+      <Link>Mvvm\ViewModelLocators\SingletonViewModelLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\AboutXamarinViewModel.cs">
+      <Link>Mvvm\ViewModels\AboutXamarinViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\Converters\Converters.cs">
+      <Link>Mvvm\Converters\Converters.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\ExhibitorDetailsViewModel.cs">
+      <Link>Mvvm\ViewModels\ExhibitorDetailsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\ExhibitorsListViewModel.cs">
+      <Link>Mvvm\ViewModels\ExhibitorsListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\GroupedListViewModel.cs">
+      <Link>Mvvm\ViewModels\GroupedListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\MainViewModel.cs">
+      <Link>Mvvm\ViewModels\MainViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\NewsItemViewModel.cs">
+      <Link>Mvvm\ViewModels\NewsItemViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\NewsListViewModel.cs">
+      <Link>Mvvm\ViewModels\NewsListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\SessionDetailsViewModel.cs">
+      <Link>Mvvm\ViewModels\SessionDetailsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\SessionListViewModel.cs">
+      <Link>Mvvm\ViewModels\SessionListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\SpeakerDetailsViewModel.cs">
+      <Link>Mvvm\ViewModels\SpeakerDetailsViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\SpeakerListViewModel.cs">
+      <Link>Mvvm\ViewModels\SpeakerListViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\TweetViewModel.cs">
+      <Link>Mvvm\ViewModels\TweetViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\TwitterViewModel.cs">
+      <Link>Mvvm\ViewModels\TwitterViewModel.cs</Link>
+    </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\ViewModelBase.cs">
+      <Link>Mvvm\ViewModels\ViewModelBase.cs</Link>
+    </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />

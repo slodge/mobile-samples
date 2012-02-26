@@ -5,7 +5,20 @@ using System.Threading;
 using Android.App;
 using Android.Preferences;
 using Android.Util;
+using Cirrious.MvvmCross.Platform.Diagnostics;
 
+#warning need to look at Application - commented out for now
+public class MWCApp
+{
+    private const string MWCAppTag = "MWCApp";
+
+    public static void LogDebug(string message, params object[] args)
+    {
+        MvxTrace.TaggedTrace(MWCAppTag, message, args);
+    }
+}
+
+#if false
 namespace MWC {
     [Application]
     public class MWCApp : Application {
@@ -132,3 +145,4 @@ Use this to help with ADB watching in CMD
         }
     }
 }
+#endif

@@ -10,32 +10,19 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cirrious.MvvmCross.ExtensionMethods;
+using Cirrious.MvvmCross.Interfaces.ServiceProvider;
+using Cirrious.MvvmCross.Interfaces.ViewModels;
+using MWC.Core.Mvvm.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using MWC.WP7.ViewModels;
 
 namespace MWC.WP7
 {
-    public partial class App : Application
+    public partial class App 
+        : Application
+        , IMvxServiceConsumer<IMvxStartNavigation>
     {
-        private static MainViewModel viewModel = null;
-
-        /// <summary>
-        /// A static ViewModel used by the views to bind against.
-        /// </summary>
-        /// <returns>The MainViewModel object.</returns>
-        public static MainViewModel ViewModel
-        {
-            get
-            {
-                // Delay creation of the view model until necessary
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
-
-                return viewModel;
-            }
-        }
-
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -75,12 +62,27 @@ namespace MWC.WP7
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
+
+            var setup = new Setup(RootFrame);
+            setup.Initialize();
         }
+
+        private bool _onceOnlyNavigation = false;
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            RootFrame.Navigating += (navigatingSender, navigatingArgs) =>
+            {
+                if (_onceOnlyNavigation)
+                    return;
+
+                navigatingArgs.Cancel = true;
+                _onceOnlyNavigation = true;
+                var applicationStart = this.GetService<IMvxStartNavigation>();
+                RootFrame.Dispatcher.BeginInvoke(applicationStart.Start);
+            };
         }
 
         // Code to execute when the application is activated (brought to foreground)

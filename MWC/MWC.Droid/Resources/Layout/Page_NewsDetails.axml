@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:local="http://schemas.android.com/apk/res/com.xamarin.samples.mwc12"
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+  >
+    <!-- NEWS VIEW -->
+    <WebView
+      android:id="@+id/ContentWebView"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      />
+
+  </LinearLayout>

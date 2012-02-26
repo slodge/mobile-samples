@@ -18,6 +18,15 @@ namespace MWC
 		public partial class Attribute
 		{
 			
+			// aapt resource value: 0x7f010001
+			public const int MvxBind = 2130771969;
+			
+			// aapt resource value: 0x7f010002
+			public const int MvxItemTemplate = 2130771970;
+			
+			// aapt resource value: 0x7f010000
+			public const int httpSource = 2130771968;
+			
 			private Attribute()
 			{
 			}
@@ -26,17 +35,32 @@ namespace MWC
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040000
-			public const int black = 2130968576;
-			
-			// aapt resource value: 0x7f040002
-			public const int grey = 2130968578;
-			
 			// aapt resource value: 0x7f040001
-			public const int lightgrey = 2130968577;
+			public const int black = 2130968577;
+			
+			// aapt resource value: 0x7f040008
+			public const int bluetext = 2130968584;
 			
 			// aapt resource value: 0x7f040003
-			public const int white = 2130968579;
+			public const int grey = 2130968579;
+			
+			// aapt resource value: 0x7f040005
+			public const int icongrey = 2130968581;
+			
+			// aapt resource value: 0x7f040002
+			public const int lightgrey = 2130968578;
+			
+			// aapt resource value: 0x7f040006
+			public const int listhighlight = 2130968582;
+			
+			// aapt resource value: 0x7f040007
+			public const int listseparator = 2130968583;
+			
+			// aapt resource value: 0x7f040000
+			public const int transparent = 2130968576;
+			
+			// aapt resource value: 0x7f040004
+			public const int white = 2130968580;
 			
 			private Color()
 			{
@@ -50,46 +74,145 @@ namespace MWC
 			public const int About = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int favorite = 2130837505;
+			public const int background_selector = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int favorited = 2130837506;
+			public const int building = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int Home = 2130837507;
+			public const int calendar = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int Icon = 2130837508;
+			public const int clock = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int tab_about = 2130837509;
+			public const int empty_news = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int tab_exhibitors = 2130837510;
+			public const int empty_twitter = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int tab_favorites = 2130837511;
+			public const int Home = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int tab_maps = 2130837512;
+			public const int HomeLogo = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int tab_rss = 2130837513;
+			public const int ic_menu_goto = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int tab_schedule = 2130837514;
+			public const int ic_menu_goto_dark = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int tab_schedule_unselected = 2130837515;
+			public const int ic_menu_goto_light = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int tab_sessions = 2130837516;
+			public const int ic_menu_goto_selector = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public const int tab_speakers = 2130837517;
+			public const int ic_menu_refresh = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public const int tab_twitter = 2130837518;
+			public const int ic_menu_refresh_dark = 2130837518;
+			
+			// aapt resource value: 0x7f02000f
+			public const int ic_menu_refresh_light = 2130837519;
+			
+			// aapt resource value: 0x7f020010
+			public const int ic_menu_refresh_selector = 2130837520;
+			
+			// aapt resource value: 0x7f020011
+			public const int Icon = 2130837521;
+			
+			// aapt resource value: 0x7f020012
+			public const int list_selector = 2130837522;
+			
+			// aapt resource value: 0x7f020013
+			public const int more_selector = 2130837523;
+			
+			// aapt resource value: 0x7f020014
+			public const int pin = 2130837524;
+			
+			// aapt resource value: 0x7f020015
+			public const int pin_map = 2130837525;
+			
+			// aapt resource value: 0x7f020016
+			public const int Splash = 2130837526;
+			
+			// aapt resource value: 0x7f020017
+			public const int star_gold = 2130837527;
+			
+			// aapt resource value: 0x7f020018
+			public const int star_gold45 = 2130837528;
+			
+			// aapt resource value: 0x7f020019
+			public const int star_gold_selector = 2130837529;
+			
+			// aapt resource value: 0x7f02001a
+			public const int star_grey = 2130837530;
+			
+			// aapt resource value: 0x7f02001b
+			public const int star_grey45 = 2130837531;
+			
+			// aapt resource value: 0x7f02001c
+			public const int star_grey_selector = 2130837532;
+			
+			// aapt resource value: 0x7f02001d
+			public const int tab_about = 2130837533;
+			
+			// aapt resource value: 0x7f02001e
+			public const int tab_exhibitors = 2130837534;
+			
+			// aapt resource value: 0x7f02001f
+			public const int tab_favorites = 2130837535;
+			
+			// aapt resource value: 0x7f020020
+			public const int tab_maps = 2130837536;
+			
+			// aapt resource value: 0x7f020021
+			public const int tab_maps_selected = 2130837537;
+			
+			// aapt resource value: 0x7f020022
+			public const int tab_maps_unselected = 2130837538;
+			
+			// aapt resource value: 0x7f020023
+			public const int tab_rss = 2130837539;
+			
+			// aapt resource value: 0x7f020024
+			public const int tab_schedule = 2130837540;
+			
+			// aapt resource value: 0x7f020025
+			public const int tab_schedule_selected = 2130837541;
+			
+			// aapt resource value: 0x7f020026
+			public const int tab_schedule_unselected = 2130837542;
+			
+			// aapt resource value: 0x7f020027
+			public const int tab_sessions = 2130837543;
+			
+			// aapt resource value: 0x7f020028
+			public const int tab_sessions_selected = 2130837544;
+			
+			// aapt resource value: 0x7f020029
+			public const int tab_sessions_unselected = 2130837545;
+			
+			// aapt resource value: 0x7f02002a
+			public const int tab_speakers = 2130837546;
+			
+			// aapt resource value: 0x7f02002b
+			public const int tab_speakers_selected = 2130837547;
+			
+			// aapt resource value: 0x7f02002c
+			public const int tab_speakers_unselected = 2130837548;
+			
+			// aapt resource value: 0x7f02002d
+			public const int tab_twitter = 2130837549;
+			
+			// aapt resource value: 0x7f02002e
+			public const int thickblueline = 2130837550;
+			
+			// aapt resource value: 0x7f02002f
+			public const int thinblueline = 2130837551;
 			
 			private Drawable()
 			{
@@ -99,122 +222,167 @@ namespace MWC
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070013
-			public const int AboutButton = 2131165203;
+			// aapt resource value: 0x7f050020
+			public const int AboutButton = 2131034144;
 			
-			// aapt resource value: 0x7f070001
-			public const int AboutTextView = 2131165185;
+			// aapt resource value: 0x7f050017
+			public const int AboutWebView = 2131034135;
 			
-			// aapt resource value: 0x7f07000b
-			public const int BigTextView = 2131165195;
+			// aapt resource value: 0x7f050002
+			public const int BigTextView = 2131034114;
 			
-			// aapt resource value: 0x7f070020
-			public const int Bio = 2131165216;
+			// aapt resource value: 0x7f050030
+			public const int Bio = 2131034160;
 			
-			// aapt resource value: 0x7f07001f
-			public const int CompanyTextView = 2131165215;
+			// aapt resource value: 0x7f05000a
+			public const int BuildingImage = 2131034122;
 			
-			// aapt resource value: 0x7f070025
-			public const int ContentTextView = 2131165221;
+			// aapt resource value: 0x7f050003
+			public const int CalendarImageView = 2131034115;
 			
-			// aapt resource value: 0x7f070015
-			public const int ContentWebView = 2131165205;
+			// aapt resource value: 0x7f050012
+			public const int CompanyTextView = 2131034130;
 			
-			// aapt resource value: 0x7f070005
-			public const int CountryTextView = 2131165189;
+			// aapt resource value: 0x7f050016
+			public const int ContentTextView = 2131034134;
 			
-			// aapt resource value: 0x7f070018
-			public const int DateTimeTextView = 2131165208;
+			// aapt resource value: 0x7f050024
+			public const int ContentWebView = 2131034148;
 			
-			// aapt resource value: 0x7f07000e
-			public const int DayList = 2131165198;
+			// aapt resource value: 0x7f050009
+			public const int CountryTextView = 2131034121;
 			
-			// aapt resource value: 0x7f070007
-			public const int DescriptionTextView = 2131165191;
+			// aapt resource value: 0x7f05002b
+			public const int DateTimeTextView = 2131034155;
 			
-			// aapt resource value: 0x7f070003
-			public const int ExhibitorImageView = 2131165187;
+			// aapt resource value: 0x7f05002c
+			public const int DateTimeTextView2 = 2131034156;
 			
-			// aapt resource value: 0x7f070009
-			public const int ExhibitorList = 2131165193;
+			// aapt resource value: 0x7f050027
+			public const int DayList = 2131034151;
 			
-			// aapt resource value: 0x7f07000f
-			public const int ExhibitorsButton = 2131165199;
+			// aapt resource value: 0x7f050004
+			public const int DayTextView = 2131034116;
 			
-			// aapt resource value: 0x7f070012
-			public const int FavoritesButton = 2131165202;
+			// aapt resource value: 0x7f050019
+			public const int DescriptionTextView = 2131034137;
 			
-			// aapt resource value: 0x7f07000a
-			public const int FavoritesList = 2131165194;
+			// aapt resource value: 0x7f050006
+			public const int ExhibitorImageView = 2131034118;
 			
-			// aapt resource value: 0x7f07001a
-			public const int FavouriteButton = 2131165210;
+			// aapt resource value: 0x7f05001c
+			public const int ExhibitorsButton = 2131034140;
 			
-			// aapt resource value: 0x7f070024
-			public const int HandleTextView = 2131165220;
+			// aapt resource value: 0x7f05000d
+			public const int FavoriteButton = 2131034125;
 			
-			// aapt resource value: 0x7f070006
-			public const int LocationTextView = 2131165190;
+			// aapt resource value: 0x7f05001f
+			public const int FavoritesButton = 2131034143;
 			
-			// aapt resource value: 0x7f070004
-			public const int NameTextView = 2131165188;
+			// aapt resource value: 0x7f050028
+			public const int FavouriteButton = 2131034152;
 			
-			// aapt resource value: 0x7f070011
-			public const int NewsButton = 2131165201;
+			// aapt resource value: 0x7f050015
+			public const int HandleTextView = 2131034133;
 			
-			// aapt resource value: 0x7f070016
-			public const int NewsList = 2131165206;
+			// aapt resource value: 0x7f050026
+			public const int HeadingTextView = 2131034150;
 			
-			// aapt resource value: 0x7f07001b
-			public const int OverviewTextView = 2131165211;
+			// aapt resource value: 0x7f050022
+			public const int Intro = 2131034146;
 			
-			// aapt resource value: 0x7f07001e
-			public const int PositionTextView = 2131165214;
+			// aapt resource value: 0x7f050021
+			public const int LoadingPanel = 2131034145;
 			
-			// aapt resource value: 0x7f070014
-			public const int PublishedTextView = 2131165204;
+			// aapt resource value: 0x7f05000b
+			public const int LocationTextView = 2131034123;
 			
-			// aapt resource value: 0x7f070019
-			public const int RoomTextView = 2131165209;
+			// aapt resource value: 0x7f050005
+			public const int MonthTextView = 2131034117;
 			
-			// aapt resource value: 0x7f07001c
-			public const int SessionList = 2131165212;
+			// aapt resource value: 0x7f050001
+			public const int MvxBindableListItemTagUnique = 2131034113;
 			
-			// aapt resource value: 0x7f07000c
-			public const int SmallTextView = 2131165196;
+			// aapt resource value: 0x7f050000
+			public const int MvxBindingTagUnique = 2131034112;
 			
-			// aapt resource value: 0x7f07001d
-			public const int SpeakerImageView = 2131165213;
+			// aapt resource value: 0x7f050007
+			public const int NameTextView = 2131034119;
 			
-			// aapt resource value: 0x7f070021
-			public const int SpeakerList = 2131165217;
+			// aapt resource value: 0x7f05001e
+			public const int NewsButton = 2131034142;
 			
-			// aapt resource value: 0x7f070017
-			public const int SpeakersTextView = 2131165207;
+			// aapt resource value: 0x7f05002d
+			public const int OverviewTextView = 2131034157;
 			
-			// aapt resource value: 0x7f070023
-			public const int TimeTextView = 2131165219;
+			// aapt resource value: 0x7f050008
+			public const int PinImage = 2131034120;
 			
-			// aapt resource value: 0x7f070008
-			public const int TitleTextView = 2131165192;
+			// aapt resource value: 0x7f05002f
+			public const int PositionTextView = 2131034159;
 			
-			// aapt resource value: 0x7f070026
-			public const int TweetList = 2131165222;
+			// aapt resource value: 0x7f050023
+			public const int Progress = 2131034147;
 			
-			// aapt resource value: 0x7f070010
-			public const int TwitterButton = 2131165200;
+			// aapt resource value: 0x7f050032
+			public const int RefreshButton = 2131034162;
 			
-			// aapt resource value: 0x7f070022
-			public const int TwitterImageView = 2131165218;
+			// aapt resource value: 0x7f05000f
+			public const int RoomImage = 2131034127;
 			
-			// aapt resource value: 0x7f070000
-			public const int about = 2131165184;
+			// aapt resource value: 0x7f05000e
+			public const int RoomPanel = 2131034126;
 			
-			// aapt resource value: 0x7f07000d
-			public const int home = 2131165197;
+			// aapt resource value: 0x7f050010
+			public const int RoomTextView = 2131034128;
 			
-			// aapt resource value: 0x7f070002
-			public const int scroller = 2131165186;
+			// aapt resource value: 0x7f05002e
+			public const int SessionList = 2131034158;
+			
+			// aapt resource value: 0x7f050011
+			public const int SpeakerImageView = 2131034129;
+			
+			// aapt resource value: 0x7f050031
+			public const int SpeakerList = 2131034161;
+			
+			// aapt resource value: 0x7f050029
+			public const int SpeakersTextView = 2131034153;
+			
+			// aapt resource value: 0x7f05002a
+			public const int TimeImage = 2131034154;
+			
+			// aapt resource value: 0x7f050014
+			public const int TimeTextView = 2131034132;
+			
+			// aapt resource value: 0x7f05000c
+			public const int TitleTextView = 2131034124;
+			
+			// aapt resource value: 0x7f050033
+			public const int TweetList = 2131034163;
+			
+			// aapt resource value: 0x7f05001d
+			public const int TwitterButton = 2131034141;
+			
+			// aapt resource value: 0x7f050013
+			public const int TwitterImageView = 2131034131;
+			
+			// aapt resource value: 0x7f05001a
+			public const int animateButton = 2131034138;
+			
+			// aapt resource value: 0x7f050034
+			public const int custombutton = 2131034164;
+			
+			// aapt resource value: 0x7f050025
+			public const int home = 2131034149;
+			
+			// aapt resource value: 0x7f05001b
+			public const int map = 2131034139;
+			
+			// aapt resource value: 0x7f050018
+			public const int scroller = 2131034136;
+			
+			// aapt resource value: 0x7f050035
+			public const int starbutton = 2131034165;
 			
 			private Id()
 			{
@@ -225,73 +393,70 @@ namespace MWC
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int AboutXamScreen = 2130903040;
+			public const int ListItem_Day = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int ExhibitorDetailsScreen = 2130903041;
+			public const int ListItem_Exhibitor = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int ExhibitorListItem = 2130903042;
+			public const int ListItem_News = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int ExhibitorsScreen = 2130903043;
+			public const int ListItem_Session = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int FavoritesScreen = 2130903044;
+			public const int ListItem_SessionTimeslot = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int GenericListItem = 2130903045;
+			public const int ListItem_Speaker = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int HomeListItem = 2130903046;
+			public const int ListItem_Twitter = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int HomeScreen = 2130903047;
+			public const int Main_TabBar = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int MoreScreen = 2130903048;
+			public const int Page_AboutXamarin = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int NewsDetailsScreen = 2130903049;
+			public const int Page_ExhibitorDetails = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int NewsListItem = 2130903050;
+			public const int Page_Exhibitors = 2130903050;
 			
 			// aapt resource value: 0x7f03000b
-			public const int NewsScreen = 2130903051;
+			public const int Page_Maps = 2130903051;
 			
 			// aapt resource value: 0x7f03000c
-			public const int SessionDetailsScreen = 2130903052;
+			public const int Page_More = 2130903052;
 			
 			// aapt resource value: 0x7f03000d
-			public const int SessionListItem = 2130903053;
+			public const int Page_News = 2130903053;
 			
 			// aapt resource value: 0x7f03000e
-			public const int SessionsScreen = 2130903054;
+			public const int Page_NewsDetails = 2130903054;
 			
 			// aapt resource value: 0x7f03000f
-			public const int SessionTimeslotListItem = 2130903055;
+			public const int Page_Schedule = 2130903055;
 			
 			// aapt resource value: 0x7f030010
-			public const int SpeakerDetailsScreen = 2130903056;
+			public const int Page_SessionDetails = 2130903056;
 			
 			// aapt resource value: 0x7f030011
-			public const int SpeakerListItem = 2130903057;
+			public const int Page_Sessions = 2130903057;
 			
 			// aapt resource value: 0x7f030012
-			public const int SpeakersScreen = 2130903058;
+			public const int Page_SpeakerDetails = 2130903058;
 			
 			// aapt resource value: 0x7f030013
-			public const int TabBar = 2130903059;
+			public const int Page_Speakers = 2130903059;
 			
 			// aapt resource value: 0x7f030014
-			public const int TweetDetailsScreen = 2130903060;
+			public const int Page_TweetDetails = 2130903060;
 			
 			// aapt resource value: 0x7f030015
-			public const int TwitterListItem = 2130903061;
-			
-			// aapt resource value: 0x7f030016
-			public const int TwitterScreen = 2130903062;
+			public const int Page_Twitter = 2130903061;
 			
 			private Layout()
 			{
@@ -301,11 +466,17 @@ namespace MWC
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f050001
-			public const int AboutXamarin = 2131034113;
+			// aapt resource value: 0x7f060003
+			public const int AboutXamarin = 2131099651;
 			
-			// aapt resource value: 0x7f050000
-			public const int ApplicationName = 2131034112;
+			// aapt resource value: 0x7f060002
+			public const int ApplicationName = 2131099650;
+			
+			// aapt resource value: 0x7f060000
+			public const int GoogleMapAPIKey = 2131099648;
+			
+			// aapt resource value: 0x7f060001
+			public const int GoogleMapAPIKeyRELEASE = 2131099649;
 			
 			private String()
 			{
@@ -315,10 +486,39 @@ namespace MWC
 		public partial class Style
 		{
 			
-			// aapt resource value: 0x7f060000
-			public const int CustomTheme = 2131099648;
+			// aapt resource value: 0x7f070000
+			public const int CustomTheme = 2131165184;
+			
+			// aapt resource value: 0x7f070001
+			public const int Theme_Splash = 2131165185;
 			
 			private Style()
+			{
+			}
+		}
+		
+		public partial class Styleable
+		{
+			
+			public static int[] HttpImageView = new int[] {
+					2130771968};
+			
+			// aapt resource value: 0
+			public const int HttpImageView_httpSource = 0;
+			
+			public static int[] MvxBindableListView = new int[] {
+					2130771970};
+			
+			// aapt resource value: 0
+			public const int MvxBindableListView_MvxItemTemplate = 0;
+			
+			public static int[] MvxBinding = new int[] {
+					2130771969};
+			
+			// aapt resource value: 0
+			public const int MvxBinding_MvxBind = 0;
+			
+			private Styleable()
 			{
 			}
 		}

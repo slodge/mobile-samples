@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res/com.xamarin.samples.mwc12"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background_selector"
+    >
+  <!-- SESSIONS LIST -->
+  <TextView
+     android:id="@+id/TitleTextView"
+     android:text="SESSIONS (loading...)"
+     android:textStyle="bold"
+     android:textSize="16dp"
+     android:textColor="@color/bluetext"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:paddingTop="8dip"
+     android:paddingLeft="15dip"
+     android:paddingBottom="5dip"
+     local:MvxBind="{'Visibility':{'Path':'IsUpdating','Converter':'Visibility'}}"
+     />
+  <ImageView
+     android:src="@drawable/thickblueline"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:maxWidth="430dip"
+     local:MvxBind="{'Visibility':{'Path':'IsUpdating','Converter':'Visibility'}}"
+      />
+  <cirrious.mvvmcross.binding.android.views.MvxBindableListView
+      android:id="@+id/SessionList"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:background="@color/transparent"
+      android:cacheColorHint="@color/transparent"
+      android:listSelector="@drawable/list_selector"
+      android:fastScrollEnabled="true"
+      local:MvxBind="{'ItemsSource':{'Path':'Groups','Converter':'SessionList'},'Visibility':{'Path':'IsUpdating','Converter':'InvertedVisibility'}}"
+      local:MvxItemTemplate="@layout/listitem_session"
+  />
+</LinearLayout>

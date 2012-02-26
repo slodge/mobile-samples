@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res/com.xamarin.samples.mwc12"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent">
+
+  <mwc.controls.HttpImageView
+    android:id="@+id/TwitterImageView"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:padding="4dp"
+    android:src="@drawable/icon"
+    local:MvxBind="{'HttpSource':{'Path':'ImageUrl'}}"
+    />
+
+  <LinearLayout 
+     android:orientation="vertical"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     local:MvxBind="{'Click':{'Path':'ShowDetailCommand'}}"
+     >
+      <TextView
+        android:id="@+id/NameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24dip"
+        android:textColor="@color/white"
+        local:MvxBind="{'Text':{'Path':'RealName'}}"
+        />
+      <TextView
+       android:id="@+id/TimeTextView"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="10dip"
+       android:textColor="@color/icongrey"
+        local:MvxBind="{'Text':{'Path':'PublishedAgo'}}"
+       />
+     <TextView
+        android:id="@+id/HandleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10dip"
+        android:textColor="@color/icongrey"
+        local:MvxBind="{'Text':{'Path':'Username'}}"
+        />
+      <TextView
+        android:id="@+id/ContentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dip"
+        android:textColor="@color/white"
+        local:MvxBind="{'Text':{'Path':'Title'}}"
+        />
+  </LinearLayout>
+</LinearLayout>

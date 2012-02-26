@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res/com.xamarin.samples.mwc12"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:padding="8dp">
+  <mwc.controls.HttpImageView
+    android:id="@+id/SpeakerImageView"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:padding="5dp"
+    android:background="@color/white"
+    android:src="@drawable/icon"
+    local:MvxBind="{'HttpSource':{'Path':'ImageUrl'}}"
+    />
+    <LinearLayout 
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:paddingLeft="10dip">
+      <TextView
+        android:id="@+id/NameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20dip"
+        local:MvxBind="{'Text':{'Path':'Name'},'Click':{'Path':'ShowDetailCommand'}}"
+      />
+      <TextView
+        android:id="@+id/CompanyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dip"
+        android:textColor="@color/icongrey"
+        local:MvxBind="{'Text':{'Path':'Company'}}"
+      />
+    </LinearLayout>
+
+</LinearLayout>

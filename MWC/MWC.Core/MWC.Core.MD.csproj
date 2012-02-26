@@ -36,6 +36,12 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cirrious.MvvmCross.Android">
+      <HintPath>..\..\MvvxLibs\Cirrious.MvvmCross.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.MonoDroid">
+      <HintPath>..\..\MvvxLibs\Newtonsoft.Json.MonoDroid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -43,14 +49,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="BL\" />
-    <Folder Include="DAL\" />
-    <Folder Include="DL\" />
-    <Folder Include="BL\Managers\" />
-    <Folder Include="BL\Contracts\" />
-    <Folder Include="SAL\" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="DL\MwcDatabase.cs" />
     <Compile Include="DL\SQLite.cs" />
@@ -64,6 +62,9 @@
     <Compile Include="BL\Managers\SpeakerManager.cs" />
     <Compile Include="BL\Managers\ExhibitorManager.cs" />
     <Compile Include="BL\Managers\TwitterFeedManager.cs" />
+    <Compile Include="Mvvm\ViewModels\MapsViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\MoreViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\ScheduleViewModel.cs" />
     <Compile Include="SAL\MwcSiteParser.cs" />
     <Compile Include="BL\Managers\NewsManager.cs" />
     <Compile Include="BL\Contracts\IBusinessEntity.cs" />
@@ -80,5 +81,53 @@
     <Compile Include="BL\Managers\DaysManager.cs" />
     <Compile Include="BL\Managers\UpdateFinishedEventArgs.cs" />
     <Compile Include="BL\SessionSpeaker.cs" />
+    <Compile Include="Mvvm\App.cs">
+    </Compile>
+    <Compile Include="Mvvm\ApplicationObjects\StartApplicationObject.cs">
+    </Compile>
+    <Compile Include="Mvvm\ApplicationSettings\ApplicationSettings.cs">
+    </Compile>
+    <Compile Include="Mvvm\JsonFileStore\IJsonStoreHelper.cs">
+    </Compile>
+    <Compile Include="Mvvm\JsonFileStore\IJsonStoreHelperConsumer.cs">
+    </Compile>
+    <Compile Include="Mvvm\JsonFileStore\JsonFileStore.cs">
+    </Compile>
+    <Compile Include="Mvvm\JsonFileStore\JsonStoreExtensionMethods.cs">
+    </Compile>
+    <Compile Include="Mvvm\JsonFileStore\JsonStoreHelper.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModelLocators\SingletonViewModelLocator.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\AboutXamarinViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\Converters\Converters.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\ExhibitorDetailsViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\ExhibitorsListViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\GroupedListViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\MainViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\NewsItemViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\NewsListViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\SessionDetailsViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\SessionListViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\SpeakerDetailsViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\SpeakerListViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\TweetViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\TwitterViewModel.cs">
+    </Compile>
+    <Compile Include="Mvvm\ViewModels\ViewModelBase.cs">
+    </Compile>
   </ItemGroup>
 </Project>

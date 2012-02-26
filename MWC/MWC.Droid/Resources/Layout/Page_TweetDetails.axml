@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res/com.xamarin.samples.mwc12"
+    android:id="@+id/scroller"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:padding="0dip"
+    android:background="@drawable/background_selector">
+
+  <LinearLayout 
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:paddingLeft="10dip"
+      android:paddingRight="5dip">
+
+    <!-- TWEET VIEW -->
+
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+      <mwc.controls.HttpImageView
+        android:id="@+id/TwitterImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:padding="4dp"
+        android:src="@drawable/icon"
+        local:MvxBind="{'HttpSource':{'Path':'ImageUrl'}}"
+      />
+
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          >
+
+        <TextView
+                 android:id="@+id/NameTextView"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:textSize="30dp"
+                 android:textColor="@color/white"
+                 local:MvxBind="{'Text':{'Path':'RealName'}}"
+           />
+        <!-- TODO - need to add a browser Command for name -->
+        <TextView
+                  android:id="@+id/HandleTextView"
+                  android:textColor="@color/white"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  local:MvxBind="{'Text':{'Path':'Username'}}"
+          />
+        <!-- TODO - need to add a browser Command for name -->
+        <TextView
+                  android:id="@+id/TimeTextView"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/white"
+                  local:MvxBind="{'Text':{'Path':'PublishedAgo'}}"
+          />
+        <!-- TODO - formatted tiem really should be done by a converter? -->
+      </LinearLayout>
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/ContentWebView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="10dip"
+        />
+
+  </LinearLayout>
+</ScrollView>
