@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
@@ -33,7 +34,7 @@ namespace MWC.iOS.UI.Controls.Views {
 		int y = 0;
 		EmptyOverlay emptyOverlay;		
 
-		MWC.BL.Session showSession;
+		SessionDetailsViewModel showSession;
 
 		const int buttonSpace = 45; //24;
 		static UIImage favorite = UIImage.FromFile (AppDelegate.ImageNotFavorite);
@@ -252,23 +253,25 @@ namespace MWC.iOS.UI.Controls.Views {
 		}
 
 		bool shouldShowSpeakers = true;
+
 		/// <summary>
 		/// Change the session info being displayed in the view
 		/// </summary>
-		public void Update (int sessionID, bool shouldShowSpeakers)
+		public void Update (SessionDetailsViewModel session, bool shouldShowSpeakers)
 		{
 			if (speakerTable != null) // need to re-set, incase index 10 was selected last time and new session has fewer speakers
 				speakerTable.SelectRow (NSIndexPath.FromRowSection (0,0), true, UITableViewScrollPosition.Top);
 
 			this.shouldShowSpeakers = shouldShowSpeakers;
-			showSession = BL.Managers.SessionManager.GetSession (sessionID);
+            showSession = session;
 			Update ();
 			LayoutSubviews ();
 		}
+
 		/// <summary>
 		/// Change the session info being displayed in the view
 		/// </summary>
-		public void Update (MWC.BL.Session session)
+		public void Update (SessionDetailsViewModel session)
 		{
 			if (speakerTable != null) // need to re-set, incase index 10 was selected last time and new session has fewer speakers
 				speakerTable.SelectRow (NSIndexPath.FromRowSection (0,0), true, UITableViewScrollPosition.Top);

@@ -1,4 +1,5 @@
 using System;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
@@ -13,26 +14,26 @@ namespace MWC.iOS.UI.CustomElements
 	/// </summary>
 	public class SessionElement : Element, IElementSizing {
 		static NSString cellId = new NSString ("sessionElement");
-	
-		Session session;
+
+        SessionListItemViewModel session;
 		string subtitle;
 		/// <summary>If this is null, on iPhone; otherwise on iPad</summary>
 		MWC.iOS.Screens.iPad.Sessions.SessionSplitView splitView;
 		
 		/// <summary>for iPhone</summary>
-		public SessionElement (Session showSession) : base (showSession.Title)
+		public SessionElement (SessionListItemViewModel showSession) : base (showSession.Title)
 		{
 			this.session = showSession;
 			if (String.IsNullOrEmpty(session.Room))
 				subtitle = String.Format ("{0}", session.SpeakerNames);
-			else if (String.IsNullOrEmpty(session.SpeakerNames))
-				subtitle = String.Format ("{0} room", session.Room);
-			else
+            else if (String.IsNullOrEmpty(session.SpeakerNames))
+                subtitle = String.Format("{0} room", session.Room);
+            else
 				subtitle = String.Format ("{0} room; {1}", session.Room, session.SpeakerNames);
 
 		}
 		/// <summary>for iPad (SplitViewController)</summary>
-		public SessionElement (Session session, MWC.iOS.Screens.iPad.Sessions.SessionSplitView sessionSplitView) : this (session)
+		public SessionElement (SessionListItemViewModel session, MWC.iOS.Screens.iPad.Sessions.SessionSplitView sessionSplitView) : this (session)
 		{
 			splitView = sessionSplitView;
 		}

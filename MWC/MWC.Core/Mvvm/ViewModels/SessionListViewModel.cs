@@ -158,6 +158,7 @@ namespace MWC.Core.Mvvm.ViewModels
     {
         public int ID { get; set; }
         public string SessionKey { get; set; }
+        public string SpeakerNames { get; set; }
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public string Room { get; set; }
@@ -182,6 +183,7 @@ namespace MWC.Core.Mvvm.ViewModels
             SessionKey = item.Key;
             Room = string.IsNullOrWhiteSpace (item.Room) ? "Unknown Location" : item.Room;
             Start = item.Start;
+            SpeakerNames = item.SpeakerNames;
             SortKey = Start.ToString ("s", System.Globalization.CultureInfo.InvariantCulture);
         }
 

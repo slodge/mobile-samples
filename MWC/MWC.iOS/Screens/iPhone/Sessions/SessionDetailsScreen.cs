@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -9,18 +12,19 @@ using MWC.BL;
 using MWC.iOS.UI.Controls.Views;
 
 namespace MWC.iOS.Screens.iPhone.Sessions {
-	public class SessionDetailsScreen : UIViewController, ISessionViewHost {
-		int sessionId;
+	public class SessionDetailsScreen
+        : MvxBindingTouchViewController<SessionDetailsViewModel>
+        , ISessionViewHost
+    {
 		UIScrollView scrollView;
 		SessionView sessionView;
 		
 		public bool ShouldShowSpeakers { get; set; }
 
-		public SessionDetailsScreen (int sessionID)
+		public SessionDetailsScreen (MvxShowViewModelRequest request)
+            : base(request)
 		{
 			ShouldShowSpeakers = true;	// by default
-
-			sessionId = sessionID;
 			
 			sessionView = new SessionView(this);
 			sessionView.Frame = new RectangleF(0,0,320,100);
@@ -34,7 +38,7 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			sessionView.Update (sessionId, ShouldShowSpeakers);
+			sessionView.Update (ViewModel, ShouldShowSpeakers);
 
 			scrollView.Add(sessionView);
 			scrollView.ContentOffset = new PointF(0,0);

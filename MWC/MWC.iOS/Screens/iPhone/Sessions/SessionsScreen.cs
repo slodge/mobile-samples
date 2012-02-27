@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -11,19 +13,21 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 	/// Speakers screen. Derives from MonoTouch.Dialog's DialogViewController to do 
 	/// the heavy lifting for table population.
 	/// </summary>
-	public partial class SessionsScreen : UpdateManagerLoadingDialogViewController {
+	public partial class SessionsScreen : UpdateManagerLoadingDialogViewController<SessionListViewModel> {
 		public IList<BL.Session> Sessions;
 		
 		/// <summary>If this is null, on iPhone; otherwise on iPad</summary>
 		SessionSplitView splitView;
 
 		/// <summary>for iPhone</summary>
-		public SessionsScreen () : this (null)
+        public SessionsScreen(MvxShowViewModelRequest request)
+            : this(request, null)
 		{
 		}
 		
 		/// <summary>for iPad</summary>
-		public SessionsScreen (SessionSplitView sessionSplitView) : base ()
+		public SessionsScreen (MvxShowViewModelRequest request, SessionSplitView sessionSplitView) 
+            : base (request)
 		{
 			splitView = sessionSplitView;
 			EnableSearch = true; // requires SessionElement to implement Matches()
@@ -37,11 +41,9 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 			Sessions = BL.Managers.SessionManager.GetSessions ();
 			
 			Root = 	new RootElement ("Sessions") {
-					from session in Sessions
-						group session by session.Start.Ticks into timeslot
-						orderby timeslot.Key
-						select new Section (new DateTime (timeslot.Key).ToString("dddd HH:mm") ) {
-						from eachSession in timeslot
+					from session in ViewModel.Groups
+						select new Section (session.Key) {
+						from eachSession in session.Items
 						   select (Element) new MWC.iOS.UI.CustomElements.SessionElement (eachSession, splitView)
 			}};
 			// hide search until pull-down

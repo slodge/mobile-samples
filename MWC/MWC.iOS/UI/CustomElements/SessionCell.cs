@@ -1,4 +1,5 @@
 using System;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
@@ -16,11 +17,12 @@ namespace MWC.iOS.UI.CustomElements {
 		UILabel titleLabel, speakerLabel;
 		UIButton button;
 		UIImageView locationImageView;
-		Session session;
+        SessionListItemViewModel session;
 		const int padding = 13;
 		const int buttonSpace = 45; //24;
-		
-		public SessionCell (UITableViewCellStyle style, NSString ident, Session showSession, string big, string small) : base (style, ident)
+
+        public SessionCell(UITableViewCellStyle style, NSString ident, SessionListItemViewModel showSession, string big, string small)
+            : base(style, ident)
 		{
 			SelectionStyle = UITableViewCellSelectionStyle.Blue;
 			
@@ -68,7 +70,7 @@ namespace MWC.iOS.UI.CustomElements {
 			speakerLabel.Font = UIFont.FromName ("Helvetica", AppDelegate.Font10_5pt);
 		}
 
-		public void UpdateCell (Session showSession, string big, string small)
+        public void UpdateCell(SessionListItemViewModel showSession, string big, string small)
 		{
 			session = showSession;
 			UpdateImage (FavoritesManager.IsFavorite (session.Key));
@@ -89,11 +91,13 @@ namespace MWC.iOS.UI.CustomElements {
 		
 		bool ToggleFavorite ()
 		{
-			if (FavoritesManager.IsFavorite (session.Key)) {
-				FavoritesManager.RemoveFavoriteSession (session.Key);
+#warning This should really be session.FavoriteSessionsCommand.Execute();
+            if (FavoritesManager.IsFavorite(session.SessionKey))
+            {
+                FavoritesManager.RemoveFavoriteSession(session.SessionKey);
 				return false;
 			} else {
-				var fav = new Favorite {SessionID = session.ID, SessionKey = session.Key};
+                var fav = new Favorite { SessionID = session.ID, SessionKey = session.SessionKey };
 				FavoritesManager.AddFavoriteSession (fav);
 				return true;
 			}
@@ -104,7 +108,7 @@ namespace MWC.iOS.UI.CustomElements {
 		/// to sync favorite-stars that have changed in other views
 		/// </summary>		
 		public void UpdateFavorite() {
-			UpdateImage (FavoritesManager.IsFavorite (session.Key)) ;
+            UpdateImage(FavoritesManager.IsFavorite(session.SessionKey));
 		}
 
 		public override void LayoutSubviews ()

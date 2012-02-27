@@ -17,6 +17,7 @@ namespace MWC.Core.Mvvm.ViewModels
         public string Overview { get; set; }
         public List<string> SpeakerKeys { get; set; }
         public string SpeakerNames { get; set; }
+        public IList<Speaker> Speakers { get; set; }
 
         public bool IsFavorite
         {
@@ -67,6 +68,8 @@ namespace MWC.Core.Mvvm.ViewModels
             Room = session.Room;
             SpeakerNames = session.SpeakerNames;
             Overview = CleanupPlainTextDocument(session.Overview);
+            Speakers = session.Speakers;
+
             if (session.SpeakerKeys != null) {
                 SpeakerKeys = new List<string> (session.SpeakerKeys);
             }
