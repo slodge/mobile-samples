@@ -29,10 +29,10 @@ namespace MWC.iOS.Screens.Common {
 			// home tab
 #warning IPad support removed (for now)			
 			if (true /*AppDelegate.IsPhone*/) {
-				homeScreen = new Screens.iPhone.Home.HomeScreen();
+				homeScreen = base.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
 				homeScreen.Title = "Schedule";
 			} else {
-				homeScreen = new Screens.iPhone.Home.HomeScreen();
+				homeScreen = base.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
 			}
 			
 			homeNav = new UINavigationController();

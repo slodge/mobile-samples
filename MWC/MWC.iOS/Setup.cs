@@ -11,6 +11,7 @@ using MWC.Core.Mvvm;
 using MWC.Core.Mvvm.Converters;
 using MWC.Core.Mvvm.ViewModels;
 using MWC.iOS.Screens.Common;
+using MWC.iOS.Screens.iPhone.Home;
 
 namespace MWC.iOS
 {
@@ -36,7 +37,7 @@ namespace MWC.iOS
             return new Dictionary<Type, Type>()
                        {
                             { typeof(MainViewModel), typeof(TabBarController)},
-                            //{ typeof(SimpleTextPropertyViewModel), typeof(SimpleTextPropertyView)},
+                            { typeof(ScheduleViewModel), typeof(HomeScreen)},
                             //{ typeof(PullToRefreshViewModel), typeof(PullToRefreshView)},
                        };
         }
