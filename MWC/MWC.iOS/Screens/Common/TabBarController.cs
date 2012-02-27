@@ -1,16 +1,24 @@
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
+using Cirrious.MvvmCross.Touch.Views;
+using MWC.Core.Mvvm.ViewModels;
+using Cirrious.MvvmCross.Views;
 
 namespace MWC.iOS.Screens.Common {
-	public class TabBarController : UITabBarController {
+	public class TabBarController : MvxTouchTabBarViewController<MainViewModel> 
+	{
 		UIViewController homeScreen = null;
+		
 		UINavigationController homeNav, speakerNav, sessionNav;
 		DialogViewController speakersScreen, sessionsScreen, twitterFeedScreen, newsFeedScreen, exhibitorsScreen, favoritesScreen;
+		
 		Screens.Common.Map.MapScreen mapScreen;
 		Screens.Common.About.AboutXamarinScreen aboutScreen;
+		
 		UISplitViewController speakersSplitView, sessionsSplitView, exhibitorsSplitView, twitterSplitView, newsSplitView;
 		
-		public TabBarController ()
+		public TabBarController (MvxShowViewModelRequest request)
+			: base(request)
 		{
 		}
 		
@@ -19,12 +27,14 @@ namespace MWC.iOS.Screens.Common {
 			base.ViewDidLoad ();
 			
 			// home tab
-			if (AppDelegate.IsPhone) {
+#warning IPad support removed (for now)			
+			if (true /*AppDelegate.IsPhone*/) {
 				homeScreen = new Screens.iPhone.Home.HomeScreen();
 				homeScreen.Title = "Schedule";
 			} else {
 				homeScreen = new Screens.iPhone.Home.HomeScreen();
 			}
+			
 			homeNav = new UINavigationController();
 			homeNav.PushViewController ( homeScreen, false );			
 			homeNav.Title = "Schedule";

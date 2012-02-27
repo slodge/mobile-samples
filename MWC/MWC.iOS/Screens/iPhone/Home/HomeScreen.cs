@@ -11,7 +11,7 @@ namespace MWC.iOS.Screens.iPhone.Home {
 	/// plus (iPad only) "what's on" in the next two 'timeslots'
 	/// and the "favorites" list.
 	/// </summary>
-	public partial class HomeScreen : UIViewController {
+	public partial class HomeScreen : MvxTouchViewController<HomeViewModel> {
 		Screens.Common.Session.SessionDayScheduleScreen dayScheduleScreen;
 		UI.Controls.LoadingOverlay loadingOverlay;
 		NSObject ObserverRotation;
@@ -30,8 +30,9 @@ namespace MWC.iOS.Screens.iPhone.Home {
 			
 			SessionTable.SeparatorColor = UIColor.Black;
 			SessionTable.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine; 
-
-			if (AppDelegate.IsPhone) {
+			
+#warning IsPhone commented out			
+			if (true /*AppDelegate.IsPhone*/) {
 				MwcLogoImageView.Image = UIImage.FromBundle("/Images/Home");
 				MwcLogoImageView.Frame = new RectangleF(0,0,320,480);
 			} else {

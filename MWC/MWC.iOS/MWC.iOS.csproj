@@ -105,7 +105,21 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
-    <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="MonoTouch.Dialog">
+      <HintPath>..\..\MvvxLibs\MonoTouch.Dialog.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft_Json_MonoTouch">
+      <HintPath>..\..\MvvxLibs\Newtonsoft_Json_MonoTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Binding.Touch">
+      <HintPath>..\..\MvvxLibs\Cirrious.MvvmCross.Binding.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Dialog.Touch">
+      <HintPath>..\..\MvvxLibs\Cirrious.MvvmCross.Dialog.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="CirriousMvvmCrossTouch">
+      <HintPath>..\..\MvvxLibs\CirriousMvvmCrossTouch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -182,6 +196,8 @@
     <Compile Include="UI\Controls\IntelligentSplitViewController.cs" />
     <Compile Include="UI\Controls\UnderlineLabel.cs" />
     <Compile Include="Screens\Common\About\AboutXamarinScreen.cs" />
+    <Compile Include="Setup.cs" />
+    <Compile Include="SinglePanePresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -218,6 +234,7 @@
     <Folder Include="Images\About\" />
     <Folder Include="Images\About\iPad\" />
     <Folder Include="Images\About\iPhone\" />
+    <Folder Include="Assets\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Screens\Common\About\AboutXamScreen_iPhone.xib" />
@@ -265,7 +282,6 @@
     <Content Include="Images\Tabs\schedule%402x.png" />
     <Content Include="Images\Tabs\sessions%402x.png" />
     <Content Include="Images\Tabs\speakers%402x.png" />
-    <Content Include="Images\SeedData.xml" />
     <Content Include="Images\About%402x.png" />
     <Content Include="Images\Home%402x.png" />
     <Content Include="Images\About-Landscape~iPad.png" />
@@ -323,5 +339,6 @@
     <Content Include="Images\About\iPhone\layout.css" />
     <Content Include="Images\About\iPad\index.html" />
     <Content Include="Images\About\iPad\layout.css" />
+    <Content Include="Assets\SeedData.xml" />
   </ItemGroup>
 </Project>

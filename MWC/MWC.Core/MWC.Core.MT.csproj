@@ -69,6 +69,15 @@
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="MonoTouch.Dialog">
+      <HintPath>..\..\MvvxLibs\MonoTouch.Dialog.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft_Json_MonoTouch">
+      <HintPath>..\..\MvvxLibs\Newtonsoft_Json_MonoTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="CirriousMvvmCrossTouch">
+      <HintPath>..\..\MvvxLibs\CirriousMvvmCrossTouch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -108,5 +117,32 @@
     <Compile Include="BL\Managers\DaysManager.cs" />
     <Compile Include="BL\Managers\UpdateFinishedEventArgs.cs" />
     <Compile Include="BL\SessionSpeaker.cs" />
+    <Compile Include="Mvvm\App.cs" />
+    <Compile Include="Mvvm\ApplicationObjects\StartApplicationObject.cs" />
+    <Compile Include="Mvvm\ApplicationSettings\ApplicationSettings.cs" />
+    <Compile Include="Mvvm\Converters\Converters.cs" />
+    <Compile Include="Mvvm\JsonFileStore\IJsonStoreHelper.cs" />
+    <Compile Include="Mvvm\JsonFileStore\IJsonStoreHelperConsumer.cs" />
+    <Compile Include="Mvvm\JsonFileStore\JsonFileStore.cs" />
+    <Compile Include="Mvvm\JsonFileStore\JsonStoreExtensionMethods.cs" />
+    <Compile Include="Mvvm\JsonFileStore\JsonStoreHelper.cs" />
+    <Compile Include="Mvvm\ViewModelLocators\SingletonViewModelLocator.cs" />
+    <Compile Include="Mvvm\ViewModels\AboutXamarinViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\ExhibitorDetailsViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\ExhibitorsListViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\GroupedListViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\MainViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\MapsViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\MoreViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\NewsItemViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\NewsListViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\SessionDetailsViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\SessionListViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\SpeakerDetailsViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\SpeakerListViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\TweetViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\TwitterViewModel.cs" />
+    <Compile Include="Mvvm\ViewModels\ViewModelBase.cs" />
   </ItemGroup>
 </Project>
