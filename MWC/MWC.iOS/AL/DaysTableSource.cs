@@ -1,44 +1,29 @@
 using System;
 using System.Collections.Generic;
+using Cirrious.MvvmCross.Binding.Touch.Views;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using MWC.iOS.UI.CustomElements;
 
 namespace MWC.iOS.AL {
-	public class DaysTableSource : UITableViewSource {
-		public event EventHandler<DayClickedEventArgs> DayClicked = delegate 
-		{
-		};
+    public class DaysTableSource : MvxBindableTableViewSource
+    {
 		static NSString cellId = new NSString("DayCell");
 		
-		IList<DateTime> days;
-		
-		public DaysTableSource () : base ()
+		public DaysTableSource (UITableView tableView)
+            : base(tableView)
 		{
-			days = DaysManager.GetDays ();
 		}
-		
-		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
+
+        protected override UITableViewCell GetOrCreateCellFor(UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath, object item)
 		{
 			DayCell cell = tableView.DequeueReusableCell(cellId) as DayCell;
 			
 			if(cell == null)
-				cell = new DayCell(days[indexPath.Row].ToString ("dddd"), days[indexPath.Row], cellId);
-			else
-				cell.UpdateCell (days[indexPath.Row].ToString ("dddd"), days[indexPath.Row]);
+                cell = new DayCell(cellId);
 
 			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			return cell;
-		}
-		
-		public override int RowsInSection (UITableView tableview, int section)
-		{
-			return this.days.Count;
-		}
-		
-		public override int NumberOfSections (UITableView tableView)
-		{
-			return 1;
 		}
 		
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
@@ -49,22 +34,18 @@ namespace MWC.iOS.AL {
 				return 45f;
 		}
 
-		public override void RowSelected (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
-		{
-			this.DayClicked (this, new DayClickedEventArgs (days [indexPath.Row].ToString ("dddd"), indexPath.Row + 1 ) );
-			tableView.DeselectRow ( indexPath, true );
-		}
-		 
 		public override float GetHeightForHeader (UITableView tableView, int section)
 		{
 			return 30f;
 		}
+
 		public override string TitleForHeader (UITableView tableView, int section)
 		{
 			return "Full Schedule";
 //			if (AppDelegate.IsPad) return "Full Schedule";
 //			return null; // don't want a section title on the Phone
 		}
+
 		public override UIView GetViewForHeader (UITableView tableView, int section)
 		{
 //			if (AppDelegate.IsPhone) return null;

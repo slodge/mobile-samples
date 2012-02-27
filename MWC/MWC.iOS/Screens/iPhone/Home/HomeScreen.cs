@@ -1,6 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.Touch.ExtensionMethods;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
@@ -11,17 +16,17 @@ namespace MWC.iOS.Screens.iPhone.Home {
 	/// plus (iPad only) "what's on" in the next two 'timeslots'
 	/// and the "favorites" list.
 	/// </summary>
-	public partial class HomeScreen : MvxTouchViewController<HomeViewModel> {
+	public partial class HomeScreen : MvxBindingTouchViewController<ScheduleViewModel> 
+    {
 		Screens.Common.Session.SessionDayScheduleScreen dayScheduleScreen;
 		UI.Controls.LoadingOverlay loadingOverlay;
 		NSObject ObserverRotation;
 
-		public HomeScreen () : base (AppDelegate.IsPhone ? "HomeScreen_iPhone" : "HomeScreen_iPad", null)
+		public HomeScreen (MvxShowViewModelRequest request) 
+            : base (request, AppDelegate.IsPhone ? "HomeScreen_iPhone" : "HomeScreen_iPad", null)
 		{
 		}
 		
-		MWC.iOS.AL.DaysTableSource tableSource = null;
-
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -93,12 +98,31 @@ namespace MWC.iOS.Screens.iPhone.Home {
 			}
 			else { PopulateTable(); }
 		}
+
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
 			BL.Managers.UpdateManager.UpdateFinished -= HandleUpdateFinished; 
 		}
-		void HandleUpdateFinished(object sender, EventArgs e)
+
+        protected void PopulateTable()
+        {
+            var tableSource = new MWC.iOS.AL.DaysTableSource(SessionTable);
+            tableSource.SelectionChanged += (sender, args) => ViewModel.DayChosenCommand.Execute(args.AddedItems[0]);
+
+            this.AddBindings(new Dictionary<object, string>()
+		                         {
+		                             {tableSource, "{'ItemsSource':{'Path':'Days'}}"}
+		                         });
+
+            SessionTable.Source = tableSource;
+            SessionTable.ReloadData();
+
+            if (AppDelegate.IsPad)
+                PopulateiPadTables();
+        }
+       
+        void HandleUpdateFinished(object sender, EventArgs e)
 		{
 			Console.WriteLine("Updates finished, going to populate table.");
 			InvokeOnMainThread ( () => {
@@ -128,18 +152,6 @@ namespace MWC.iOS.Screens.iPhone.Home {
 				PopulateiPadTables();
 		}
 
-		protected void PopulateTable ()
-		{
-			tableSource = new MWC.iOS.AL.DaysTableSource();
-			SessionTable.Source = tableSource;
-			SessionTable.ReloadData();
-			tableSource.DayClicked += delegate (object sender, MWC.iOS.AL.DayClickedEventArgs e) {
-				LoadSessionDayScreen (e.DayName, e.Day);
-			};
-			
-			if (AppDelegate.IsPad)
-				PopulateiPadTables();
-		}
 		/// <summary>iPad only method: the UpNext and Favorites tables</summary>
 		void PopulateiPadTables()
 		{

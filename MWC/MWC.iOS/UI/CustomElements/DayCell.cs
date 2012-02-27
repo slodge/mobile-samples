@@ -1,4 +1,6 @@
 using System;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Interfaces.Commands;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
@@ -8,13 +10,17 @@ namespace MWC.iOS.UI.CustomElements {
 	/// <remarks>
 	/// Although not used for a MT.D Element, placed in namespace with the other cells
 	/// </remarks>
-	public class DayCell: UITableViewCell  {
+    public class DayCell : MvxBindableTableViewCell
+    {
 		UILabel dayLabel;
 		UIImageView imageView;
 		static UIImage calendarImageBig = UIImage.FromFile (AppDelegate.ImageCalendarPad);
 		static UIImage calendarImageSmall = UIImage.FromFile (AppDelegate.ImageCalendarPhone);
 
-		public DayCell (string caption, DateTime day, NSString cellId) : base (UITableViewCellStyle.Default, cellId)
+        public const string BindingText = @"{'When':{'Path':'When'}}";
+
+		public DayCell (NSString cellId) 
+            : base (BindingText,UITableViewCellStyle.Default, cellId)
 		{
 			SelectionStyle = UITableViewCellSelectionStyle.Blue;
 			
@@ -29,26 +35,34 @@ namespace MWC.iOS.UI.CustomElements {
 			};
 			imageView = new UIImageView();
 			
-			UpdateCell (caption, day);
-			
 			ContentView.Add (dayLabel);
 			ContentView.Add (imageView);
 		}
-		
-		public void UpdateCell (string caption, DateTime day)
-		{
-			UIImage image;
-			if (AppDelegate.IsPad || AppDelegate.HasRetina) // use the big image
-				image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadge (calendarImageBig, day.ToString ("MMM").ToUpper (), day.ToString ("dd"));
-			else // use the small image
-				image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadgeSmall (calendarImageSmall, day.ToString ("MMM").ToUpper (), day.ToString ("dd"));
-			// either way, on iPad it'll be 60 wide, 
-			// on iPhone it'll be 30 wide (but if Retina, a 60-wide image will be stuffed in)
 
-			imageView.Image = image;
-			dayLabel.Text = caption;
-		}
-		
+
+	    private DateTime _when;
+	    public DateTime When
+	    {
+	        get { return _when; }
+	        set
+	        {
+                if (_when == value)
+                    return;
+
+	            _when = value;
+                UIImage image;
+                if (AppDelegate.IsPad || AppDelegate.HasRetina) // use the big image
+                    image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadge(calendarImageBig, _when.ToString("MMM").ToUpper(), _when.ToString("dd"));
+                else // use the small image
+                    image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadgeSmall(calendarImageSmall, _when.ToString("MMM").ToUpper(), _when.ToString("dd"));
+                // either way, on iPad it'll be 60 wide, 
+                // on iPhone it'll be 30 wide (but if Retina, a 60-wide image will be stuffed in)
+
+                imageView.Image = image;
+                dayLabel.Text = When.ToString("dddd");
+	        }
+	    }
+
 		public override void LayoutSubviews ()
 		{
 			base.LayoutSubviews ();
