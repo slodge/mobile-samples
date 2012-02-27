@@ -56,6 +56,8 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 		public void ShowAll() {
 			PopulateTable ();
 		}
+		
+		/*
 		/// <summary>
 		/// Used by iPad, to filter popover list in SplitView
 		/// </summary>
@@ -74,6 +76,7 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 			lastScrollY = NSIndexPath.FromRowSection(0,0);
 			TableView.ScrollToRow (lastScrollY, UITableViewScrollPosition.Top, false);
 		}
+		*/
 
 		// scroll back to the point where you last were in the list
 		NSIndexPath lastScrollY;

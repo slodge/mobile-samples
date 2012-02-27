@@ -23,6 +23,9 @@ namespace MWC.iOS.Screens.Common.Session {
 			this.dayName = dayName;
 			this.Title = this.dayName;
 
+#warning Problems here!			
+			// warning !
+			/*
 			Root = 	new RootElement (this.dayName) {
 					from s in this.sessions
 						group s by s.Start.Ticks into g
@@ -31,6 +34,7 @@ namespace MWC.iOS.Screens.Common.Session {
 						from hs in g
 						   select (Element) new MWC.iOS.UI.CustomElements.SessionElement (hs, splitView)
 			}};
+			*/
 
 		}
 		

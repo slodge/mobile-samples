@@ -78,6 +78,8 @@ namespace MWC.iOS.UI.CustomElements
 		/// </summary>
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
+#warning REmoved!			
+			/*
 			if (splitView != null)
 				splitView.ShowSession(session.ID);
 			else {
@@ -85,6 +87,7 @@ namespace MWC.iOS.UI.CustomElements
 				sds.Title = "Session";
 				dvc.ActivateController (sds);
 			}
+			*/
 		}
 	}
 }

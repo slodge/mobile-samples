@@ -73,7 +73,7 @@ namespace MWC.iOS.UI.CustomElements {
         public void UpdateCell(SessionListItemViewModel showSession, string big, string small)
 		{
 			session = showSession;
-			UpdateImage (FavoritesManager.IsFavorite (session.Key));
+			UpdateImage (FavoritesManager.IsFavorite (session.SessionKey));
 			
 			titleLabel.Font = bigFont;
 			titleLabel.Text = big;

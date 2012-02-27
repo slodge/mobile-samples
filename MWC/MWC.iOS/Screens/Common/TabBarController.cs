@@ -56,7 +56,7 @@ namespace MWC.iOS.Screens.Common {
 
 			// sessions
 			if (AppDelegate.IsPhone) {
-				sessionsScreen = new Screens.iPhone.Sessions.SessionsScreen();
+				sessionsScreen = base.CreateViewControllerFor<SessionListViewModel>() as DialogViewController;;
 				sessionNav = new UINavigationController();
 				sessionNav.TabBarItem = new UITabBarItem("Sessions"
 											, UIImage.FromBundle("Images/Tabs/sessions.png"), 2);
