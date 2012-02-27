@@ -32,7 +32,7 @@ namespace MWC.iOS.UI.CustomElements {
 			splitView = newsSplitView;	// could be null, in current implementation
 		}
 
-		public override UITableViewCell GetCell (UITableView tv)
+        protected override UITableViewCell GetCellImpl(UITableView tv)
 		{
 			var cell = tv.DequeueReusableCell (key);
 			

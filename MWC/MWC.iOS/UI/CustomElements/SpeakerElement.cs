@@ -29,7 +29,7 @@ namespace MWC.iOS.UI.CustomElements {
 		}
 		
 		static int count;
-		public override UITableViewCell GetCell (UITableView tv)
+        protected override UITableViewCell GetCellImpl(UITableView tv)
 		{
 			var cell = tv.DequeueReusableCell (cellId);
 			count++;

@@ -47,8 +47,8 @@ namespace MWC.iOS.UI.CustomElements {
 			exhibitor = showExhibitor;
 			splitView = exhibitorSplitView;	// could be null, in current implementation
 		}
-		
-		public override MonoTouch.UIKit.UITableViewCell GetCell (MonoTouch.UIKit.UITableView tv)
+
+        protected override MonoTouch.UIKit.UITableViewCell GetCellImpl(MonoTouch.UIKit.UITableView tv)
 		{
 			// try and dequeue a cell object to reuse. if one doesn't exist, create a new one
 			ExhibitorCell cell = tv.DequeueReusableCell (cellKey) as ExhibitorCell;
