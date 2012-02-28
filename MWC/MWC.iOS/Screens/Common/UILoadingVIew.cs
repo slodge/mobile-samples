@@ -119,7 +119,8 @@ namespace MWC.iOS.Screens.Common {
 		{ 
 			Debug.WriteLine ("RemoveFromSuperview...");
 			RemoveFromSuperview ();
-			OnFinishedFadeOutAndRemove ();
+			if (OnFinishedFadeOutAndRemove != null)
+				OnFinishedFadeOutAndRemove ();
 		}
 	}
 }

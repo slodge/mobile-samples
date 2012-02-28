@@ -45,9 +45,6 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-            // TODO - data binding needed here
-		    PopulateData();
 		}
 
 		public override void ViewDidUnload ()
@@ -55,7 +52,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 			base.ViewDidUnload ();
 			RefreshRequested -= HandleRefreshRequested;
 		}
-
+		
 		// hack to keep the selection, for some reason DidLayoutSubviews is getting called twice and i don't know wh
 		NSIndexPath tempIndexPath;
 		public override void ViewDidLayoutSubviews ()
@@ -69,11 +66,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 			}
 		}
 
-		/// <summary>
-		/// This could get called from main thread or background thread.
-		/// Remember to InvokeOnMainThread if required
-		/// </summary>
-		void PopulateData()
+		protected override void RefreshItems ()
 		{
 			if (ViewModel.Items == null || ViewModel.Items.Count == 0) {
 				var section = new Section ("Network unavailable") {
@@ -100,7 +93,6 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 				// add the section to the root
 				Root.Add(section);
 			}
-			base.StopLoadingScreen();	// hide the 'loading' animation (from base)
 			ReloadComplete ();
 		}
 	}

@@ -35,24 +35,24 @@ namespace MWC.iOS.Screens.iPhone {
         {
         }
 
-
-        public override void ViewDidLoad()
-        {
-            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-            RefreshLoadingVisibility();
-        }
-
-        public override void ViewDidUnload()
-        {
-            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
-            base.ViewDidUnload();
-        }
-
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            RefreshLoadingVisibility();
+			switch (propertyChangedEventArgs.PropertyName)
+			{
+				case "IsUpdating":
+            		RefreshLoadingVisibility();
+					break;
+				case "Items":
+				case "Groups":
+					RefreshItems ();
+					break;
+			}
         }
-
+		
+		protected virtual void RefreshItems()
+		{
+		}
+		
         private void RefreshLoadingVisibility()
         {
             if (ViewModel.IsUpdating)
@@ -94,8 +94,17 @@ namespace MWC.iOS.Screens.iPhone {
 
         public override void ViewWillAppear(bool animated)
         {
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+            RefreshLoadingVisibility();		
+			RefreshItems ();
             base.ViewWillAppear(animated);
         }
+		
+		public override void ViewWillDisappear (bool animated)
+		{
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;			
+			base.ViewWillDisappear (animated);
+		}
 
 
 #warning AlwaysRefresh might actually be useful?

@@ -19,7 +19,7 @@ namespace MWC.iOS.Screens.Common {
 	/// This ViewController implements the data loading via a virtual
 	/// method LoadData(), which must call StopLoadingScreen()
 	/// </remarks>
-    public class LoadingDialogViewController<TViewModel>
+    public abstract class LoadingDialogViewController<TViewModel>
         : MvxTouchDialogViewController<TViewModel>
         where TViewModel : UpdatingViewModelBase
 	{
@@ -33,22 +33,36 @@ namespace MWC.iOS.Screens.Common {
 		{
 		}
 
-        public override void ViewDidLoad()
-        {
+		public override void ViewWillAppear (bool animated)
+		{
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             RefreshLoadingVisibility();
-        }
-
-        public override void ViewDidUnload()
-        {
+			RefreshItems();
+			base.ViewWillAppear (animated);
+		}
+		
+		public override void ViewWillDisappear (bool animated)
+		{
             ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
-            base.ViewDidUnload();
+			StopLoadingScreen();
+			base.ViewWillDisappear (animated);
+		}
+		
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+			switch (propertyChangedEventArgs.PropertyName)
+			{
+				case "IsUpdating":
+            		RefreshLoadingVisibility();
+					break;
+				case "Items":
+				case "Groups":
+					RefreshItems ();
+					break;
+			}
         }
-
-	    private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-	    {
-	        RefreshLoadingVisibility();
-	    }
+		
+		protected abstract void RefreshItems();		
 
 	    private void RefreshLoadingVisibility()
 	    {
@@ -56,7 +70,6 @@ namespace MWC.iOS.Screens.Common {
                 StartLoadingScreen("loading...");
             else
                 StopLoadingScreen();
-
 	    }
 
 	    public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
