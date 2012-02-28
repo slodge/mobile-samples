@@ -1,3 +1,6 @@
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.UIKit;
 using System.Drawing;
 using System;
@@ -9,19 +12,15 @@ namespace MWC.iOS.Screens.Common.Session {
 	/// <summary>
 	/// Display session info (name, time, location) using UIKit controls and XIB file
 	/// </summary>
-	public partial class SessionDetailsScreen : UIViewController {
-		BL.Session session;
-		int sessionId;
-		
+    public partial class SessionDetailsScreen : MvxBindingTouchViewController<SessionDetailsViewModel>
+	{
 		static bool UserInterfaceIdiomIsPhone {
 			get { return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone; }
 		}
 
-		public SessionDetailsScreen (int sessionID)
-			: base (UserInterfaceIdiomIsPhone ? "SessionDetailsScreen_iPhone" : "SessionDetailsScreen_iPad", null)
+		public SessionDetailsScreen (MvxShowViewModelRequest request)
+			: base (request, UserInterfaceIdiomIsPhone ? "SessionDetailsScreen_iPhone" : "SessionDetailsScreen_iPad", null)
 		{
-			Console.WriteLine ("Creating Session Details Screen, Session ID: " + sessionID.ToString());
-			sessionId = sessionID;
 		}
 		
 		public override void ViewDidLoad ()
@@ -32,18 +31,16 @@ namespace MWC.iOS.Screens.Common.Session {
 			if (!UserInterfaceIdiomIsPhone)
 				width = 700;
 
-			session = BL.Managers.SessionManager.GetSession (sessionId);
-			
 			Title = "Session Detail";
-			TitleLabel.Text = session.Title;
-			SpeakerLabel.Text = session.SpeakerNames;			
-			TimeLabel.Text = session.Start.ToString("dddd") + " " +
-								session.Start.ToString("H:mm") + " - " + 
-								session.End.ToString("H:mm");
-			LocationLabel.Text = session.Room;
-			OverviewLabel.Text = session.Overview;
-			
-			SizeF titleSize = TitleLabel.StringSize (session.Title
+			TitleLabel.Text = ViewModel.Title;
+            SpeakerLabel.Text = ViewModel.SpeakerNames;
+            TimeLabel.Text = ViewModel.Start.ToString("dddd") + " " +
+                                ViewModel.Start.ToString("H:mm") + " - " +
+                                ViewModel.End.ToString("H:mm");
+            LocationLabel.Text = ViewModel.Room;
+            OverviewLabel.Text = ViewModel.Overview;
+
+            SizeF titleSize = TitleLabel.StringSize(ViewModel.Title
 							, UIFont.FromName ("Helvetica-Light", AppDelegate.Font16pt)
 							, new SizeF (245, 400), UILineBreakMode.WordWrap);
 			TitleLabel.Font = UIFont.FromName("Helvetica-Light", AppDelegate.Font16pt);
@@ -52,7 +49,7 @@ namespace MWC.iOS.Screens.Common.Session {
 			TitleLabel.Lines = 0;
 			TitleLabel.Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font16pt);
 
-			SizeF speakerSize = TitleLabel.StringSize (session.SpeakerNames
+            SizeF speakerSize = TitleLabel.StringSize(ViewModel.SpeakerNames
 							, UIFont.FromName ("Helvetica-LightOblique", AppDelegate.Font10pt)
 							, new SizeF (245, 400), UILineBreakMode.WordWrap);
 			SpeakerLabel.Font = UIFont.FromName("Helvetica-LightOblique", AppDelegate.Font10pt);
@@ -79,7 +76,7 @@ namespace MWC.iOS.Screens.Common.Session {
 				OverviewLabel.ScrollEnabled = false;
 			
 				SizeF overviewSize = OverviewLabel.StringSize (
-								  session.Overview
+                                  ViewModel.Overview
 								, UIFont.FromName("Helvetica-Light", AppDelegate.Font10_5pt)
 								, new SizeF(overviewLabelWidth, 2500) // just width wasn't working...
 								, UILineBreakMode.WordWrap);
@@ -99,21 +96,23 @@ namespace MWC.iOS.Screens.Common.Session {
 				ToggleFavorite ();
 			};
 
-			if (FavoritesManager.IsFavorite (session.Key))
+            if (FavoritesManager.IsFavorite(ViewModel.Key))
 				FavoriteButton.SetImage (new UIImage(AppDelegate.ImageIsFavorite), UIControlState.Normal);
 			else
 				FavoriteButton.SetImage (new UIImage(AppDelegate.ImageNotFavorite), UIControlState.Normal);
 		}
 
 		bool ToggleFavorite ()
-		{
-			if (FavoritesManager.IsFavorite (session.Key)) {
+        {
+#warning this really should go to: ViewModel IMvxCommand
+            if (FavoritesManager.IsFavorite(ViewModel.Key))
+            {
 				FavoriteButton.SetImage (new UIImage(AppDelegate.ImageNotFavorite), UIControlState.Normal);
-				FavoritesManager.RemoveFavoriteSession (session.Key);
+                FavoritesManager.RemoveFavoriteSession(ViewModel.Key);
 				return false;
 			} else {
 				FavoriteButton.SetImage (new UIImage(AppDelegate.ImageIsFavorite), UIControlState.Normal);
-				var fav = new Favorite{SessionID = session.ID, SessionKey = session.Key};
+                var fav = new Favorite { SessionID = ViewModel.ID, SessionKey = ViewModel.Key };
 				FavoritesManager.AddFavoriteSession (fav);
 				return true;
 			}

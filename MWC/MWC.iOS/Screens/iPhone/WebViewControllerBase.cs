@@ -1,13 +1,24 @@
 using System;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.MvvmCross.Views;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
 namespace MWC.iOS {
-	public class WebViewControllerBase : UIViewController {
+	public class WebViewControllerBase<TViewModel> 
+        : MvxBindingTouchViewController<TViewModel>
+        where TViewModel : class, IMvxViewModel
+    {
 		protected string basedir;
 		protected UIWebView webView;
-		/// <summary>
+
+	    protected WebViewControllerBase(MvxShowViewModelRequest request) : base(request)
+	    {
+	    }
+
+	    /// <summary>
 		/// Shared Css styles
 		/// </summary>
 		public string StyleHtmlSnippet {

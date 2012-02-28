@@ -1,4 +1,5 @@
 using System;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
@@ -11,25 +12,15 @@ namespace MWC.iOS.UI.CustomElements {
 	/// this custom element to fix layout issues I was having
 	/// </summary>
 	public class NewsElement : Element {
-		MWC.iOS.Screens.iPad.News.NewsSplitView splitView;
+
 		static NSString key = new NSString ("NewsElement");
 		UIImage image;
-		RSSEntry entry;
+        NewsItemViewModel entry;
 		
-		public NewsElement (RSSEntry showEntry, UIImage showImage) : base (showEntry.Title)
+		public NewsElement (NewsItemViewModel showEntry, UIImage showImage) : base (showEntry.Title)
 		{
 			entry = showEntry;
 			image = showImage;
-		}
-
-		/// <summary>
-		/// for iPad (SplitViewController)
-		/// </summary>
-		public NewsElement (RSSEntry showEntry, UIImage showImage, MWC.iOS.Screens.iPad.News.NewsSplitView newsSplitView) : base (showEntry.Title)
-		{
-			entry = showEntry;
-			image = showImage;
-			splitView = newsSplitView;	// could be null, in current implementation
 		}
 
         protected override UITableViewCell GetCellImpl(UITableView tv)
@@ -46,12 +37,7 @@ namespace MWC.iOS.UI.CustomElements {
 
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
-			var sds = new MWC.iOS.Screens.Common.News.NewsDetailsScreen(entry);
-			
-			if (splitView != null)
-				splitView.ShowNews(entry.ID, sds);
-			else
-				dvc.ActivateController (sds);
+            entry.ShowDetailCommand.Execute();
 		}
 	}
 }

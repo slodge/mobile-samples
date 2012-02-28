@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cirrious.MvvmCross.Touch.Dialog;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
-using MWC.iOS.Screens.iPad.Exhibitors;
 
 namespace MWC.iOS.Screens.iPhone.Exhibitors {
 	/// <summary>
@@ -17,47 +19,39 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 	/// but when we split the data download into two parts, the methods from that
 	/// baseclass we duplicated here (due to different eventhandlers)
 	/// </remarks>
-	public partial class ExhibitorsScreen : DialogViewController {
+    public partial class ExhibitorsScreen : MvxTouchDialogViewController<ExhibitorsListViewModel>
+	{
 		protected ExhibitorDetailsScreen exhibitorsDetailsScreen;
-		IList<Exhibitor> exhibitors;
 		
 		/// <summary>
 		/// Set pushing=true so that the UINavCtrl 'back' button is enabled
 		/// </summary>
-		public ExhibitorsScreen () : base (UITableViewStyle.Plain, null, true)
+        public ExhibitorsScreen(MvxShowViewModelRequest request)
+            : base(request, UITableViewStyle.Plain, null, true)
 		{
 			EnableSearch = true; // requires ExhibitorElement to implement Matches()
 		}
 		
-		ExhibitorSplitView splitView;
-		public ExhibitorsScreen (ExhibitorSplitView exhibitorSplitView) : base (UITableViewStyle.Plain, null)
-		{
-			splitView = exhibitorSplitView;
-			EnableSearch = true; // requires ExhibitorElement to implement Matches()
-		}
 
 		/// <summary>
 		/// Populates the page with exhibitors.
 		/// </summary>
 		protected void PopulateTable()
 		{
-			exhibitors = BL.Managers.ExhibitorManager.GetExhibitors();
-
 			Root = 	new RootElement ("Exhibitors") {
-					from exhibitor in exhibitors
-                    group exhibitor by (exhibitor.Index) into alpha
-						orderby alpha.Key
-						select new Section (alpha.Key) {
-						from eachExhibitor in alpha
-						   select (Element) new MWC.iOS.UI.CustomElements.ExhibitorElement (eachExhibitor, splitView)
+					from exhibitorGroup in ViewModel.Groups
+				    select new Section (exhibitorGroup.Key) {
+					    from eachExhibitor in exhibitorGroup.Items
+						    select new MWC.iOS.UI.CustomElements.ExhibitorElement(eachExhibitor)
 			}};
+
 			// hide search until pull-down
 			TableView.ScrollToRow (NSIndexPath.FromRowSection (0,0), UITableViewScrollPosition.Top, false);
 		}
 
 		public override DialogViewController.Source CreateSizingSource (bool unevenRows)
 		{
-			return new ExhibitorsTableSource (this, exhibitors);
+			return new ExhibitorsTableSource (this, ViewModel);
 		}
 
 		#region UpdatemanagerLoadingDialogViewController copied here, for Exhibitor-specific behaviour
@@ -130,20 +124,18 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 	/// <summary>
 	/// Implement index-slider down right side of tableview
 	/// </summary>
-	public class ExhibitorsTableSource : DialogViewController.SizingSource {
-		IList<Exhibitor> exhibitorList;
-		public ExhibitorsTableSource (DialogViewController dvc, IList<Exhibitor> exhibitors) : base(dvc)
+	public class ExhibitorsTableSource : DialogViewController.SizingSource
+    {
+	    private readonly ExhibitorsListViewModel exhibitorList;
+
+		public ExhibitorsTableSource (DialogViewController dvc, ExhibitorsListViewModel viewModel) : base(dvc)
 		{
-			exhibitorList = exhibitors;
+            exhibitorList = viewModel;
 		}
 
 		public override string[] SectionIndexTitles (UITableView tableView)
 		{
-			var sit = from exhibitor in exhibitorList
-                    group exhibitor by (exhibitor.Index) into alpha
-						orderby alpha.Key
-						select alpha.Key;
-			return sit.ToArray();
+			return exhibitorList.Groups.Select(x => x.Key).ToArray();
 		}
 
 //		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)

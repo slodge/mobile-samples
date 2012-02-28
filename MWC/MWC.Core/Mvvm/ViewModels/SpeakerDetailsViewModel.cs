@@ -1,4 +1,8 @@
-﻿using MWC.BL;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Cirrious.MvvmCross.Commands;
+using Cirrious.MvvmCross.Interfaces.Commands;
+using MWC.BL;
 using MWC.BL.Managers;
 
 namespace MWC.Core.Mvvm.ViewModels
@@ -32,6 +36,8 @@ namespace MWC.Core.Mvvm.ViewModels
         public string ImageUrl { get; set; }
         public string Bio { get; set; }
 
+        public List<SessionDetailsViewModel> Sessions { get; set; }
+
         public void Update (Speaker speaker)
         {
             ID = speaker.ID;
@@ -41,10 +47,16 @@ namespace MWC.Core.Mvvm.ViewModels
             Company = speaker.Company;
             ImageUrl = speaker.ImageUrl;
             Bio = CleanupPlainTextDocument (speaker.Bio);
+            Sessions = speaker.Sessions.Select(x => new SessionDetailsViewModel(key: x.Key)).ToList();
 
             if (string.IsNullOrWhiteSpace (Bio)) {
                 Bio = "No biographical information available.";
             }
+        }
+
+        public IMvxCommand ShowDetailCommand
+        {
+            get { return new MvxRelayCommand(() => this.RequestNavigate<SessionDetailsViewModel>(new { id = ID })); }
         }
     }
 }

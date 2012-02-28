@@ -8,6 +8,7 @@ using MWC.BL;
 using MWC.iOS.Screens.Common.Session;
 using MWC.iOS.UI.CustomElements;
 
+#if false
 namespace MWC.iOS.Screens.iPhone.Favorites {
 	/// <summary>
 	/// Favorites list, shows ONLY sessions that are user-favorites
@@ -72,3 +73,4 @@ namespace MWC.iOS.Screens.iPhone.Favorites {
 		}
 	}
 }
+#endif

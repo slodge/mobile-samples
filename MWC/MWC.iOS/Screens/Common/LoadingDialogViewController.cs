@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using Cirrious.MvvmCross.Interfaces.ViewModels;
+using Cirrious.MvvmCross.Touch.Dialog;
+using Cirrious.MvvmCross.Views;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -14,13 +17,17 @@ namespace MWC.iOS.Screens.Common {
 	/// This ViewController implements the data loading via a virtual
 	/// method LoadData(), which must call StopLoadingScreen()
 	/// </remarks>
-	public class LoadingDialogViewController : DialogViewController {
+    public class LoadingDialogViewController<TViewModel>
+        : MvxTouchDialogViewController<TViewModel>
+        where TViewModel : class, IMvxViewModel
+	{
 		MWC.iOS.Screens.Common.UILoadingView loadingView;
 		
 		/// <summary>
 		/// Set pushing=true so that the UINavCtrl 'back' button is enabled
 		/// </summary>
-		public LoadingDialogViewController (UITableViewStyle style, RootElement root) : base(style, root, true)
+        public LoadingDialogViewController(MvxShowViewModelRequest request, UITableViewStyle style, RootElement root)
+            : base(request, style, root, true)
 		{
 		}
 		

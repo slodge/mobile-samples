@@ -4,6 +4,7 @@ using System;
 using MonoTouch.Foundation;
 
 namespace MWC.iOS.Screens.Common.Speakers {
+#if false
 	/// <summary>
 	/// Speaker details implemented with UIKit and XIB file
 	/// </summary>
@@ -44,4 +45,5 @@ namespace MWC.iOS.Screens.Common.Speakers {
 			}
 		}
 	}
+#endif
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.Converters.Visibility;
+using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
 using MWC.BL.Managers;
 
@@ -80,6 +82,11 @@ namespace MWC.Core.Mvvm.ViewModels
             if (string.IsNullOrWhiteSpace (Overview)) {
                 Overview = "No overview available.";
             }
+        }
+
+        public IMvxCommand ShowDetailCommand
+        {
+            get { return new MvxRelayCommand(() => this.RequestNavigate<SessionDetailsViewModel>(new { id = ID })); }
         }
     }
 }

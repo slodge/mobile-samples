@@ -1,5 +1,8 @@
 using System;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
@@ -7,11 +10,13 @@ namespace MWC.iOS.Screens.Common.About {
 	/// <summary>
 	/// This screen REPLACES the old XIB version
 	/// </summary>
-	public class AboutXamarinScreen : UIViewController {
+	public class AboutXamarinScreen : MvxBindingTouchViewController<AboutXamarinViewModel>
+	{
 		protected string basedir;
 		UIWebView webView;
 
-		public AboutXamarinScreen ()
+		public AboutXamarinScreen (MvxShowViewModelRequest request)
+            : base (request)
 		{
 			Title = "About Xamarin";
 		}

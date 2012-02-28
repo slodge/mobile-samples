@@ -2,20 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
 
 namespace MWC.iOS {
 	public class SessionsTableSource : UITableViewSource {
-		IList<Session> sessions;
-		MWC.iOS.Screens.iPhone.Speakers.SpeakerDetailsScreen view;
+        IList<SessionDetailsViewModel> sessions;
 		static NSString cellId = new NSString("SessionCell");
 
-		public SessionsTableSource (List<Session> sessions, MWC.iOS.Screens.iPhone.Speakers.SpeakerDetailsScreen view)
+		public SessionsTableSource (IList<SessionDetailsViewModel> sessions)
 		{
 			this.sessions = sessions;
-			this.view = view;
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
@@ -47,9 +46,7 @@ namespace MWC.iOS {
 		public override void RowSelected (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
 			var session = sessions[indexPath.Row];
-			Console.WriteLine("SessionsTableSource.RowSelected");			
-			view.SelectSession(session);
-			if (AppDelegate.IsPhone) tableView.DeselectRow (indexPath, true);
+		    session.ShowDetailCommand.Execute();
 		}
 	}
 }

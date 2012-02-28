@@ -2,6 +2,7 @@ using System.Drawing;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 
+#if false
 namespace MWC.iOS.Screens.Common.About {
 	public partial class AboutXamScreen : UIViewController {
 		public AboutXamScreen ()
@@ -177,3 +178,4 @@ namespace MWC.iOS.Screens.Common.About {
 		}
 	}
 }
+#endif

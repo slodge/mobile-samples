@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
@@ -11,7 +14,10 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 	/// <summary>
 	/// Displays personal information about the speaker
 	/// </summary>
-	public class SpeakerDetailsScreen : UIViewController, IImageUpdated {
+	public class SpeakerDetailsScreen 
+        : MvxBindingTouchViewController<SpeakerDetailsViewModel>
+        , IImageUpdated {
+
 		UILabel nameLabel, titleLabel, companyLabel;
 		UITextView bioTextView;
 		UIImageView image;
@@ -19,17 +25,14 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 		UIScrollView scrollView;
 		UITableView sessionTable;		
 		int y = 0;
-		int speakerId;
-		Speaker speaker;
 		const int ImageSpace = 80;
 		
 		public bool ShouldShowSessions { get; set; }
 
-		public SpeakerDetailsScreen (int speakerID) : base()
+        public SpeakerDetailsScreen(MvxShowViewModelRequest request)
+            : base(request)
 		{
 			ShouldShowSessions = true;
-
-			speakerId = speakerID;
 
 			View.BackgroundColor = UIColor.White;
 			
@@ -81,14 +84,11 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			speaker = BL.Managers.SpeakerManager.GetSpeaker (speakerId);
 			// this shouldn't be null, but it gets that way when the data
 			// "shifts" underneath it. need to reload the screen or prevent
 			// selection via loading overlay - neither great UIs :-(
-			if (speaker != null)  {	
-				LayoutSubviews ();
-				Update ();
-			}
+			LayoutSubviews ();
+			Update ();
 		}
 
 		void LayoutSubviews ()
@@ -118,9 +118,9 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 			
 			bioTextView.Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font10_5pt);
 			
-			if (!String.IsNullOrEmpty(speaker.Bio)) {
+			if (!String.IsNullOrEmpty(ViewModel.Bio)) {
 				var f = new SizeF (full.Width - 13 * 2, 4000);
-				SizeF size = bioTextView.StringSize (speaker.Bio
+                SizeF size = bioTextView.StringSize(ViewModel.Bio
 									, this.bioTextView.Font
 									, f);
 				bioTextView.Frame = new RectangleF(5
@@ -139,13 +139,14 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 
 			float bottomOfTheseControls = bioTextView.Frame.Y + bioTextView.Frame.Height;
 
-			if (ShouldShowSessions && speaker.Sessions != null && speaker.Sessions.Count > 0) {
+            if (ShouldShowSessions && ViewModel.Sessions != null && ViewModel.Sessions.Count > 0)
+            {
 				RectangleF frame;
 				//if (AppDelegate.IsPhone) {
 					frame = new RectangleF(5
 									, bottomOfTheseControls
 									, 310
-									, speaker.Sessions.Count * 40 + 50); // plus 40 for header
+                                    , ViewModel.Sessions.Count * 40 + 50); // plus 40 for header
 				//}
 
 				if (sessionTable == null) {
@@ -157,8 +158,8 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 					sessionTable.ScrollEnabled = false;
 					scrollView.AddSubview (sessionTable);
 				}
-				sessionTable.Frame = frame;  
-				sessionTable.Source = new SessionsTableSource(speaker.Sessions, this);
+				sessionTable.Frame = frame;
+                sessionTable.Source = new SessionsTableSource(ViewModel.Sessions);
 
 				scrollView.ContentSize = new SizeF(320, bottomOfTheseControls + sessionTable.Frame.Height + 20);
 
@@ -173,29 +174,34 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 			}
 		}
 
-		public void SelectSession (Session session)
+		public void SelectSession (SessionDetailsViewModel session)
 		{
-			var sds = new MWC.iOS.Screens.iPhone.Sessions.SessionDetailsScreen (session.ID);
-			sds.ShouldShowSpeakers = false;
-			sds.Title = "Session";
-			NavigationController.PushViewController(sds, true);
+            session.ShowDetailCommand.Execute();
+#warning How to do ShouldShowSpeakers?
+            //var request = base.Create
+            //var sds = new MWC.iOS.Screens.iPhone.Sessions.SessionDetailsScreen (session.ID);
+            //sds.ShouldShowSpeakers = false;
+            //sds.Title = "Session";
+            //NavigationController.PushViewController(sds, true);
 		}
 
 		void Update()
 		{
-			nameLabel.Text = speaker.Name;
-			titleLabel.Text = speaker.Title;
-			companyLabel.Text = speaker.Company;
-			
-			if (!String.IsNullOrEmpty(speaker.Bio)) {
-				bioTextView.Text = speaker.Bio;
+			nameLabel.Text = ViewModel.Name;
+            titleLabel.Text = ViewModel.Title;
+            companyLabel.Text = ViewModel.Company;
+
+            if (!String.IsNullOrEmpty(ViewModel.Bio))
+            {
+                bioTextView.Text = ViewModel.Bio;
 				bioTextView.TextColor = UIColor.Black;
 			} else {
 				bioTextView.TextColor = UIColor.Gray;
 				bioTextView.Text = "No background information available.";
 			}
-			if (speaker.ImageUrl != "http://www.mobileworldcongress.com") {
-				var u = new Uri(speaker.ImageUrl);
+            if (ViewModel.ImageUrl != "http://www.mobileworldcongress.com")
+            {
+                var u = new Uri(ViewModel.ImageUrl);
 				image.Image = ImageLoader.DefaultRequestImage (u, this);
 			}
 		}

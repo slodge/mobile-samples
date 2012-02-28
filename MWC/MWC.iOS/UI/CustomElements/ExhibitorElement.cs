@@ -1,4 +1,5 @@
 using System;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
@@ -9,7 +10,6 @@ namespace MWC.iOS.UI.CustomElements {
 	/// Exhibitor element for MonoTouch.Dialog
 	/// </summary>
 	public class ExhibitorElement : Element, IElementSizing {
-		MWC.iOS.Screens.iPad.Exhibitors.ExhibitorSplitView splitView;
 
 		/// <summary>
 		/// Gets or sets the exhibitor.
@@ -17,11 +17,12 @@ namespace MWC.iOS.UI.CustomElements {
 		/// <value>
 		/// The exhibitor that is used to populate the cell.
 		/// </value>
-		public BL.Exhibitor Exhibitor {
+        public ExhibitorListItemViewModel Exhibitor
+        {
 			get { return exhibitor; }
 			set { exhibitor = value; }
 		}
-		protected BL.Exhibitor exhibitor = null;
+        protected ExhibitorListItemViewModel exhibitor = null;
 		
 		/// <summary>
 		/// Gets the reuse identifier
@@ -35,17 +36,10 @@ namespace MWC.iOS.UI.CustomElements {
 		/// <summary>
 		/// for iPhone
 		/// </summary>
-		public ExhibitorElement (BL.Exhibitor exhibitor) : base ("")
+        public ExhibitorElement(ExhibitorListItemViewModel exhibitor)
+            : base("")
 		{
 			this.exhibitor = exhibitor;
-		}
-		/// <summary>
-		/// for iPad (SplitViewController)
-		/// </summary>
-		public ExhibitorElement (BL.Exhibitor showExhibitor, MWC.iOS.Screens.iPad.Exhibitors.ExhibitorSplitView exhibitorSplitView) : base ("")
-		{
-			exhibitor = showExhibitor;
-			splitView = exhibitorSplitView;	// could be null, in current implementation
 		}
 
         protected override MonoTouch.UIKit.UITableViewCell GetCellImpl(MonoTouch.UIKit.UITableView tv)
@@ -73,12 +67,7 @@ namespace MWC.iOS.UI.CustomElements {
 
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
-			var eds = new MWC.iOS.Screens.iPhone.Exhibitors.ExhibitorDetailsScreen (exhibitor.ID);
-			
-			if (splitView != null)
-				splitView.ShowExhibitor(exhibitor.ID, eds);
-			else
-				dvc.ActivateController (eds);
+            exhibitor.ShowDetailCommand.Execute();
 		}	
 	}
 }

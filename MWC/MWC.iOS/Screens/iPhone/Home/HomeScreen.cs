@@ -18,7 +18,6 @@ namespace MWC.iOS.Screens.iPhone.Home {
 	/// </summary>
 	public partial class HomeScreen : MvxBindingTouchViewController<ScheduleViewModel> 
     {
-		Screens.Common.Session.SessionDayScheduleScreen dayScheduleScreen;
 		UI.Controls.LoadingOverlay loadingOverlay;
 		NSObject ObserverRotation;
 
@@ -140,9 +139,10 @@ namespace MWC.iOS.Screens.iPhone.Home {
 		/// <summary>iPad only method</summary>
 		void SessionClicked (object sender, MWC.iOS.AL.FavoriteClickedEventArgs args)
 		{
-			var s = new MWC.iOS.Screens.iPad.SessionPopupScreen(args.SessionClicked, this);
-			s.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
-			PresentModalViewController (s, true);
+#warning More needed here!
+            //var s = new MWC.iOS.Screens.iPad.SessionPopupScreen(args.SessionClicked, this);
+            //s.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+            //PresentModalViewController (s, true);
 		}
 
 		/// <summary>iPad only method</summary>
@@ -155,6 +155,8 @@ namespace MWC.iOS.Screens.iPhone.Home {
 		/// <summary>iPad only method: the UpNext and Favorites tables</summary>
 		void PopulateiPadTables()
 		{
+#warning More needed here!
+            /*
 			var uns = new MWC.iOS.AL.UpNextTableSource();
 			UpNextTable.Source = uns;
 			uns.SessionClicked += SessionClicked;
@@ -164,23 +166,26 @@ namespace MWC.iOS.Screens.iPhone.Home {
 			FavoritesTable.Source = fs;
 			fs.FavoriteClicked += SessionClicked;
 			FavoritesTable.ReloadData ();
+             */
 		}
 
-		/// <summary>
-		/// Show the session info, push navctrl for iPhone, in a modal overlay for iPad
-		/// </summary>
-		protected void LoadSessionDayScreen (string dayName, int day)
-		{
-			if (AppDelegate.IsPhone) {
-				dayScheduleScreen = new MWC.iOS.Screens.Common.Session.SessionDayScheduleScreen (dayName, day, null);
-				NavigationController.PushViewController (dayScheduleScreen, true);				
-			} else {
-				var nvc = ParentViewController;
-				var tab = nvc.ParentViewController as MWC.iOS.Screens.Common.TabBarController;
-				tab.SelectedIndex = 1;
-				tab.ShowSessionDay(day);
-			}
-		}
+        ///// <summary>
+        ///// Show the session info, push navctrl for iPhone, in a modal overlay for iPad
+        ///// </summary>
+        //protected void LoadSessionDayScreen (string dayName, int day)
+        //{
+        //    //if (AppDelegate.IsPhone) 
+        //    //{
+
+        //    //    dayScheduleScreen = new MWC.iOS.Screens.Common.Session.SessionDayScheduleScreen (dayName, day, null);
+        //    //    NavigationController.PushViewController (dayScheduleScreen, true);				
+        //    //} else {
+        //    //    var nvc = ParentViewController;
+        //    //    var tab = nvc.ParentViewController as MWC.iOS.Screens.Common.TabBarController;
+        //    //    tab.SelectedIndex = 1;
+        //    //    tab.ShowSessionDay(day);
+        //    //}
+        //}
 		
 		public bool IsPortrait {
 			get {

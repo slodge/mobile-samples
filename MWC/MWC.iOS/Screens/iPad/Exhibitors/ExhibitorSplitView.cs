@@ -36,9 +36,10 @@ namespace MWC.iOS.Screens.iPad.Exhibitors
 
  	public class SplitViewDelegate : UISplitViewControllerDelegate
     {
-		public override bool ShouldHideViewController (UISplitViewController svc, UIViewController viewController, UIInterfaceOrientation inOrientation)
-		{
-			return false;
-		}
+#warning Put back in
+        //public override bool ShouldHideViewController (UISplitViewController svc, UIViewController viewController, UIInterfaceOrientation inOrientation)
+        //{
+        //    return false;
+        //}
 	}
 }

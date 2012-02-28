@@ -1,12 +1,14 @@
+#if false
 using System;
 using System.Collections.Generic;
 using System.Linq; // required for linq
+using Cirrious.MvvmCross.Touch.Dialog;
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 using MWC.iOS.Screens.iPad.Sessions;
 
 namespace MWC.iOS.Screens.Common.Session {
-	public partial class SessionDayScheduleScreen : DialogViewController {
+	public partial class SessionDayScheduleScreen : MvxTouchDialogViewController<Se> {
 		protected IList<BL.Session> sessions;
 		string dayName;
 		SessionSplitView splitView;
@@ -55,3 +57,4 @@ namespace MWC.iOS.Screens.Common.Session {
 		}
 	}
 }
+#endif

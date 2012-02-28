@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -101,10 +101,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="monotouch">
+      <HintPath>..\..\MvvxLibs\monotouch.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="monotouch" />
     <Reference Include="MonoTouch.Dialog">
       <HintPath>..\..\MvvxLibs\MonoTouch.Dialog.dll</HintPath>
     </Reference>
@@ -174,19 +176,19 @@
     <Compile Include="UI\CustomElements\NewsElement.cs" />
     <Compile Include="UI\CustomElements\NewsCell.cs" />
     <Compile Include="Screens\iPhone\UpdateManagerLoadingDialogViewController.cs" />
-    <Compile Include="Screens\iPad\Speakers\SpeakerSplitView.cs" />
-    <Compile Include="Screens\iPad\Speakers\SpeakerSessionMasterDetail.cs" />
+    <None Include="Screens\iPad\Speakers\SpeakerSplitView.cs" />
+    <None Include="Screens\iPad\Speakers\SpeakerSessionMasterDetail.cs" />
     <Compile Include="UI\Views\SpeakerView.cs" />
     <Compile Include="UI\Views\SessionView.cs" />
-    <Compile Include="Screens\iPad\Exhibitors\ExhibitorSplitView.cs" />
-    <Compile Include="Screens\iPad\Twitter\TwitterSplitView.cs" />
-    <Compile Include="Screens\iPad\News\NewsSplitView.cs" />
+    <None Include="Screens\iPad\Exhibitors\ExhibitorSplitView.cs" />
+    <None Include="Screens\iPad\Twitter\TwitterSplitView.cs" />
+    <None Include="Screens\iPad\News\NewsSplitView.cs" />
     <Compile Include="Screens\Common\Map\MapScreen.cs" />
     <Compile Include="AL\FavoritesTableSource.cs" />
-    <Compile Include="Screens\iPad\Sessions\SessionPopupScreen.cs" />
+    <None Include="Screens\iPad\Sessions\SessionPopupScreen.cs" />
     <Compile Include="AL\UpNextTableSource.cs" />
-    <Compile Include="Screens\iPad\Sessions\SessionSplitView.cs" />
-    <Compile Include="Screens\iPad\Sessions\SessionSpeakersMasterDetail.cs" />
+    <None Include="Screens\iPad\Sessions\SessionSplitView.cs" />
+    <None Include="Screens\iPad\Sessions\SessionSpeakersMasterDetail.cs" />
     <Compile Include="UI\Controls\EmptyOverlay.cs" />
     <Compile Include="AL\SpeakersTableSource.cs" />
     <Compile Include="Screens\iPhone\Sessions\SessionDetailsScreen.cs" />
@@ -200,42 +202,7 @@
     <Compile Include="SinglePanePresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Images\" />
-    <Folder Include="Screens\" />
-    <Folder Include="Screens\iPhone\" />
-    <Folder Include="Screens\iPad\" />
-    <Folder Include="Screens\Common\" />
-    <Folder Include="Screens\iPhone\Home\" />
-    <Folder Include="Screens\Common\Map\" />
-    <Folder Include="Images\Icons\" />
-    <Folder Include="Screens\Common\About\" />
-    <Folder Include="Screens\Common\Speakers\" />
-    <Folder Include="AL\" />
-    <Folder Include="Screens\iPhone\Exhibitors\" />
-    <Folder Include="UI\" />
-    <Folder Include="UI\CustomElements\" />
-    <Folder Include="Screens\Common\Session\" />
-    <Folder Include="UI\Controls\" />
-    <Folder Include="Screens\iPhone\Speakers\" />
-    <Folder Include="Images\Tabs\" />
-    <Folder Include="Screens\iPhone\Sessions\" />
-    <Folder Include="Screens\Common\News\" />
-    <Folder Include="Screens\iPhone\Twitter\" />
-    <Folder Include="Screens\iPhone\Favorites\" />
-    <Folder Include="Screens\iPad\Speakers\" />
-    <Folder Include="UI\Views\" />
-    <Folder Include="Screens\iPad\Exhibitors\" />
-    <Folder Include="Screens\iPad\Twitter\" />
-    <Folder Include="Screens\iPad\News\" />
-    <Folder Include="Screens\iPad\Sessions\" />
-    <Folder Include="Images\Empty\" />
-    <Folder Include="Images\Logos\" />
-    <Folder Include="Images\About\" />
-    <Folder Include="Images\About\iPad\" />
-    <Folder Include="Images\About\iPhone\" />
-    <Folder Include="Assets\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <InterfaceDefinition Include="Screens\Common\About\AboutXamScreen_iPhone.xib" />
     <InterfaceDefinition Include="Screens\Common\About\AboutXamScreen_iPad.xib" />

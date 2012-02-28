@@ -1,5 +1,8 @@
 using System;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.CoreLocation;
 using MonoTouch.MapKit;
 using MonoTouch.UIKit;
@@ -8,13 +11,15 @@ namespace MWC.iOS.Screens.Common.Map {
 	/// <summary>
 	/// Display a map of Barcelona with a pin at the conference center
 	/// </summary>
-	public class MapScreen : UIViewController {
+    public class MapScreen : MvxBindingTouchViewController<MapsViewModel>
+	{
 		UINavigationBar toolbar;
 		MKMapView mapView;
 		UISegmentedControl segmentedControl;
 		int toolbarHeight = 44;
 
-		public MapScreen () : base ()
+        public MapScreen(MvxShowViewModelRequest request)
+            : base(request)
 		{
 		}
 		

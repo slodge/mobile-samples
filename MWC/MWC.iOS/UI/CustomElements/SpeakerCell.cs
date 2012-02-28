@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -19,7 +20,7 @@ namespace MWC.iOS.UI.CustomElements {
 		const int imageSpace = 44;
 		const int padding = 8;
 		
-		public SpeakerCell (UITableViewCellStyle style, NSString ident, Speaker showSpeaker) : base (style, ident)
+		public SpeakerCell (UITableViewCellStyle style, NSString ident, SpeakerListItemViewModel showSpeaker) : base (style, ident)
 		{
 			SelectionStyle = UITableViewCellSelectionStyle.Blue;
 			
@@ -66,7 +67,7 @@ namespace MWC.iOS.UI.CustomElements {
 			image.Frame = new RectangleF(8,8,44,44);
 		}
 		
-		public void UpdateCell (Speaker speaker)
+		public void UpdateCell (SpeakerListItemViewModel speaker)
 		{
 			nameLabel.Text = speaker.Name;
 			string subtitle = "";

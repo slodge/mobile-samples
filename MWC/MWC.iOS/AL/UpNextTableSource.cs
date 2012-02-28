@@ -6,7 +6,9 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
 
-namespace MWC.iOS.AL {
+namespace MWC.iOS.AL 
+{
+    /*
 	public class UpNextTableSource : UITableViewSource {
 		public event EventHandler<FavoriteClickedEventArgs> SessionClicked = delegate 
 		{
@@ -113,4 +115,5 @@ namespace MWC.iOS.AL {
 			tableView.DeselectRow (indexPath, true);
 		}
 	}
+     */
 }

@@ -1,34 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
 using MWC.iOS.Screens.Common;
-using MWC.iOS.Screens.iPad.News;
 using MWC.iOS.UI.CustomElements;
 
 namespace MWC.iOS.Screens.Common.News {
 	/// <summary>
 	/// News sourced from a google search, this MT.D-based list is used on both iPhone and iPad
 	/// </summary>
-	public class NewsScreen : LoadingDialogViewController {
+	public class NewsScreen : LoadingDialogViewController<NewsListViewModel> {
 		static UIImage calendarImage = UIImage.FromFile (AppDelegate.ImageCalendarPad);
-		Dictionary<string, RSSEntry> newsItems = new Dictionary<string, RSSEntry>();
 
-		public IList<RSSEntry> NewsFeed;
-
- 		public NewsScreen () : base (UITableViewStyle.Plain, new RootElement ("Loading..."))
+ 		public NewsScreen (MvxShowViewModelRequest request)
+            : base(request, UITableViewStyle.Plain, new RootElement("Loading..."))
  		{
 			RefreshRequested += HandleRefreshRequested;
 		}
-		NewsSplitView splitView;
-		public NewsScreen (NewsSplitView splitView) : this()
-		{
-			this.splitView = splitView;
-		}
-		
+
 		/// <summary>
 		/// Implement MonoTouch.Dialog's pull-to-refresh method
 		/// </summary>
@@ -36,6 +30,7 @@ namespace MWC.iOS.Screens.Common.News {
 		{
 			BL.Managers.NewsManager.Update ();
 		}
+
 		void HandleUpdateStarted(object sender, EventArgs ea)
 		{
 			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
@@ -43,8 +38,6 @@ namespace MWC.iOS.Screens.Common.News {
 		void HandleUpdateFinished(object sender, EventArgs ea)
 		{	
 			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
-			// assume we can 'Get()' them, since update has finished
-			NewsFeed = BL.Managers.NewsManager.Get ();
 			this.InvokeOnMainThread(delegate {
 				PopulateData ();
 			});
@@ -55,6 +48,7 @@ namespace MWC.iOS.Screens.Common.News {
 			BL.Managers.NewsManager.UpdateStarted += HandleUpdateStarted;
 			BL.Managers.NewsManager.UpdateFinished += HandleUpdateFinished;
 		}
+
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
@@ -75,40 +69,39 @@ namespace MWC.iOS.Screens.Common.News {
 				tempIndexPath = null;
 			}
 		}
+
 		protected override void LoadData ()
 		{
 			// get the news 
-			NewsFeed = BL.Managers.NewsManager.Get ();
-			if (NewsFeed.Count == 0) {
-				BL.Managers.NewsManager.Update ();	
-			} else {
-				PopulateData ();
-			}
+			PopulateData ();
 		}
+
 		/// <summary>
 		/// This could get called from main thread or background thread.
 		/// Remember to InvokeOnMainThread if required
 		/// </summary>
 		void PopulateData ()
 		{
-			if (NewsFeed.Count == 0) {
+
+            if (ViewModel.Items.Count == 0)
+            {
 				var section = new Section("Network unavailable") {
 					new StyledStringElement("News not available. Try again later.") 
 				};
 				Root = new RootElement ("News") { section };
-			} else {
+			} 
+            else 
+            {
 				var blogSection = new Section ();
 				// creates the rows using MT.Dialog
-				newsItems.Clear();
-				foreach (var post in NewsFeed) {
+                foreach (var post in ViewModel.Items)
+                {
 					var published = post.Published;
 					var image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadge (calendarImage
 														, published.ToString ("MMM").ToUpper ()
 														, published.ToString ("dd"));
-					var badgeRow = new NewsElement (post, image, splitView);
+					var badgeRow = new NewsElement (post, image);
 	
-					newsItems.Add(post.Title, post); // collate posts so we can 'zoom in' to them
-
 					blogSection.Add (badgeRow);
 				}
 				Root = new RootElement ("News") { blogSection };
@@ -130,8 +123,8 @@ namespace MWC.iOS.Screens.Common.News {
 		}
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			if (_ns.NewsFeed.Count > indexPath.Row) {
-				var t = _ns.NewsFeed[indexPath.Row];
+			if (_ns.ViewModel.Items.Count > indexPath.Row) {
+                var t = _ns.ViewModel.Items[indexPath.Row];
 				SizeF size = tableView.StringSize (t.Title
 								, UIFont.FromName("Helvetica-Light",AppDelegate.Font16pt)
 								, new SizeF (230, 400), UILineBreakMode.WordWrap);

@@ -17,8 +17,6 @@ namespace MWC.iOS.UI.CustomElements
 
         SessionListItemViewModel session;
 		string subtitle;
-		/// <summary>If this is null, on iPhone; otherwise on iPad</summary>
-		MWC.iOS.Screens.iPad.Sessions.SessionSplitView splitView;
 		
 		/// <summary>for iPhone</summary>
 		public SessionElement (SessionListItemViewModel showSession) : base (showSession.Title)
@@ -31,11 +29,6 @@ namespace MWC.iOS.UI.CustomElements
             else
 				subtitle = String.Format ("{0} room; {1}", session.Room, session.SpeakerNames);
 
-		}
-		/// <summary>for iPad (SplitViewController)</summary>
-		public SessionElement (SessionListItemViewModel session, MWC.iOS.Screens.iPad.Sessions.SessionSplitView sessionSplitView) : this (session)
-		{
-			splitView = sessionSplitView;
 		}
 
 		static int count;

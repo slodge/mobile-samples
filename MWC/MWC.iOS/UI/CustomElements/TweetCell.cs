@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -9,11 +10,11 @@ namespace MWC.iOS.UI.CustomElements {
 		UILabel date, user, handle, tweetLabel;
 		UIImageView image;
 
-		BL.Tweet tweet;
+        TweetViewModel tweet;
 		const int ImageSpace = 32;
 		const int Padding = 8;
 		
-		public TweetCell (UITableViewCellStyle style, NSString ident, BL.Tweet Tweet) : base (style, ident)
+		public TweetCell (UITableViewCellStyle style, NSString ident, TweetViewModel Tweet) : base (style, ident)
 		{
 			SelectionStyle = UITableViewCellSelectionStyle.Blue;
 			
@@ -53,13 +54,13 @@ namespace MWC.iOS.UI.CustomElements {
 			ContentView.Add (date);
 		}
 		
-		public void UpdateCell (BL.Tweet showTweet)
+		public void UpdateCell (TweetViewModel showTweet)
 		{
 			tweet = showTweet;
 			
-			handle.Text = tweet.FormattedAuthor;
+			handle.Text = tweet.Username;
 			user.Text = tweet.RealName;
-			date.Text = tweet.FormattedTime;
+			date.Text = tweet.PublishedAgo;
 			tweetLabel.Text = tweet.Title;
 			
 			var u = new Uri (tweet.ImageUrl);

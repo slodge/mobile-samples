@@ -1,4 +1,6 @@
 using System;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
@@ -8,13 +10,12 @@ namespace MWC.iOS.Screens.Common.News {
 	/// <remarks>
 	/// Uses UIWebView since we want to format the text display (with HTML)
 	/// </remarks>
-	public class NewsDetailsScreen  : WebViewControllerBase {
-		RSSEntry newsEntry;
+	public class NewsDetailsScreen  : WebViewControllerBase<NewsItemViewModel> {
 		EmptyOverlay emptyOverlay;
-		
-		public NewsDetailsScreen (RSSEntry entry) : base()
+
+        public NewsDetailsScreen(MvxShowViewModelRequest request)
+            : base(request)
 		{
-			newsEntry = entry;
 			View.BackgroundColor = UIColor.White;
 			webView.BackgroundColor = UIColor.White;
 		}
@@ -48,13 +49,13 @@ namespace MWC.iOS.Screens.Common.News {
 </style>";
 			}
 
-			return newsEntry==null?"": @"<html>"+styleString+newsEntry.Content+"</html>";
+            return @"<html>" + styleString + ViewModel.Content + "</html>";
 		}
 		protected override void LoadHtmlString (string s)
 		{
-			if (newsEntry == null) return;
+            if (ViewModel == null) return;
 
-			Uri u = new Uri(newsEntry.Url);
+            Uri u = new Uri(ViewModel.Url);
 			NSUrl baseUrl = new NSUrl("http://" + u.DnsSafeHost);
 
 			webView.LoadHtmlString (s, baseUrl);
@@ -63,7 +64,7 @@ namespace MWC.iOS.Screens.Common.News {
 		{
 			base.ViewDidLoad ();
 
-			if (EmptyOverlay.ShowIfRequired(ref emptyOverlay, newsEntry, View, "No news selected", EmptyOverlayType.News)) return;
+            if (EmptyOverlay.ShowIfRequired(ref emptyOverlay, ViewModel, View, "No news selected", EmptyOverlayType.News)) return;
 
 			webView.ShouldStartLoad = 
 			delegate (UIWebView webViewParam, NSUrlRequest request, UIWebViewNavigationType navigationType) {

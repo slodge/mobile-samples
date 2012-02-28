@@ -1,29 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.iOS.Screens.Common;
-using MWC.iOS.Screens.iPad.Twitter;
+
 
 namespace MWC.iOS.Screens.iPhone.Twitter {
 	/// <summary>
 	/// List of tweets, this MT.D-based list is used on both iPhone and iPad
 	/// </summary>
-	public partial class TwitterScreen : LoadingDialogViewController {
-		public IList<BL.Tweet> TwitterFeed;
-		TwitterSplitView splitView;
+	public partial class TwitterScreen : LoadingDialogViewController<TwitterViewModel> {
+		//TwitterSplitView splitView;
 
-		public TwitterScreen () : base (UITableViewStyle.Plain, new RootElement ("Loading..."))
+        public TwitterScreen(MvxShowViewModelRequest request)
+            : base(request, UITableViewStyle.Plain, new RootElement("Loading..."))
 		{
 			RefreshRequested += HandleRefreshRequested;
 		}
 		
-		public TwitterScreen (TwitterSplitView twitterSplitView) : this ()
-		{
-			splitView = twitterSplitView;
-		}
+        //public TwitterScreen (TwitterSplitView twitterSplitView) : this ()
+        //{
+        //    splitView = twitterSplitView;
+        //}
 
 		public override Source CreateSizingSource (bool unevenRows)
 		{
@@ -40,21 +42,23 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		{
 			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 		}
+
 		void HandleUpdateFinished(object sender, EventArgs ea)
 		{	
 			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
 			// assume we can 'Get()' them, since update has finished
-			TwitterFeed = BL.Managers.TwitterFeedManager.GetTweets ();
 			this.InvokeOnMainThread(delegate {
 				PopulateData ();
 			});
 		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			BL.Managers.TwitterFeedManager.UpdateStarted += HandleUpdateStarted;
 			BL.Managers.TwitterFeedManager.UpdateFinished += HandleUpdateFinished;
 		}
+
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
@@ -62,6 +66,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 			BL.Managers.TwitterFeedManager.UpdateStarted -= HandleUpdateStarted;
 			BL.Managers.TwitterFeedManager.UpdateFinished -= HandleUpdateFinished;
 		}
+
 		// hack to keep the selection, for some reason DidLayoutSubviews is getting called twice and i don't know wh
 		NSIndexPath tempIndexPath;
 		public override void ViewDidLayoutSubviews ()
@@ -82,21 +87,16 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		/// </summary>
 		protected override void LoadData()
 		{
-			// get the tweets 
-			TwitterFeed = BL.Managers.TwitterFeedManager.GetTweets ();
-			if (TwitterFeed.Count == 0) {
-				BL.Managers.TwitterFeedManager.Update ();	
-			} else {
-				PopulateData ();
-			}
+			PopulateData ();
 		}
+
 		/// <summary>
 		/// This could get called from main thread or background thread.
 		/// Remember to InvokeOnMainThread if required
 		/// </summary>
 		void PopulateData()
 		{
-			if (TwitterFeed.Count == 0) {
+			if (ViewModel.Items.Count == 0) {
 				var section = new Section ("Network unavailable") {
 					new StyledStringElement ("Twitter not available. Try again later.")
 				};
@@ -110,9 +110,10 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 				section = new Section();
 	
 				// for each tweet, add a custom TweetElement to the MT.D elements collection
-				foreach (var tw in TwitterFeed) {
+                foreach (var tw in ViewModel.Items)
+                {
 					var currentTweet = tw; 
-					twitterElement = new UI.CustomElements.TweetElement (currentTweet, splitView);
+					twitterElement = new UI.CustomElements.TweetElement (currentTweet);
 					section.Add (twitterElement);
 				}
 				
@@ -138,8 +139,8 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		}
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			if (twitterScreen.TwitterFeed.Count > indexPath.Row) {
-				var t = twitterScreen.TwitterFeed[indexPath.Row];
+			if (twitterScreen.ViewModel.Items.Count > indexPath.Row) {
+                var t = twitterScreen.ViewModel.Items[indexPath.Row];
 				SizeF size = tableView.StringSize (t.Title
 								, UIFont.FromName("Helvetica-Light",AppDelegate.Font10_5pt)
 								, new SizeF (239, 140), UILineBreakMode.WordWrap);

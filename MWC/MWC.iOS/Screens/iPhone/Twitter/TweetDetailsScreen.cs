@@ -1,5 +1,9 @@
 using System;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.Converters;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -8,19 +12,19 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 	/// <summary>
 	/// Displays tweet: name, icon, tweet text
 	/// </summary>
-	public class TweetDetailsScreen : UIViewController, IImageUpdated {
+    public class TweetDetailsScreen : MvxBindingTouchViewController<TweetViewModel>
+        , IImageUpdated
+    {
 		UILabel date, user;
 		UnderlineLabel handle;
 		UIButton handleButton;
 		UIImageView image;
 		UIWebView webView;
 		EmptyOverlay emptyOverlay;
-		BL.Tweet tweet;
 		
-		public TweetDetailsScreen (BL.Tweet showTweet) : base()
+		public TweetDetailsScreen (MvxShowViewModelRequest request) 
+            : base(request)
 		{
-			tweet = showTweet;
-	
 			View.BackgroundColor = UIColor.White;
 
 			user = new UILabel () {
@@ -37,12 +41,12 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 			};
 			handleButton = UIButton.FromType (UIButtonType.Custom);
 			handleButton.TouchUpInside += (sender, e) => {
-				var url = new NSUrl(tweet.AuthorUrl);
-				var request = new NSUrlRequest(url);
+                var url = new NSUrl(ViewModel.Url);
+				var urlRequest = new NSUrlRequest(url);
 				if (AppDelegate.IsPhone)
-					NavigationController.PushViewController (new WebViewController (request), true);
+					NavigationController.PushViewController (new WebViewController (urlRequest), true);
 				else
-					PresentModalViewController (new WebViewController(request), true);
+					PresentModalViewController (new WebViewController(urlRequest), true);
 			};
 			date = new UILabel () {
 				TextAlignment = UITextAlignment.Left,
@@ -67,18 +71,23 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 			View.AddSubview (date);
 			View.AddSubview (webView);
 			
-			LayoutSubviews();
-			if (tweet != null)
-				Update ();
 		}
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+			LayoutSubviews();
+            Update();
+        }
 
 		public void Update()
 		{
-			handle.Text = tweet.FormattedAuthor;
-			user.Text = tweet.RealName;
-			date.Text = tweet.FormattedTime;
+		    var converters = new AllConverters();
+            handle.Text = ViewModel.Username;
+            user.Text = ViewModel.RealName;
+            date.Text = ViewModel.PublishedAgo;
 
-			var u = new Uri(this.tweet.ImageUrl);
+            var u = new Uri(this.ViewModel.ImageUrl);
 			var img = ImageLoader.DefaultRequestImage(u,this);
 			if(img != null)
 				image.Image = MWC.iOS.UI.CustomElements.TweetCell.RemoveSharpEdges (img);
@@ -87,8 +96,8 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 				"body {background-color:#ffffff; }" +
 				"body,b,i,p,h2 {font-family:Helvetica-Light;}" +
 				"</style>";
-			
-			webView.LoadHtmlString(css + tweet.Content, new NSUrl(NSBundle.MainBundle.BundlePath, true));
+
+            webView.LoadHtmlString(css + ViewModel.Content, new NSUrl(NSBundle.MainBundle.BundlePath, true));
 		}
 		
 		public void UpdatedImage (Uri uri)
@@ -101,7 +110,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 
 		void LayoutSubviews ()
 		{
-			if (EmptyOverlay.ShowIfRequired (ref emptyOverlay, tweet, this.View
+            if (EmptyOverlay.ShowIfRequired(ref emptyOverlay, ViewModel, this.View
 						, "No tweet selected", EmptyOverlayType.Twitter)) 
 				return;
 			

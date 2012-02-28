@@ -12,7 +12,7 @@ namespace MWC.iOS {
 		MWC.iOS.UI.Controls.Views.SessionView view;
 		static NSString cellId = new NSString("SpeakerCell");
 
-		public SpeakersTableSource (List<Speaker> speakers, MWC.iOS.UI.Controls.Views.SessionView view)
+		public SpeakersTableSource (IList<Speaker> speakers, MWC.iOS.UI.Controls.Views.SessionView view)
 		{
 			this.speakers = speakers;
 			this.view = view;

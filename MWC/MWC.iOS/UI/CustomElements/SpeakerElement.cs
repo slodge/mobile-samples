@@ -1,3 +1,4 @@
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -11,21 +12,12 @@ namespace MWC.iOS.UI.CustomElements {
 	/// </summary>
 	public class SpeakerElement : Element  {
 		static NSString cellId = new NSString ("SpeakerElement");
-		Speaker speaker;
+		SpeakerListItemViewModel speaker;
 
-		/// <summary>If this is null, on iPhone; otherwise on iPad</summary>
-		MWC.iOS.Screens.iPad.Speakers.SpeakerSplitView splitView;
-		
-		/// <summary>for iPhone</summary>
-		public SpeakerElement (Speaker showSpeaker) : base (showSpeaker.Name)
+        public SpeakerElement(SpeakerListItemViewModel speaker)
+            : base(speaker.Name)
 		{
-			speaker = showSpeaker;
-		}
-		/// <summary>for iPad (SplitViewController)</summary>
-		public SpeakerElement (Speaker showSpeaker, MWC.iOS.Screens.iPad.Speakers.SpeakerSplitView speakerSplitView) : base (showSpeaker.Name)
-		{
-			speaker = showSpeaker;
-			splitView = speakerSplitView;
+            this.speaker = speaker;
 		}
 		
 		static int count;
@@ -52,13 +44,7 @@ namespace MWC.iOS.UI.CustomElements {
 		/// </summary>
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
-			if (splitView != null)
-				splitView.ShowSpeaker (speaker.ID);
-			else {
-				var sds = new MWC.iOS.Screens.iPhone.Speakers.SpeakerDetailsScreen (speaker.ID);
-				sds.Title = "Speaker";
-				dvc.ActivateController (sds);
-			}
+		    speaker.ShowDetailCommand.Execute();
 		}
 	}
 }

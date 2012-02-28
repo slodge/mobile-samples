@@ -1,5 +1,8 @@
 using System;
 using System.Drawing;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.UIKit;
 using MWC.BL;
@@ -8,21 +11,18 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 	/// <summary>
 	/// Displays information about the Exhibitor
 	/// </summary>
-	public class ExhibitorDetailsScreen : UIViewController, IImageUpdated {
+	public class ExhibitorDetailsScreen : MvxBindingTouchViewController<ExhibitorDetailsViewModel>, IImageUpdated {
 		UILabel nameLabel, addressLabel, locationLabel;
 		UITextView descriptionTextView;
 		UIImageView image;
-		int exhibitorId;
-		Exhibitor exhibitor;
 		EmptyOverlay emptyOverlay;
 		
 		const int imageSpace = 80;
 		/// <summary>Only used for iPhone display. iPad scrolls the TextView only.</summary>
 		UIScrollView scrollView;	
 
-		public ExhibitorDetailsScreen (int exhibitorID) : base()
+		public ExhibitorDetailsScreen (MvxShowViewModelRequest request) : base(request)
 		{
-			exhibitorId = exhibitorID;
 		}
 
 		public override void ViewDidLoad ()
@@ -75,19 +75,16 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			exhibitor = BL.Managers.ExhibitorManager.GetExhibitor (exhibitorId);
 			// shouldn't be null, but it gets that way when the data
 			// "shifts" underneath it. need to reload the screen or prevent
 			// selection via loading overlay - neither great UIs :-(
 			LayoutSubviews();
-			if (exhibitor != null) {
-				Update ();
-			}
+			Update ();
 		}
 
 		void LayoutSubviews ()
 		{
-			if (EmptyOverlay.ShowIfRequired(ref emptyOverlay, exhibitor, View, "No exhibitor selected", EmptyOverlayType.Exhibitor)) return;
+            if (EmptyOverlay.ShowIfRequired(ref emptyOverlay, ViewModel, View, "No exhibitor selected", EmptyOverlayType.Exhibitor)) return;
 //			if (exhibitor == null) {
 //				if (emptyOverlay == null) {
 //					emptyOverlay = new EmptyOverlay(View.Bounds, "No exhibitor selected");
@@ -127,7 +124,7 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 				
 				
 					var f = new SizeF (full.Width - 13 * 2, 4000);
-					SizeF size = descriptionTextView.StringSize (exhibitor.Overview
+					SizeF size = descriptionTextView.StringSize (ViewModel.Overview
 										, descriptionTextView.Font
 										, f);
 					descriptionTextView.Frame = new RectangleF(5
@@ -150,12 +147,13 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 
 		void Update()
 		{
-			nameLabel.Text = exhibitor.Name;
-			addressLabel.Text = exhibitor.City + ", " + exhibitor.Country;
-			locationLabel.Text = exhibitor.Locations;
+            nameLabel.Text = ViewModel.Name;
+            addressLabel.Text = ViewModel.City + ", " + ViewModel.Country;
+            locationLabel.Text = ViewModel.Locations;
 
-			if (!String.IsNullOrEmpty(exhibitor.Overview)) {
-				descriptionTextView.Text = exhibitor.Overview;
+            if (!String.IsNullOrEmpty(ViewModel.Overview))
+            {
+                descriptionTextView.Text = ViewModel.Overview;
 				descriptionTextView.Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font10_5pt);
 				descriptionTextView.TextColor = UIColor.Black;
 			} else {
@@ -163,9 +161,10 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 				descriptionTextView.TextColor = UIColor.Gray;
 				descriptionTextView.Text = "No background information available.";
 			}
-			if (exhibitor.ImageUrl != "http://www.mobileworldcongress.com") {
+            if (ViewModel.ImageUrl != "http://www.mobileworldcongress.com")
+            {
 				// empty image shows this
-				var u = new Uri (exhibitor.ImageUrl);
+                var u = new Uri(ViewModel.ImageUrl);
 				image.Image = ImageLoader.DefaultRequestImage (u, this);
 			}
 		}

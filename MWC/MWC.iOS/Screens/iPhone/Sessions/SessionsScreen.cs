@@ -6,7 +6,6 @@ using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MWC.iOS.Screens.iPad.Sessions;
 
 namespace MWC.iOS.Screens.iPhone.Sessions {
 	/// <summary>
@@ -16,22 +15,14 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 	public partial class SessionsScreen : UpdateManagerLoadingDialogViewController<SessionListViewModel> {
 		public IList<BL.Session> Sessions;
 		
-		/// <summary>If this is null, on iPhone; otherwise on iPad</summary>
-		SessionSplitView splitView;
-
 		/// <summary>for iPhone</summary>
         public SessionsScreen(MvxShowViewModelRequest request)
-            : this(request, null)
+            : base(request)
 		{
-		}
+#warning How to enable search for iPad?
+            //EnableSearch = true; // requires SessionElement to implement Matches()
+        }
 		
-		/// <summary>for iPad</summary>
-		public SessionsScreen (MvxShowViewModelRequest request, SessionSplitView sessionSplitView) 
-            : base (request)
-		{
-			splitView = sessionSplitView;
-			EnableSearch = true; // requires SessionElement to implement Matches()
-		}
 
 		/// <summary>
 		/// Populates the page with sessions, grouped by time slot
@@ -44,7 +35,7 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 					from session in ViewModel.Groups
 						select new Section (session.Key) {
 						from eachSession in session.Items
-						   select (Element) new MWC.iOS.UI.CustomElements.SessionElement (eachSession, splitView)
+						   select (Element) new MWC.iOS.UI.CustomElements.SessionElement (eachSession)
 			}};
 			// hide search until pull-down
 			TableView.ScrollToRow (NSIndexPath.FromRowSection (0,0), UITableViewScrollPosition.Top, false);

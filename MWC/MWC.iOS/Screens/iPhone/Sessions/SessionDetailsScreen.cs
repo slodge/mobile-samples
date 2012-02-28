@@ -14,7 +14,6 @@ using MWC.iOS.UI.Controls.Views;
 namespace MWC.iOS.Screens.iPhone.Sessions {
 	public class SessionDetailsScreen
         : MvxBindingTouchViewController<SessionDetailsViewModel>
-        , ISessionViewHost
     {
 		UIScrollView scrollView;
 		SessionView sessionView;
@@ -26,7 +25,7 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 		{
 			ShouldShowSpeakers = true;	// by default
 			
-			sessionView = new SessionView(this);
+			sessionView = new SessionView();
 			sessionView.Frame = new RectangleF(0,0,320,100);
 			sessionView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight;
 
@@ -43,14 +42,6 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 			scrollView.Add(sessionView);
 			scrollView.ContentOffset = new PointF(0,0);
 			scrollView.ContentSize = sessionView.Bounds.Size.Height < 370 ? new SizeF(320,370) : sessionView.Bounds.Size;
-		}
-
-		public void SelectSpeaker(Speaker speaker)
-		{
-			var sds = new MWC.iOS.Screens.iPhone.Speakers.SpeakerDetailsScreen (speaker.ID);
-			sds.ShouldShowSessions = false;
-			sds.Title = "Speaker";
-			NavigationController.PushViewController(sds, true);
 		}
 	}
 }

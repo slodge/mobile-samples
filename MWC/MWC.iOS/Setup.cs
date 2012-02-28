@@ -11,8 +11,12 @@ using MWC.Core.Mvvm;
 using MWC.Core.Mvvm.Converters;
 using MWC.Core.Mvvm.ViewModels;
 using MWC.iOS.Screens.Common;
+using MWC.iOS.Screens.Common.About;
+using MWC.iOS.Screens.Common.Map;
+using MWC.iOS.Screens.iPhone.Exhibitors;
 using MWC.iOS.Screens.iPhone.Home;
 using MWC.iOS.Screens.iPhone.Sessions;
+using MWC.iOS.Screens.iPhone.Twitter;
 
 namespace MWC.iOS
 {
@@ -53,6 +57,13 @@ namespace MWC.iOS
                             { typeof(ScheduleViewModel), typeof(HomeScreen)},
                             { typeof(SessionListItemViewModel), typeof(SessionsScreen)},
                             { typeof(SessionDetailsViewModel), typeof(SessionDetailsScreen)},
+                            { typeof(AboutXamarinViewModel), typeof(AboutXamarinScreen)},
+                            { typeof(MapsViewModel), typeof(MapScreen)},
+                            { typeof(SessionDetailsViewModel), typeof(SessionDetailsScreen)},
+                            { typeof(ExhibitorDetailsViewModel), typeof(ExhibitorDetailsScreen)},
+                            { typeof(ExhibitorsListViewModel), typeof(ExhibitorsScreen)},
+                            { typeof(TweetViewModel), typeof(TweetDetailsScreen)},
+                            { typeof(TwitterViewModel), typeof(TwitterScreen)},
                             //{ typeof(PullToRefreshViewModel), typeof(PullToRefreshView)},
                        };
         }

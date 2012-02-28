@@ -6,6 +6,8 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
 
+
+
 namespace MWC.iOS.AL {
 	public class FavoriteClickedEventArgs : EventArgs {
 		public Session SessionClicked;
@@ -16,6 +18,7 @@ namespace MWC.iOS.AL {
 		}
 	}
 
+/*
 	public class FavoritesTableSource : UITableViewSource {
 		public event EventHandler<FavoriteClickedEventArgs> FavoriteClicked = delegate 
 		{
@@ -95,4 +98,6 @@ namespace MWC.iOS.AL {
 			tableView.DeselectRow (indexPath, true);
 		}
 	}
+*/
 }
+

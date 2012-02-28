@@ -1,4 +1,5 @@
 using System;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.Dialog;
@@ -17,17 +18,19 @@ namespace MWC.iOS.UI.CustomElements {
 	/// </remarks>
 	public class TweetElement : Element  {
 		static NSString cellId = new NSString ("TweetElement");
-	
-		Tweet tweet;
-		MWC.iOS.Screens.iPad.Twitter.TwitterSplitView splitView;
+
+        TweetViewModel tweet;
+		//MWC.iOS.Screens.iPad.Twitter.TwitterSplitView splitView;
 
 		/// <summary>
 		/// for iPhone
 		/// </summary>
-		public TweetElement (Tweet showTweet) : base (showTweet.Author)
+		public TweetElement (TweetViewModel showTweet) : base (showTweet.Author)
 		{
 			tweet = showTweet;
 		}
+
+        /*
 		/// <summary>
 		/// for iPad (SplitViewController)
 		/// </summary>
@@ -36,6 +39,7 @@ namespace MWC.iOS.UI.CustomElements {
 			tweet = showTweet;
 			splitView = twitterSplitView;	// could be null, in current implementation
 		}
+         */
 
 		protected override UITableViewCell GetCellImpl (UITableView tv)
 		{
@@ -50,12 +54,12 @@ namespace MWC.iOS.UI.CustomElements {
 
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
-			var tds = new MWC.iOS.Screens.iPhone.Twitter.TweetDetailsScreen (tweet);
+            //var tds = new MWC.iOS.Screens.iPhone.Twitter.TweetDetailsScreen (tweet);
 			
-			if (splitView != null)
-				splitView.ShowTweet(tweet.ID, tds);
-			else
-				dvc.ActivateController (tds);
+            //if (splitView != null)
+            //    splitView.ShowTweet(tweet.ID, tds);
+            //else
+            //    dvc.ActivateController (tds);
 		}
 	}
 }

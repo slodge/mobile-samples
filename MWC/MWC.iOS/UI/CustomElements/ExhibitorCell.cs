@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -8,8 +9,9 @@ namespace MWC.iOS.UI.CustomElements {
 	/// <summary>
 	/// Custom Exhibitor cell. Used to display exhibitor info.
 	/// </summary>
-	public class ExhibitorCell : UITableViewCell, IImageUpdated {
-		BL.Exhibitor exhibitor;
+	public class ExhibitorCell 
+        : UITableViewCell, IImageUpdated {
+        ExhibitorListItemViewModel exhibitor;
 		// control declarations
 		protected UILabel nameLabel;
 		protected UILabel cityCountryLabel;
@@ -32,8 +34,11 @@ namespace MWC.iOS.UI.CustomElements {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MWC.iOS.UI.CustomElements.ExhibitorCell"/> class.
 		/// </summary>
-		public ExhibitorCell (BL.Exhibitor showExhibitor) : base (new RectangleF (0, 0, 320, 66 ) )
+		public ExhibitorCell (ExhibitorListItemViewModel showExhibitor) 
+            : base (UITableViewCellStyle.Default, cellId)
 		{
+#warning where did rect go: new RectangleF (0, 0, 320, 66 )
+
 			exhibitor = showExhibitor;
 
 			// create the control and add it to the view
@@ -57,7 +62,7 @@ namespace MWC.iOS.UI.CustomElements {
 			AddSubview(logoImageView);
 		}
 
-		public void UpdateCell (BL.Exhibitor showExhibitor)
+		public void UpdateCell (ExhibitorListItemViewModel showExhibitor)
 		{
 			exhibitor = showExhibitor;
 			nameLabel.Text = exhibitor.Name;

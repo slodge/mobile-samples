@@ -34,6 +34,7 @@ namespace MWC.Core.Mvvm.ViewModels
             }
         }
 
+#warning Use converters for this!
         public string PublishedAgo
         {
             get
@@ -59,6 +60,7 @@ namespace MWC.Core.Mvvm.ViewModels
         {
             get { return new MvxRelayCommand(() => this.RequestNavigate<TweetViewModel>(new {id = ID}));  }
         }
+
 
         public TweetViewModel (string id)
         {

@@ -34,11 +34,12 @@ namespace MWC.iOS.Screens.iPad.Speakers {
 
  	public class SpeakerSplitViewDelegate : UISplitViewControllerDelegate
     {
-		public override bool ShouldHideViewController (UISplitViewController svc, UIViewController viewController, UIInterfaceOrientation inOrientation)
-		{
-			return inOrientation == UIInterfaceOrientation.Portrait
-				|| inOrientation == UIInterfaceOrientation.PortraitUpsideDown;
-		}
+#warning Put back in
+        //public override bool ShouldHideViewController (UISplitViewController svc, UIViewController viewController, UIInterfaceOrientation inOrientation)
+        //{
+        //    return inOrientation == UIInterfaceOrientation.Portrait
+        //        || inOrientation == UIInterfaceOrientation.PortraitUpsideDown;
+        //}
 
 		public override void WillHideViewController (UISplitViewController svc, UIViewController aViewController, UIBarButtonItem barButtonItem, UIPopoverController pc)
 		{

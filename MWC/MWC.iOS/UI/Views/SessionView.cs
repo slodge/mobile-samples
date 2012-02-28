@@ -5,9 +5,9 @@ using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
 using MWC.BL.Managers;
-using MWC.iOS.Screens.iPad;
 
-namespace MWC.iOS.UI.Controls.Views {
+namespace MWC.iOS.UI.Controls.Views 
+{
 	/// <summary>Could use an event here, interface was easier to refactor in place</summary>
 	public interface ISessionViewHost {
 		void SelectSpeaker (Speaker speaker);
@@ -28,8 +28,6 @@ namespace MWC.iOS.UI.Controls.Views {
 		UIButton button;
 		UITableView speakerTable;
 
-		SessionPopupScreen hostPopup;
-		ISessionViewHost hostScreen;
 		bool isDirty = false;
 		int y = 0;
 		EmptyOverlay emptyOverlay;		
@@ -40,13 +38,9 @@ namespace MWC.iOS.UI.Controls.Views {
 		static UIImage favorite = UIImage.FromFile (AppDelegate.ImageNotFavorite);
 		static UIImage favorited = UIImage.FromFile (AppDelegate.ImageIsFavorite);
 		
-		public SessionView (ISessionViewHost host) : this(false)
+		public SessionView () 
+            : this(false)
 		{
-			hostScreen = host;
-		}
-		public SessionView (SessionPopupScreen host) : this(true)
-		{
-			hostPopup = host;
 		}
 		public SessionView (bool isPopup) 
 		{
@@ -63,7 +57,8 @@ namespace MWC.iOS.UI.Controls.Views {
 						new UIBarButtonItem("Close", UIBarButtonItemStyle.Done
 							, (o,e)=>
 								{
-									hostPopup.Dismiss(isDirty);
+                                    throw new NotImplementedException("!");
+									//hostPopup.Dismiss(isDirty);
 								}
 						)};
 					AddSubview (toolbar);
@@ -243,7 +238,7 @@ namespace MWC.iOS.UI.Controls.Views {
 		/// </summary>
 		public void SelectSpeaker(Speaker speaker) 
 		{
-			hostScreen.SelectSpeaker(speaker);
+            throw new NotImplementedException();
 		}
 
 		public void Clear()
