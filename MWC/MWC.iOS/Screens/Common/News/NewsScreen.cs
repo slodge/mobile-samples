@@ -28,6 +28,7 @@ namespace MWC.iOS.Screens.Common.News {
 		/// </summary>
 		void HandleRefreshRequested (object sender, EventArgs e)
 		{
+            throw new NotImplementedException("Needs to go to a IMvxCommand");
 			BL.Managers.NewsManager.Update ();
 		}
 
@@ -35,26 +36,23 @@ namespace MWC.iOS.Screens.Common.News {
 		{
 			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
 		}
+
 		void HandleUpdateFinished(object sender, EventArgs ea)
 		{	
 			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
-			this.InvokeOnMainThread(delegate {
-				PopulateData ();
-			});
 		}
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			BL.Managers.NewsManager.UpdateStarted += HandleUpdateStarted;
-			BL.Managers.NewsManager.UpdateFinished += HandleUpdateFinished;
+
+            PopulateData();
 		}
 
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
 			RefreshRequested -= HandleRefreshRequested;
-			BL.Managers.NewsManager.UpdateStarted -= HandleUpdateStarted;
-			BL.Managers.NewsManager.UpdateFinished -= HandleUpdateFinished;
 		}
 		
 		// hack to keep the selection, for some reason DidLayoutSubviews is getting called twice and i don't know wh
@@ -70,11 +68,6 @@ namespace MWC.iOS.Screens.Common.News {
 			}
 		}
 
-		protected override void LoadData ()
-		{
-			// get the news 
-			PopulateData ();
-		}
 
 		/// <summary>
 		/// This could get called from main thread or background thread.
@@ -114,6 +107,7 @@ namespace MWC.iOS.Screens.Common.News {
 			return new NewsScreenSizingSource(this);
 		}
     }
+
 	public class NewsScreenSizingSource : DialogViewController.SizingSource
 	{
 		NewsScreen _ns;

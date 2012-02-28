@@ -31,40 +31,29 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		{
 			return new TwitterScreenSizingSource(this);
 		}
+
 		/// <summary>
 		/// Implement MonoTouch.Dialog's pull-to-refresh method
 		/// </summary>
 		void HandleRefreshRequested (object sender, EventArgs e)
 		{
-			BL.Managers.TwitterFeedManager.Update ();
-		}
-		void HandleUpdateStarted(object sender, EventArgs ea)
-		{
-			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+            throw new NotImplementedException("Need to go via a IMvxCommand here");
+			//BL.Managers.TwitterFeedManager.Update ();
 		}
 
-		void HandleUpdateFinished(object sender, EventArgs ea)
-		{	
-			MonoTouch.UIKit.UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
-			// assume we can 'Get()' them, since update has finished
-			this.InvokeOnMainThread(delegate {
-				PopulateData ();
-			});
-		}
 
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			BL.Managers.TwitterFeedManager.UpdateStarted += HandleUpdateStarted;
-			BL.Managers.TwitterFeedManager.UpdateFinished += HandleUpdateFinished;
+
+            // TODO - data binding needed here
+		    PopulateData();
 		}
 
 		public override void ViewDidUnload ()
 		{
 			base.ViewDidUnload ();
 			RefreshRequested -= HandleRefreshRequested;
-			BL.Managers.TwitterFeedManager.UpdateStarted -= HandleUpdateStarted;
-			BL.Managers.TwitterFeedManager.UpdateFinished -= HandleUpdateFinished;
 		}
 
 		// hack to keep the selection, for some reason DidLayoutSubviews is getting called twice and i don't know wh
@@ -81,24 +70,11 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		}
 
 		/// <summary>
-		/// Called by the base class when loading the page. Gets Tweets from 'cache'
-		// and calls PopulateData
-		/// and if there are none, calls Update().
-		/// </summary>
-		protected override void LoadData()
-		{
-			PopulateData ();
-		}
-
-		/// <summary>
 		/// This could get called from main thread or background thread.
 		/// Remember to InvokeOnMainThread if required
 		/// </summary>
 		void PopulateData()
 		{
-			if (ViewModel == null)
-				return;
-			
 			if (ViewModel.Items == null || ViewModel.Items.Count == 0) {
 				var section = new Section ("Network unavailable") {
 					new StyledStringElement ("Twitter not available. Try again later.")

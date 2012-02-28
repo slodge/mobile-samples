@@ -6,7 +6,7 @@ using Cirrious.MvvmCross.Interfaces.Commands;
 namespace MWC.Core.Mvvm.ViewModels
 {
     public class ScheduleViewModel
-        : ViewModelBase
+        : UpdatingViewModelBase
     {
         public class DateTimeWithCommand
         {

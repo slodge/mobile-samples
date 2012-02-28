@@ -9,28 +9,8 @@ using MWC.BL.Managers;
 
 namespace MWC.Core.Mvvm.ViewModels
 {
-    public class NewsListViewModel : ViewModelBase
+    public class NewsListViewModel : UpdatingItemsViewModelBase<NewsItemViewModel>
     {
-        private ObservableCollection<NewsItemViewModel> _items;
-        public ObservableCollection<NewsItemViewModel> Items
-        {
-            get { return _items; }
-            private set
-            {
-                _items = value; FirePropertyChanged("Items");
-            }
-        }
-
-        private bool _isUpdating;
-        public bool IsUpdating
-        {
-            get { return _isUpdating; }
-            private set
-            {
-                _isUpdating = value; FirePropertyChanged("IsUpdating");
-            }
-        }
-
         public void BeginUpdate ()
         {
             IsUpdating = true;

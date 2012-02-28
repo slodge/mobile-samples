@@ -13,12 +13,11 @@ namespace MWC.Core.Mvvm.ViewModels
     /// </summary>
     /// <typeparam name="TItem">The Model type</typeparam>
     /// <typeparam name="TItemViewModel">The View Model type for the Model type</typeparam>
-    public abstract class GroupedListViewModel<TItem, TItemViewModel> : ViewModelBase
+    public abstract class GroupedListViewModel<TItem, TItemViewModel> : UpdatingViewModelBase
         where TItemViewModel : GroupedListItemViewModel<TItem>, new()
     {
         public ObservableCollection<GroupedListGroupViewModel<TItem, TItemViewModel>> Groups { get; set; }
 
-        public bool IsUpdating { get; set; }
         public MvxVisibility ListVisibility { get; set; }
         public MvxVisibility NoDataVisibility { get; set; }
 

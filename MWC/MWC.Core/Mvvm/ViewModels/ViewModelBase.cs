@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.ExtensionMethods;
 using Cirrious.MvvmCross.Interfaces.Commands;
@@ -9,6 +10,34 @@ using MWC.Core.Mvvm.ApplicationSettings;
 
 namespace MWC.Core.Mvvm.ViewModels
 {
+    public abstract class UpdatingItemsViewModelBase<TItem> : UpdatingViewModelBase
+    {
+        private ObservableCollection<TItem> _items;
+        public ObservableCollection<TItem> Items
+        {
+            get { return _items; }
+            protected set
+            {
+                _items = value; FirePropertyChanged("Items");
+            }
+        }
+    }
+
+    public abstract class UpdatingViewModelBase : ViewModelBase
+    {
+        private bool _isUpdating;
+
+        public bool IsUpdating
+        {
+            get { return _isUpdating; }
+            protected set
+            {
+                _isUpdating = value;
+                FirePropertyChanged("IsUpdating");
+            }
+        }
+    }
+
     public abstract class ViewModelBase 
         : MvxViewModel
         , IMvxServiceConsumer<IApplicationSettings>

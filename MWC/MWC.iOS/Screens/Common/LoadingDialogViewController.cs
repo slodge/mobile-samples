@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Touch.Dialog;
 using Cirrious.MvvmCross.Views;
+using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
@@ -19,7 +21,7 @@ namespace MWC.iOS.Screens.Common {
 	/// </remarks>
     public class LoadingDialogViewController<TViewModel>
         : MvxTouchDialogViewController<TViewModel>
-        where TViewModel : class, IMvxViewModel
+        where TViewModel : UpdatingViewModelBase
 	{
 		MWC.iOS.Screens.Common.UILoadingView loadingView;
 		
@@ -30,58 +32,62 @@ namespace MWC.iOS.Screens.Common {
             : base(request, style, root, true)
 		{
 		}
-		
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-			if (Root == null || Root.Count == 0) {
-				StartLoadingScreen("Loading...");
-			
-				NSTimer.CreateScheduledTimer (TimeSpan.FromMilliseconds (1), delegate {
-					LoadData();
-				});
-			} else Console.WriteLine ("Dialog data already populated");
-		}
-		
-		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
+
+        public override void ViewDidLoad()
+        {
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+            RefreshLoadingVisibility();
+        }
+
+        public override void ViewDidUnload()
+        {
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
+            base.ViewDidUnload();
+        }
+
+	    private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+	    {
+	        RefreshLoadingVisibility();
+	    }
+
+	    private void RefreshLoadingVisibility()
+	    {
+            if (ViewModel.IsUpdating)
+                StartLoadingScreen("loading...");
+            else
+                StopLoadingScreen();
+
+	    }
+
+	    public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
 		{
 			return AppDelegate.IsPad;
 		}
 
 		/// <summary>
-		/// Implement this in the subclass to actually load the data.
-		/// You MUST call StopLoadingScreen() at the end of your implementation!
-		/// </summary>
-		protected virtual void LoadData() 
-		{
-		}
-		
-		/// <summary>
 		/// Called automatically in ViewDidLoad()
 		/// </summary>
 		protected void StartLoadingScreen (string message)
 		{
-			using (var pool = new NSAutoreleasePool ()) {
-				this.InvokeOnMainThread(delegate {
-					
-					var bounds = new RectangleF(0,0,768,1004);
-					if (InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft
-					|| InterfaceOrientation == UIInterfaceOrientation.LandscapeRight) {
-						bounds = new RectangleF(0,0,1024,748);	
-					} 
+            if (loadingView != null)
+                return;
 
-					if (AppDelegate.IsPhone)
-						bounds = new RectangleF(0,0,320,460);
+			var bounds = new RectangleF(0,0,768,1004);
+			if (InterfaceOrientation == UIInterfaceOrientation.LandscapeLeft
+			|| InterfaceOrientation == UIInterfaceOrientation.LandscapeRight) {
+				bounds = new RectangleF(0,0,1024,748);	
+			} 
 
-					loadingView = new UILoadingView (message, bounds);
-					// because DialogViewController is a UITableViewController,
-					// we need to step OVER the UITableView, otherwise the loadingOverlay
-					// sits *in* the scrolling area of the table
-					View.Superview.Add (loadingView);
-					View.Superview.BringSubviewToFront (loadingView);
-					View.UserInteractionEnabled = false;
-				});
-			}
+			if (AppDelegate.IsPhone)
+				bounds = new RectangleF(0,0,320,460);
+
+			loadingView = new UILoadingView (message, bounds);
+			// because DialogViewController is a UITableViewController,
+			// we need to step OVER the UITableView, otherwise the loadingOverlay
+			// sits *in* the scrolling area of the table
+			View.Superview.Add (loadingView);
+			View.Superview.BringSubviewToFront (loadingView);
+			View.UserInteractionEnabled = false;
 		}
 		
 		/// <summary>
@@ -91,21 +97,17 @@ namespace MWC.iOS.Screens.Common {
 		/// </summary>
 		protected void StopLoadingScreen ()
 		{
-			using (var pool = new NSAutoreleasePool ()) {
-				InvokeOnMainThread(delegate {
+			if (loadingView != null) {
+				Debug.WriteLine ("Fade out loading...");
+				loadingView.OnFinishedFadeOutAndRemove += delegate {
 					if (loadingView != null) {
-						Debug.WriteLine ("Fade out loading...");
-						loadingView.OnFinishedFadeOutAndRemove += delegate {
-							if (loadingView != null) {
-								Debug.WriteLine ("Disposing of loadingView object..");
-								loadingView.Dispose();
-								loadingView = null;
-							}
-						};
-						loadingView.FadeOutAndRemove ();
-						View.UserInteractionEnabled = true;
+						Debug.WriteLine ("Disposing of loadingView object..");
+						loadingView.Dispose();
+						loadingView = null;
 					}
-				});
+				};
+				loadingView.FadeOutAndRemove ();
+				View.UserInteractionEnabled = true;
 			}
 		}
 	}

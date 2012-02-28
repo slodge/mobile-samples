@@ -22,13 +22,12 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 #warning How to enable search for iPad?
             //EnableSearch = true; // requires SessionElement to implement Matches()
         }
-		
 
-		/// <summary>
-		/// Populates the page with sessions, grouped by time slot
-		/// </summary>
-		protected override void PopulateTable()
-		{
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
 			Sessions = BL.Managers.SessionManager.GetSessions ();
 			
 			Root = 	new RootElement ("Sessions") {
@@ -44,34 +43,34 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
 				TableView.ScrollToRow (NSIndexPath.FromRowSection (0,0), UITableViewScrollPosition.Top, false);
 			}	
 		}
+
+        /*
+        /// <summary>
+        /// Used by iPad, to control popover list in SplitView
+        /// </summary>
+        public void ShowAll() {
+            PopulateTable ();
+        }
 		
-		/// <summary>
-		/// Used by iPad, to control popover list in SplitView
-		/// </summary>
-		public void ShowAll() {
-			PopulateTable ();
-		}
+        /// <summary>
+        /// Used by iPad, to filter popover list in SplitView
+        /// </summary>
+        public void FitlerByDay (int day) {
+            Sessions = BL.Managers.SessionManager.GetSessions (day);
 		
-		/*
-		/// <summary>
-		/// Used by iPad, to filter popover list in SplitView
-		/// </summary>
-		public void FitlerByDay (int day) {
-			Sessions = BL.Managers.SessionManager.GetSessions (day);
-		
-			Root = 	new RootElement ("") {
-					from s in this.Sessions
-						group s by s.Start.Ticks into g
-						orderby g.Key
-						select new Section (new DateTime (g.Key).ToString("dddd HH:mm") ) {
-						from hs in g
-						   select (Element) new MWC.iOS.UI.CustomElements.SessionElement (hs, splitView)
-			}};
-			// start again at the top
-			lastScrollY = NSIndexPath.FromRowSection(0,0);
-			TableView.ScrollToRow (lastScrollY, UITableViewScrollPosition.Top, false);
-		}
-		*/
+            Root = 	new RootElement ("") {
+                    from s in this.Sessions
+                        group s by s.Start.Ticks into g
+                        orderby g.Key
+                        select new Section (new DateTime (g.Key).ToString("dddd HH:mm") ) {
+                        from hs in g
+                           select (Element) new MWC.iOS.UI.CustomElements.SessionElement (hs, splitView)
+            }};
+            // start again at the top
+            lastScrollY = NSIndexPath.FromRowSection(0,0);
+            TableView.ScrollToRow (lastScrollY, UITableViewScrollPosition.Top, false);
+        }
+        */
 
 		// scroll back to the point where you last were in the list
 		NSIndexPath lastScrollY;
