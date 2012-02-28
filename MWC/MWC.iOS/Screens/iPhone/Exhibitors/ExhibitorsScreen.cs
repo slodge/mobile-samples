@@ -42,7 +42,7 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 					from exhibitorGroup in ViewModel.Groups
 				    select new Section (exhibitorGroup.Key) {
 					    from eachExhibitor in exhibitorGroup.Items
-						    select new MWC.iOS.UI.CustomElements.ExhibitorElement(eachExhibitor)
+						    select (Element)new MWC.iOS.UI.CustomElements.ExhibitorElement(eachExhibitor)
 			}};
 
 			// hide search until pull-down

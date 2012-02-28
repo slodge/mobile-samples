@@ -17,6 +17,8 @@ using MWC.iOS.Screens.iPhone.Exhibitors;
 using MWC.iOS.Screens.iPhone.Home;
 using MWC.iOS.Screens.iPhone.Sessions;
 using MWC.iOS.Screens.iPhone.Twitter;
+using MWC.iOS.Screens.iPhone.Speakers;
+using MWC.iOS.Screens.Common.News;
 
 namespace MWC.iOS
 {
@@ -55,15 +57,18 @@ namespace MWC.iOS
                        {
                             { typeof(MainViewModel), typeof(TabBarController)},
                             { typeof(ScheduleViewModel), typeof(HomeScreen)},
-                            { typeof(SessionListItemViewModel), typeof(SessionsScreen)},
+                            { typeof(SessionListViewModel), typeof(SessionsScreen)},
                             { typeof(SessionDetailsViewModel), typeof(SessionDetailsScreen)},
                             { typeof(AboutXamarinViewModel), typeof(AboutXamarinScreen)},
                             { typeof(MapsViewModel), typeof(MapScreen)},
-                            { typeof(SessionDetailsViewModel), typeof(SessionDetailsScreen)},
                             { typeof(ExhibitorDetailsViewModel), typeof(ExhibitorDetailsScreen)},
                             { typeof(ExhibitorsListViewModel), typeof(ExhibitorsScreen)},
+                            { typeof(SpeakerListViewModel), typeof(SpeakersScreen)},
+                            { typeof(SpeakerDetailsViewModel), typeof(SpeakerDetailsScreen)},
                             { typeof(TweetViewModel), typeof(TweetDetailsScreen)},
                             { typeof(TwitterViewModel), typeof(TwitterScreen)},
+                            { typeof(NewsListViewModel), typeof(NewsScreen)},
+                            { typeof(NewsItemViewModel), typeof(NewsDetailsScreen)},
                             //{ typeof(PullToRefreshViewModel), typeof(PullToRefreshView)},
                        };
         }

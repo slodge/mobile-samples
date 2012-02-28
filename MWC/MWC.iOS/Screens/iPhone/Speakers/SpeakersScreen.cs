@@ -15,7 +15,7 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 	/// </summary>
 	public partial class SpeakersScreen : UpdateManagerLoadingDialogViewController<SpeakerListViewModel> {
 		protected SpeakerDetailsScreen speakerDetailsScreen;
-		IList<Speaker> speakers;
+
 		
 		/// <summary>for iPhone</summary>
 		public SpeakersScreen (MvxShowViewModelRequest request) 
@@ -40,7 +40,7 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 		
 		public override DialogViewController.Source CreateSizingSource (bool unevenRows)
 		{
-			return new SpeakersTableSource(this, speakers);
+			return new SpeakersTableSource(this, ViewModel);
 		}
 
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
@@ -54,19 +54,15 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 	/// Implement index
 	/// </summary>
 	public class SpeakersTableSource : DialogViewController.SizingSource {
-		IList<Speaker> speakerList;
-		public SpeakersTableSource (DialogViewController dvc, IList<Speaker> speakers) : base(dvc)
+		SpeakerListViewModel speakerList;
+		public SpeakersTableSource (DialogViewController dvc, SpeakerListViewModel speakers) : base(dvc)
 		{
 			speakerList = speakers;
 		}
 
 		public override string[] SectionIndexTitles (UITableView tableView)
 		{
-			var sit = from speaker in speakerList
-                    group speaker by (speaker.Index) into alpha
-						orderby alpha.Key
-						select alpha.Key;
-			return sit.ToArray();
+			return speakerList.Groups.Select(x => x.Key).ToArray();
 		}
 
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
