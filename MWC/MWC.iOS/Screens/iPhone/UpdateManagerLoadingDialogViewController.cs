@@ -38,6 +38,7 @@ namespace MWC.iOS.Screens.iPhone {
             base.ViewDidLoad();
             BL.Managers.UpdateManager.UpdateFinished += HandleUpdateFinished;
         }
+		
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);

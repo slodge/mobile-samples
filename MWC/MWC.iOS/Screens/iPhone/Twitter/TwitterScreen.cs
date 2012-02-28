@@ -96,7 +96,10 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		/// </summary>
 		void PopulateData()
 		{
-			if (ViewModel.Items.Count == 0) {
+			if (ViewModel == null)
+				return;
+			
+			if (ViewModel.Items == null || ViewModel.Items.Count == 0) {
 				var section = new Section ("Network unavailable") {
 					new StyledStringElement ("Twitter not available. Try again later.")
 				};
@@ -139,7 +142,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		}
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			if (twitterScreen.ViewModel.Items.Count > indexPath.Row) {
+			if (twitterScreen.ViewModel.Items != null && twitterScreen.ViewModel.Items.Count > indexPath.Row) {
                 var t = twitterScreen.ViewModel.Items[indexPath.Row];
 				SizeF size = tableView.StringSize (t.Title
 								, UIFont.FromName("Helvetica-Light",AppDelegate.Font10_5pt)

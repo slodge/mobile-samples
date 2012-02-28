@@ -44,9 +44,12 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 					    from eachExhibitor in exhibitorGroup.Items
 						    select (Element)new MWC.iOS.UI.CustomElements.ExhibitorElement(eachExhibitor)
 			}};
-
-			// hide search until pull-down
-			TableView.ScrollToRow (NSIndexPath.FromRowSection (0,0), UITableViewScrollPosition.Top, false);
+			
+			if (ViewModel.Groups.Count > 0)
+			{
+				// hide search until pull-down
+				TableView.ScrollToRow (NSIndexPath.FromRowSection (0,0), UITableViewScrollPosition.Top, false);
+			}
 		}
 
 		public override DialogViewController.Source CreateSizingSource (bool unevenRows)
