@@ -255,6 +255,7 @@ namespace MWC.iOS.Screens.Common {
                 {
                     var navigationToUse = IsInMoreController(currentNav) ? MoreNavigationController : currentNav;
                     navigationToUse.PushViewController((UIViewController)view, true);
+					return true;
             	}
 			}
 

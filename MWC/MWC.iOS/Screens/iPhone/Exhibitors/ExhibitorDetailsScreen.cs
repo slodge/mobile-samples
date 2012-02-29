@@ -27,6 +27,8 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 
 		public override void ViewDidLoad ()
 		{
+            base.ViewDidLoad();
+
 			View.BackgroundColor = UIColor.White;
 			nameLabel = new UILabel () {
 				TextAlignment = UITextAlignment.Left,
