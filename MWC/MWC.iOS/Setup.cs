@@ -19,15 +19,21 @@ using MWC.iOS.Screens.iPhone.Sessions;
 using MWC.iOS.Screens.iPhone.Twitter;
 using MWC.iOS.Screens.iPhone.Speakers;
 using MWC.iOS.Screens.Common.News;
+using Cirrious.MvvmCross.Interfaces.ServiceProvider;
+using Cirrious.MvvmCross.ExtensionMethods;
 
 namespace MWC.iOS
 {
    public class Setup
         : MvxTouchDialogBindingSetup
+		, IMvxServiceProducer<IMWCTabBarPresenterHost>
     {
-        public Setup(MvxApplicationDelegate applicationDelegate, IMvxTouchViewPresenter presenter)
+		private readonly IMWCTabBarPresenterHost _presenter;
+		
+        public Setup(MvxApplicationDelegate applicationDelegate, MWCPresenter presenter)
             : base(applicationDelegate, presenter)
         {
+			_presenter = presenter;
         }
 
         #region Overrides of MvxBaseSetup
@@ -38,6 +44,12 @@ namespace MWC.iOS
             var app = new App();
             return app;
         }
+		
+		protected override void InitializeLastChance ()
+		{
+			this.RegisterServiceInstance<IMWCTabBarPresenterHost>(_presenter);
+			base.InitializeLastChance ();
+		}
 
         protected override IDictionary<Type, Type> GetViewModelViewLookup()
         {

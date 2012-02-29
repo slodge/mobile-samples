@@ -35,10 +35,8 @@ namespace MWC.iOS.UI.CustomElements {
 		/// Initializes a new instance of the <see cref="MWC.iOS.UI.CustomElements.ExhibitorCell"/> class.
 		/// </summary>
 		public ExhibitorCell (ExhibitorListItemViewModel showExhibitor) 
-            : base (UITableViewCellStyle.Default, cellId)
+            : base (new RectangleF (0, 0, 320, 66 ))
 		{
-#warning where did rect go: new RectangleF (0, 0, 320, 66 )
-
 			exhibitor = showExhibitor;
 
 			// create the control and add it to the view

@@ -47,11 +47,9 @@ namespace MWC.iOS {
 		public static readonly NSString NotificationDidChangeStatusBarOrientation = new NSString("UIApplicationDidChangeStatusBarOrientationNotification");		
 		public static readonly NSString NotificationOrientationDidChange = new NSString("UIDeviceOrientationDidChangeNotification");
 		public static readonly NSString NotificationFavoriteUpdated = new NSString("NotificationFavoriteUpdated");
+		
 		// class-level declarations
 		UIWindow window;
-		Screens.Common.TabBarController tabBar;
-		
-
 
 		public static bool IsPhone {
 			get {

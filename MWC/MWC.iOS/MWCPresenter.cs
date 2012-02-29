@@ -9,12 +9,20 @@ namespace MWC.iOS
 {
     public class MWCPresenter 
         : MvxModalSupportTouchViewPresenter
+		, IMWCTabBarPresenterHost
 	{
         public IMWCTabBarPresenter TabBarPresenter { get; set; }
 
         public MWCPresenter(UIApplicationDelegate applicationDelegate, UIWindow window)
 			: base(applicationDelegate, window)
 		{
+		}
+		
+		protected override UINavigationController CreateNavigationController (UIViewController viewController)
+		{
+			var toReturn = base.CreateNavigationController (viewController);
+			toReturn.NavigationBarHidden = true;
+			return toReturn;
 		}
 		
         public override bool ShowView(Cirrious.MvvmCross.Touch.Interfaces.IMvxTouchView view)

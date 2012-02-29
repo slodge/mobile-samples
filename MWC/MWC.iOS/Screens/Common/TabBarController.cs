@@ -6,15 +6,21 @@ using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
 using MWC.Core.Mvvm.ViewModels;
 using Cirrious.MvvmCross.Views;
+using Cirrious.MvvmCross.ExtensionMethods;
+using Cirrious.MvvmCross.Interfaces.ServiceProvider;
+using MWC.iOS.Screens.iPhone.Speakers;
+using MWC.iOS.Screens.iPhone.Sessions;
+using MWC.iOS.Screens.iPhone.Twitter;
 
 namespace MWC.iOS.Screens.Common {
 	public class TabBarController
         : MvxTouchTabBarViewController<MainViewModel>
         , IMWCTabBarPresenter
+		, IMvxServiceConsumer<IMWCTabBarPresenterHost>
 	{
 		UIViewController homeScreen = null;
 		
-		UINavigationController homeNav, speakerNav, sessionNav;
+		UINavigationController homeNav, speakerNav, sessionNav, twitterNav;
         UIViewController speakersScreen, sessionsScreen, twitterFeedScreen, newsFeedScreen, exhibitorsScreen, favoritesScreen, mapScreen, aboutScreen;
 		
 		UISplitViewController speakersSplitView, sessionsSplitView, exhibitorsSplitView, twitterSplitView, newsSplitView;
@@ -22,6 +28,7 @@ namespace MWC.iOS.Screens.Common {
 		public TabBarController (MvxShowViewModelRequest request)
 			: base(request)
 		{
+			this.GetService<IMWCTabBarPresenterHost>().TabBarPresenter = this;
 		}
 		
 		public override void ViewDidLoad ()
@@ -82,8 +89,10 @@ namespace MWC.iOS.Screens.Common {
 				
 				// twitter feed
                 twitterFeedScreen = this.CreateViewControllerFor<TwitterViewModel>() as UIViewController; 
-				twitterFeedScreen.TabBarItem = new UITabBarItem("Twitter"
+				twitterNav = new UINavigationController();
+				twitterNav.TabBarItem = new UITabBarItem("Twitter"
 											, UIImage.FromBundle("Images/Tabs/twitter.png"), 5);
+				twitterNav.PushViewController ( twitterFeedScreen, false );						
 				
 				// news
                 newsFeedScreen = this.CreateViewControllerFor<NewsListViewModel>() as UIViewController; ;
@@ -195,11 +204,29 @@ namespace MWC.iOS.Screens.Common {
 
 	    public bool ShowView(IMvxTouchView view)
 	    {
-            if (view is SpeakerDetailsViewModel || view is SpeakerListViewModel)
+            if (view is SpeakersScreen || view is SpeakerDetailsScreen)
             {
                 speakerNav.PushViewController((UIViewController) view, true);
-                return true;
+                this.SelectedViewController = speakerNav;
+				return true;
             }
+			else if (view is SessionsScreen || view is SessionDetailsScreen)
+			{
+				sessionNav.PushViewController((UIViewController) view, true);
+				this.SelectedViewController = sessionNav;
+				return true;
+			}
+			else if (view is TwitterScreen || view is TweetDetailsScreen)
+			{
+				twitterNav.PushViewController((UIViewController) view, true);
+				this.SelectedViewController = twitterNav;
+				return true;
+			}
+			
+			//else if (view is ExhibitorsScreen || view is ExhibitorDetailsScreen)
+			//{
+			//	ex
+			//}
 
 	        return false;
         }
