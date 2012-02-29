@@ -27,9 +27,10 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-			Sessions = BL.Managers.SessionManager.GetSessions ();
-			
+		}
+		
+		protected override void RefreshItems ()
+		{
 			Root = 	new RootElement ("Sessions") {
 					from session in ViewModel.Groups
 						select new Section (session.Key) {

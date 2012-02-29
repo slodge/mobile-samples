@@ -44,8 +44,6 @@ namespace MWC.iOS.Screens.Common.News {
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-
-            PopulateData();
 		}
 
 		public override void ViewDidUnload ()
@@ -68,13 +66,9 @@ namespace MWC.iOS.Screens.Common.News {
 		}
 
 
-		/// <summary>
-		/// This could get called from main thread or background thread.
-		/// Remember to InvokeOnMainThread if required
-		/// </summary>
-		void PopulateData ()
+		protected override void RefreshItems ()
 		{
-            if (ViewModel.Items.Count == 0)
+			if (ViewModel.Items.Count == 0)
             {
 				var section = new Section("Network unavailable") {
 					new StyledStringElement("News not available. Try again later.") 

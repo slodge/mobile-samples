@@ -69,14 +69,14 @@
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="MonoTouch.Dialog">
-      <HintPath>..\..\MvvxLibs\MonoTouch.Dialog.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft_Json_MonoTouch">
       <HintPath>..\..\MvvxLibs\Newtonsoft_Json_MonoTouch.dll</HintPath>
     </Reference>
     <Reference Include="CirriousMvvmCrossTouch">
       <HintPath>..\..\MvvxLibs\CirriousMvvmCrossTouch.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoTouch.Dialog">
+      <HintPath>..\..\MvvxLibs\MonoTouch.Dialog.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

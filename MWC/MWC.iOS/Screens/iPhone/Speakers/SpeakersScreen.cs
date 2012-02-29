@@ -23,13 +23,9 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
 		{
 		}
 
-		/// <summary>
-		/// Populates the page with exhibitors.
-		/// </summary>
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
 
+		protected override void RefreshItems ()
+		{
 			Root = 	new RootElement ("Speakers") {
 					from speakerGroup in ViewModel.Groups
 						select new Section (speakerGroup.Key) {
