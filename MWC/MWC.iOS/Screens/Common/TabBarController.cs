@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
+using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Touch.ExtensionMethods;
 using Cirrious.MvvmCross.Touch.Interfaces;
+using MWC.iOS.Interfaces;
+using MWC.iOS.UI.Navigation;
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
@@ -18,45 +22,69 @@ namespace MWC.iOS.Screens.Common {
         , IMWCTabBarPresenter
 		, IMvxServiceConsumer<IMWCTabBarPresenterHost>
 	{
-		UIViewController homeScreen = null;
-		
-		UINavigationController homeNav, speakerNav, sessionNav, twitterNav;
-        UIViewController speakersScreen, sessionsScreen, twitterFeedScreen, newsFeedScreen, exhibitorsScreen, favoritesScreen, mapScreen, aboutScreen;
-		
-		UISplitViewController speakersSplitView, sessionsSplitView, exhibitorsSplitView, twitterSplitView, newsSplitView;
-		
+        private Dictionary<Type, UINavigationController> _defaultDisplays = new Dictionary<Type, UINavigationController>();
+
 		public TabBarController (MvxShowViewModelRequest request)
 			: base(request)
 		{
 			this.GetService<IMWCTabBarPresenterHost>().TabBarPresenter = this;
 		}
-		
+
+	    private int _createdSoFarCount = 0;
+        private UINavigationController CreateNavigationControllerTabFor<TPrimaryType>(string title, string imageName, object creationParameters = null, params Type[] alsoSupports)
+            where TPrimaryType : class, IMvxViewModel
+        {
+            var controller = new ViewModelAwareUINavigationController();
+
+            if (!_defaultDisplays.ContainsKey(typeof(TPrimaryType)))
+                _defaultDisplays[typeof(TPrimaryType)] = controller;
+
+            if (alsoSupports != null)
+                foreach (var viewModelType in alsoSupports)
+                    controller.Add(viewModelType);
+
+		    var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
+            screen.Title = title;
+            screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle("Images/Tabs/" + imageName +".png"), _createdSoFarCount);
+
+            _createdSoFarCount++;
+
+            return controller;
+        }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
 			
-			// home tab
-#warning IPad support removed (for now)			
-			if (true /*AppDelegate.IsPhone*/) {
-				homeScreen = this.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
-				homeScreen.Title = "Schedule";
-			} else {
-				homeScreen = this.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
-			}
-			
-			homeNav = new UINavigationController();
-			homeNav.PushViewController ( homeScreen, false );			
-			homeNav.Title = "Schedule";
-			homeNav.TabBarItem = new UITabBarItem("Schedule"
-										, UIImage.FromBundle("Images/Tabs/schedule.png"), 0);
-			
-			// speakers tab
-			if (AppDelegate.IsPhone)
+            ViewControllers = new UIViewController[]
+                                  {
+                                    CreateNavigationControllerTabFor<ScheduleViewModel>("Schedule", "schedule"),
+                                    CreateNavigationControllerTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
+                                    CreateNavigationControllerTabFor<MapsViewModel>("Map", "maps"),
+                                    CreateNavigationControllerTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
+                                    CreateNavigationControllerTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
+                                    CreateNavigationControllerTabFor<MapsViewModel>("Map", "maps"),
+                                    CreateNavigationControllerTabFor<NewsListViewModel>("News", "rss", null, typeof(NewsItemViewModel)),
+                                    CreateNavigationControllerTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
+                                    CreateNavigationControllerTabFor<AboutXamarinViewModel>("About Xamarin", "about"),
+                                  };
+
+
+            // tell the tab bar which controllers are allowed to customize. 
+            // if we don't set  it assumes all controllers are customizable. 
+            // if we set to empty array, NO controllers are customizable.
+            CustomizableViewControllers = new UIViewController[] { };
+
+            // set our selected item
+            SelectedViewController = ViewControllers[0];
+
+            /*
+            if (AppDelegate.IsPhone)
 			{
-			    speakersScreen = this.CreateViewControllerFor<SpeakerListViewModel>() as UIViewController;			
-				speakerNav = new UINavigationController();
-				speakerNav.TabBarItem = new UITabBarItem("Speakers"
-											, UIImage.FromBundle("Images/Tabs/speakers.png"), 1);
+                var speakersScreen = this.CreateViewControllerFor<SpeakerListViewModel>() as UIViewController;
+                var speakerNav = CreateNavigationControllerFor(typeof(SpeakerListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel));
+				speakerNav.TabBarItem = new UITabBarItem("Speakers", UIImage.FromBundle("Images/Tabs/speakers.png"), 1);
 				speakerNav.PushViewController ( speakersScreen, false );
 			} else {
                 //speakersSplitView = new MWC.iOS.Screens.iPad.Speakers.SpeakerSplitView();
@@ -76,7 +104,8 @@ namespace MWC.iOS.Screens.Common {
                 //sessionsSplitView.TabBarItem = new UITabBarItem("Sessions"
                 //                            , UIImage.FromBundle("Images/Tabs/sessions.png"), 2);		
 			}
-			// maps tab
+
+            // maps tab
             mapScreen = this.CreateViewControllerFor<MapsViewModel>() as UIViewController; 
 			mapScreen.TabBarItem = new UITabBarItem("Map"
 										, UIImage.FromBundle("Images/Tabs/maps.png"), 3);
@@ -155,17 +184,7 @@ namespace MWC.iOS.Screens.Common {
 					aboutScreen
 				};
 			}
-			
-			// attach the view controllers
-			ViewControllers = viewControllers;
-			
-			// tell the tab bar which controllers are allowed to customize. 
-			// if we don't set  it assumes all controllers are customizable. 
-			// if we set to empty array, NO controllers are customizable.
-			CustomizableViewControllers = new UIViewController[] {};
-			
-			// set our selected item
-			SelectedViewController = homeNav;
+            */
 		}
 		
         /*
@@ -204,29 +223,22 @@ namespace MWC.iOS.Screens.Common {
 
 	    public bool ShowView(IMvxTouchView view)
 	    {
-            if (view is SpeakersScreen || view is SpeakerDetailsScreen)
+	        var currentNav = this.SelectedViewController as ViewModelAwareUINavigationController;
+            if (currentNav != null)
             {
-                speakerNav.PushViewController((UIViewController) view, true);
-                this.SelectedViewController = speakerNav;
-				return true;
+                if (currentNav.CanShow(view))
+                currentNav.PushViewController((UIViewController)view, true);
+                return true;
             }
-			else if (view is SessionsScreen || view is SessionDetailsScreen)
-			{
-				sessionNav.PushViewController((UIViewController) view, true);
-				this.SelectedViewController = sessionNav;
-				return true;
-			}
-			else if (view is TwitterScreen || view is TweetDetailsScreen)
-			{
-				twitterNav.PushViewController((UIViewController) view, true);
-				this.SelectedViewController = twitterNav;
-				return true;
-			}
-			
-			//else if (view is ExhibitorsScreen || view is ExhibitorDetailsScreen)
-			//{
-			//	ex
-			//}
+
+
+	        UINavigationController defaultNavigation;
+            if (_defaultDisplays.TryGetValue(view.ShowRequest.ViewModelType, out defaultNavigation))
+            {
+                defaultNavigation.PushViewController((UIViewController)view, true);
+                this.SelectedViewController = defaultNavigation;
+                return true;
+            }
 
 	        return false;
         }

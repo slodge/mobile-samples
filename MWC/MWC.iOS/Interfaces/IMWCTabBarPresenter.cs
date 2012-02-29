@@ -1,12 +1,7 @@
 using Cirrious.MvvmCross.Touch.Interfaces;
 
-namespace MWC.iOS
+namespace MWC.iOS.Interfaces
 {
-	public interface IMWCTabBarPresenterHost
-	{
-		IMWCTabBarPresenter TabBarPresenter { get; set; } 
-	}
-	
     public interface IMWCTabBarPresenter
     {
         bool GoBack();

@@ -10,6 +10,7 @@ using Cirrious.MvvmCross.Binding.Binders;
 using MWC.Core.Mvvm;
 using MWC.Core.Mvvm.Converters;
 using MWC.Core.Mvvm.ViewModels;
+using MWC.iOS.Interfaces;
 using MWC.iOS.Screens.Common;
 using MWC.iOS.Screens.Common.About;
 using MWC.iOS.Screens.Common.Map;

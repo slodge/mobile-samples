@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cirrious.MvvmCross.Interfaces.ServiceProvider;
 using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
+using MWC.iOS.Interfaces;
 using MonoTouch.UIKit;
 
 namespace MWC.iOS
