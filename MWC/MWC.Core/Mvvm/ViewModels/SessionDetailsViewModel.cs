@@ -5,6 +5,7 @@ using Cirrious.MvvmCross.Converters.Visibility;
 using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
 using MWC.BL.Managers;
+using System.Linq;
 
 namespace MWC.Core.Mvvm.ViewModels
 {
@@ -19,7 +20,7 @@ namespace MWC.Core.Mvvm.ViewModels
         public string Overview { get; set; }
         public List<string> SpeakerKeys { get; set; }
         public string SpeakerNames { get; set; }
-        public IList<Speaker> Speakers { get; set; }
+        public IList<SpeakerDetailsViewModel> Speakers { get; set; }
 
         public bool IsFavorite
         {
@@ -70,7 +71,7 @@ namespace MWC.Core.Mvvm.ViewModels
             Room = session.Room;
             SpeakerNames = session.SpeakerNames;
             Overview = CleanupPlainTextDocument(session.Overview);
-            Speakers = session.Speakers;
+            Speakers = session.Speakers.Select(x => new SpeakerDetailsViewModel(Key = x.Key)).ToList();
 
             if (session.SpeakerKeys != null) {
                 SpeakerKeys = new List<string> (session.SpeakerKeys);

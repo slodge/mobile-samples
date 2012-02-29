@@ -5,14 +5,15 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
+using MWC.Core.Mvvm.ViewModels;
 
 namespace MWC.iOS {
 	public class SpeakersTableSource : UITableViewSource {
-		IList<Speaker> speakers;
+		IList<SpeakerDetailsViewModel> speakers;
 		MWC.iOS.UI.Controls.Views.SessionView view;
 		static NSString cellId = new NSString("SpeakerCell");
 
-		public SpeakersTableSource (IList<Speaker> speakers, MWC.iOS.UI.Controls.Views.SessionView view)
+		public SpeakersTableSource (IList<SpeakerDetailsViewModel> speakers, MWC.iOS.UI.Controls.Views.SessionView view)
 		{
 			this.speakers = speakers;
 			this.view = view;
@@ -47,7 +48,7 @@ namespace MWC.iOS {
 		public override void RowSelected (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
 			var speaker = speakers[indexPath.Row];
-			view.SelectSpeaker(speaker);
+            speaker.ShowDetailCommand.Execute();
 			if (AppDelegate.IsPhone) tableView.DeselectRow (indexPath, true);
 		}
 	}

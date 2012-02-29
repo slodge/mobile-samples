@@ -238,6 +238,7 @@ namespace MWC.iOS.UI.Controls.Views
 		/// </summary>
 		public void SelectSpeaker(Speaker speaker) 
 		{
+
             throw new NotImplementedException();
 		}
 
