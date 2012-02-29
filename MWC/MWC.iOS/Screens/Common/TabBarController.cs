@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Touch.ExtensionMethods;
@@ -53,22 +54,44 @@ namespace MWC.iOS.Screens.Common {
             return controller;
         }
 
+        private UIViewController CreateTabFor<TPrimaryType>(string title, string imageName, object creationParameters = null, params Type[] alsoSupports)
+            where TPrimaryType : class, IMvxViewModel
+        {
+            var controller = new ViewModelAwareUINavigationController();
+
+            if (!_defaultDisplays.ContainsKey(typeof(TPrimaryType)))
+                _defaultDisplays[typeof(TPrimaryType)] = controller;
+
+            if (alsoSupports != null)
+                foreach (var viewModelType in alsoSupports)
+                    controller.Add(viewModelType);
+
+            var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
+            screen.Title = title;
+            screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle("Images/Tabs/" + imageName + ".png"), _createdSoFarCount);
+            controller.PushViewController(screen, false);
+
+            _createdSoFarCount++;
+
+            return controller;
+        }
+
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
 			var viewControllers = new UIViewController[]
                                   {
-                                    CreateNavigationControllerTabFor<ScheduleViewModel>("Schedule", "schedule"),
-                                    CreateNavigationControllerTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
-                                    CreateNavigationControllerTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
-                                    CreateNavigationControllerTabFor<MapsViewModel>("Map", "maps"),
-                                    CreateNavigationControllerTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
-                                    CreateNavigationControllerTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
-                                    CreateNavigationControllerTabFor<MapsViewModel>("Map", "maps"),
-                                    CreateNavigationControllerTabFor<NewsListViewModel>("News", "rss", null, typeof(NewsItemViewModel)),
-                                    CreateNavigationControllerTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
-                                    CreateNavigationControllerTabFor<AboutXamarinViewModel>("About Xamarin", "about"),
+                                    CreateTabFor<ScheduleViewModel>("Schedule", "schedule"),
+                                    CreateTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
+                                    CreateTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
+                                    CreateTabFor<MapsViewModel>("Map", "maps"),
+                                    CreateTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
+                                    CreateTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
+                                    CreateTabFor<MapsViewModel>("Map", "maps"),
+                                    CreateTabFor<NewsListViewModel>("News", "rss", null, typeof(NewsItemViewModel)),
+                                    CreateTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
+                                    CreateTabFor<AboutXamarinViewModel>("About Xamarin", "about"),
                                   };
 			
 			ViewControllers = viewControllers;
@@ -229,9 +252,9 @@ namespace MWC.iOS.Screens.Common {
             if (currentNav != null)
             {
                 if (currentNav.CanShow(view))
-				{					
-                	currentNav.PushViewController((UIViewController)view, true);
-                	return true;
+                {
+                    var navigationToUse = IsInMoreController(currentNav) ? MoreNavigationController : currentNav;
+                    navigationToUse.PushViewController((UIViewController)view, true);
             	}
 			}
 
@@ -239,12 +262,19 @@ namespace MWC.iOS.Screens.Common {
 	        UINavigationController defaultNavigation;
             if (_defaultDisplays.TryGetValue(view.ShowRequest.ViewModelType, out defaultNavigation))
             {
-                defaultNavigation.PushViewController((UIViewController)view, true);
+                var navigationToUse = IsInMoreController(defaultNavigation) ? MoreNavigationController : defaultNavigation;
                 this.SelectedViewController = defaultNavigation;
+                navigationToUse.PushViewController((UIViewController)view, true);
                 return true;
             }
 
 	        return false;
         }
+
+	    private bool IsInMoreController(UIViewController toTest)
+	    {
+#warning there has to be a better way than this?
+            return Array.IndexOf(ViewControllers, toTest) > 3;
+	    }
 	}
 }
