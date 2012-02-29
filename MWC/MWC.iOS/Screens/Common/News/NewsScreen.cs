@@ -68,7 +68,7 @@ namespace MWC.iOS.Screens.Common.News {
 
 		protected override void RefreshItems ()
 		{
-			if (ViewModel.Items.Count == 0)
+			if (ViewModel.Items == null || ViewModel.Items.Count == 0)
             {
 				var section = new Section("Network unavailable") {
 					new StyledStringElement("News not available. Try again later.") 
@@ -109,7 +109,7 @@ namespace MWC.iOS.Screens.Common.News {
 		}
 		public override float GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			if (_ns.ViewModel.Items.Count > indexPath.Row) {
+			if (_ns.ViewModel.Items != null && _ns.ViewModel.Items.Count > indexPath.Row) {
                 var t = _ns.ViewModel.Items[indexPath.Row];
 				SizeF size = tableView.StringSize (t.Title
 								, UIFont.FromName("Helvetica-Light",AppDelegate.Font16pt)

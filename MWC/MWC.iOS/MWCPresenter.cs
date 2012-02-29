@@ -28,7 +28,7 @@ namespace MWC.iOS
 		
         public override bool ShowView(Cirrious.MvvmCross.Touch.Interfaces.IMvxTouchView view)
         {
-            if (TabBarPresenter != null)
+            if (view != TabBarPresenter)
             {
                 if (TabBarPresenter.ShowView(view))
                     return true;

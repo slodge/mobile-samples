@@ -46,6 +46,7 @@ namespace MWC.iOS.Screens.Common {
 		    var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
             screen.Title = title;
             screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle("Images/Tabs/" + imageName +".png"), _createdSoFarCount);
+			controller.PushViewController(screen, false);
 
             _createdSoFarCount++;
 
@@ -56,11 +57,11 @@ namespace MWC.iOS.Screens.Common {
 		{
 			base.ViewDidLoad ();
 
-			
-            ViewControllers = new UIViewController[]
+			var viewControllers = new UIViewController[]
                                   {
                                     CreateNavigationControllerTabFor<ScheduleViewModel>("Schedule", "schedule"),
                                     CreateNavigationControllerTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
+                                    CreateNavigationControllerTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
                                     CreateNavigationControllerTabFor<MapsViewModel>("Map", "maps"),
                                     CreateNavigationControllerTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
                                     CreateNavigationControllerTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
@@ -69,7 +70,8 @@ namespace MWC.iOS.Screens.Common {
                                     CreateNavigationControllerTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
                                     CreateNavigationControllerTabFor<AboutXamarinViewModel>("About Xamarin", "about"),
                                   };
-
+			
+			ViewControllers = viewControllers;
 
             // tell the tab bar which controllers are allowed to customize. 
             // if we don't set  it assumes all controllers are customizable. 
@@ -227,9 +229,11 @@ namespace MWC.iOS.Screens.Common {
             if (currentNav != null)
             {
                 if (currentNav.CanShow(view))
-                currentNav.PushViewController((UIViewController)view, true);
-                return true;
-            }
+				{					
+                	currentNav.PushViewController((UIViewController)view, true);
+                	return true;
+            	}
+			}
 
 
 	        UINavigationController defaultNavigation;
