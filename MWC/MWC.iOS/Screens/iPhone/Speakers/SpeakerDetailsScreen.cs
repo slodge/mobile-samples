@@ -33,54 +33,59 @@ namespace MWC.iOS.Screens.iPhone.Speakers {
             : base(request)
 		{
 			ShouldShowSessions = true;
-
-			View.BackgroundColor = UIColor.White;
-			
-			if (AppDelegate.IsPad) {
-				toolbar = new UIToolbar (new RectangleF(0,0,UIScreen.MainScreen.Bounds.Width, 40));
-				
-				View.AddSubview (toolbar);
-				y = 40;
-			}
-
-			nameLabel = new UILabel () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font16pt),
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
-			};
-			titleLabel = new UILabel () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName ("Helvetica-LightOblique", AppDelegate.Font10pt),
-				TextColor = UIColor.DarkGray,
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
-			};
-			companyLabel = new UILabel () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font10pt),
-				TextColor = UIColor.DarkGray,
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
-			};
-			 bioTextView = new UITextView () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font10_5pt),
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f),
-				ScrollEnabled = true,
-				Editable = false
-			};
-			image = new UIImageView();
-
-			
-			scrollView = new UIScrollView();
-
-			scrollView.AddSubview (nameLabel);
-			scrollView.AddSubview (titleLabel);
-			scrollView.AddSubview (companyLabel);
-			scrollView.AddSubview (bioTextView);
-			scrollView.AddSubview (image);	
-
-			Add (scrollView);	
 		}
-		
+
+        public override void ViewDidLoad ()
+        {
+            base.ViewDidLoad ();
+
+            View.BackgroundColor = UIColor.White;
+         
+         if (AppDelegate.IsPad) {
+             toolbar = new UIToolbar (new RectangleF(0,0,UIScreen.MainScreen.Bounds.Width, 40));
+             
+             View.AddSubview (toolbar);
+             y = 40;
+         }
+
+         nameLabel = new UILabel () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font16pt),
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
+         };
+         titleLabel = new UILabel () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName ("Helvetica-LightOblique", AppDelegate.Font10pt),
+             TextColor = UIColor.DarkGray,
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
+         };
+         companyLabel = new UILabel () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font10pt),
+             TextColor = UIColor.DarkGray,
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
+         };
+          bioTextView = new UITextView () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName ("Helvetica-Light", AppDelegate.Font10_5pt),
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f),
+             ScrollEnabled = true,
+             Editable = false
+         };
+         image = new UIImageView();
+
+         
+         scrollView = new UIScrollView();
+
+         scrollView.AddSubview (nameLabel);
+         scrollView.AddSubview (titleLabel);
+         scrollView.AddSubview (companyLabel);
+         scrollView.AddSubview (bioTextView);
+         scrollView.AddSubview (image);  
+
+         Add (scrollView);
+        }
+        
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);

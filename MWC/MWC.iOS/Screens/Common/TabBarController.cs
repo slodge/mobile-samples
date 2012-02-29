@@ -259,7 +259,6 @@ namespace MWC.iOS.Screens.Common {
             	}
 			}
 
-
 	        UINavigationController defaultNavigation;
             if (_defaultDisplays.TryGetValue(view.ShowRequest.ViewModelType, out defaultNavigation))
             {

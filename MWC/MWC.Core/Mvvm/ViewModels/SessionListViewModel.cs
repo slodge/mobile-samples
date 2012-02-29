@@ -28,7 +28,7 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public IMvxCommand ItemSelectedCommand
         {
-            get { return new MvxRelayCommand<SessionListItemViewModel>((item) => item.Command.Execute()); }
+            get { return new MvxRelayCommand<SessionListItemViewModel>((item) => item.ShowDetailCommand.Execute()); }
         }
 
         public SessionListViewModel(string listKey = null)
@@ -187,7 +187,7 @@ namespace MWC.Core.Mvvm.ViewModels
             SortKey = Start.ToString ("s", System.Globalization.CultureInfo.InvariantCulture);
         }
 
-        public IMvxCommand Command
+        public IMvxCommand ShowDetailCommand
         {
             get { return new MvxRelayCommand(() => RequestNavigate<SessionDetailsViewModel>(new { id = ID } )); }
         }

@@ -71,7 +71,8 @@ namespace MWC.iOS.UI.CustomElements
 		/// </summary>
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
-#warning REmoved!			
+            session.ShowDetailCommand.Execute();
+
 			/*
 			if (splitView != null)
 				splitView.ShowSession(session.ID);

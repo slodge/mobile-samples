@@ -25,58 +25,61 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		public TweetDetailsScreen (MvxShowViewModelRequest request) 
             : base(request)
 		{
-			View.BackgroundColor = UIColor.White;
-
-			user = new UILabel () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName("Helvetica-Light",AppDelegate.Font16pt),
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
-			};
-			handle = new UnderlineLabel () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName("Helvetica-Light",AppDelegate.Font9pt),
-				TextColor = AppDelegate.ColorTextLink,
-				
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
-			};
-			handleButton = UIButton.FromType (UIButtonType.Custom);
-			handleButton.TouchUpInside += (sender, e) => {
-                var url = new NSUrl(ViewModel.Url);
-				var urlRequest = new NSUrlRequest(url);
-				if (AppDelegate.IsPhone)
-					NavigationController.PushViewController (new WebViewController (urlRequest), true);
-				else
-					PresentModalViewController (new WebViewController(urlRequest), true);
-			};
-			date = new UILabel () {
-				TextAlignment = UITextAlignment.Left,
-				Font = UIFont.FromName("Helvetica-Light",AppDelegate.Font9pt),
-				TextColor = UIColor.DarkGray,
-				BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
-			};
-
-			image = new UIImageView();
-			
-			webView = new UIWebView();
-			webView.Delegate = new WebViewDelegate(this);
-			try { // iOS5 only
-				webView.ScrollView.ScrollEnabled = false; 
-				webView.ScrollView.Bounces = false;
-			} catch {}
-
-			View.AddSubview (user);
-			View.AddSubview (handle);
-			View.AddSubview (handleButton);
-			View.AddSubview (image);
-			View.AddSubview (date);
-			View.AddSubview (webView);
-			
 		}
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-			LayoutSubviews();
+
+                        View.BackgroundColor = UIColor.White;
+
+         user = new UILabel () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName("Helvetica-Light",AppDelegate.Font16pt),
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
+         };
+         handle = new UnderlineLabel () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName("Helvetica-Light",AppDelegate.Font9pt),
+             TextColor = AppDelegate.ColorTextLink,
+             
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
+         };
+         handleButton = UIButton.FromType (UIButtonType.Custom);
+         handleButton.TouchUpInside += (sender, e) => {
+                var url = new NSUrl(ViewModel.Url);
+             var urlRequest = new NSUrlRequest(url);
+             if (AppDelegate.IsPhone)
+                 NavigationController.PushViewController (new WebViewController (urlRequest), true);
+             else
+                 PresentModalViewController (new WebViewController(urlRequest), true);
+         };
+         date = new UILabel () {
+             TextAlignment = UITextAlignment.Left,
+             Font = UIFont.FromName("Helvetica-Light",AppDelegate.Font9pt),
+             TextColor = UIColor.DarkGray,
+             BackgroundColor = UIColor.FromWhiteAlpha (0f, 0f)
+         };
+
+         image = new UIImageView();
+         
+         webView = new UIWebView();
+         webView.Delegate = new WebViewDelegate(this);
+         try { // iOS5 only
+             webView.ScrollView.ScrollEnabled = false; 
+             webView.ScrollView.Bounces = false;
+         } catch {}
+
+         View.AddSubview (user);
+         View.AddSubview (handle);
+         View.AddSubview (handleButton);
+         View.AddSubview (image);
+         View.AddSubview (date);
+         View.AddSubview (webView);
+         
+
+
+            LayoutSubviews();
             Update();
         }
 

@@ -19,7 +19,7 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 	/// but when we split the data download into two parts, the methods from that
 	/// baseclass we duplicated here (due to different eventhandlers)
 	/// </remarks>
-    public partial class ExhibitorsScreen : MvxTouchDialogViewController<ExhibitorsListViewModel>
+    public partial class ExhibitorsScreen : UpdateManagerLoadingDialogViewController<ExhibitorsListViewModel>
 	{
 		protected ExhibitorDetailsScreen exhibitorsDetailsScreen;
 		
@@ -27,7 +27,7 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 		/// Set pushing=true so that the UINavCtrl 'back' button is enabled
 		/// </summary>
         public ExhibitorsScreen(MvxShowViewModelRequest request)
-            : base(request, UITableViewStyle.Plain, null, true)
+            : base(request)
 		{
 			EnableSearch = true; // requires ExhibitorElement to implement Matches()
 		}

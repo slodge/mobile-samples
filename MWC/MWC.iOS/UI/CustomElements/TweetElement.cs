@@ -54,12 +54,7 @@ namespace MWC.iOS.UI.CustomElements {
 
 		public override void Selected (DialogViewController dvc, UITableView tableView, MonoTouch.Foundation.NSIndexPath path)
 		{
-            //var tds = new MWC.iOS.Screens.iPhone.Twitter.TweetDetailsScreen (tweet);
-			
-            //if (splitView != null)
-            //    splitView.ShowTweet(tweet.ID, tds);
-            //else
-            //    dvc.ActivateController (tds);
+            tweet.ShowDetailCommand.Execute();
 		}
 	}
 }

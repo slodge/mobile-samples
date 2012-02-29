@@ -24,15 +24,19 @@ namespace MWC.iOS.Screens.iPhone.Sessions {
             : base(request)
 		{
 			ShouldShowSpeakers = true;	// by default
-			
-			sessionView = new SessionView();
-			sessionView.Frame = new RectangleF(0,0,320,100);
-			sessionView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight;
-
-			scrollView = new UIScrollView();
-			scrollView.Frame = new RectangleF(0,0,320,370);
-			Add (scrollView);
 		}
+
+        public override void ViewDidLoad ()
+        {
+            base.ViewDidLoad ();
+            sessionView = new SessionView();
+         sessionView.Frame = new RectangleF(0,0,320,100);
+         sessionView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight;
+
+         scrollView = new UIScrollView();
+         scrollView.Frame = new RectangleF(0,0,320,370);
+         Add (scrollView);
+        }
 		
 		public override void ViewWillAppear (bool animated)
 		{

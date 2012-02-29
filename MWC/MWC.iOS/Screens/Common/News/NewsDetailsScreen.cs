@@ -16,8 +16,7 @@ namespace MWC.iOS.Screens.Common.News {
         public NewsDetailsScreen(MvxShowViewModelRequest request)
             : base(request)
 		{
-			View.BackgroundColor = UIColor.White;
-			webView.BackgroundColor = UIColor.White;
+
 		}
 
 		public void Update (RSSEntry entry)
@@ -63,6 +62,9 @@ namespace MWC.iOS.Screens.Common.News {
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+            View.BackgroundColor = UIColor.White;
+            webView.BackgroundColor = UIColor.White;
 
             if (EmptyOverlay.ShowIfRequired(ref emptyOverlay, ViewModel, View, "No news selected", EmptyOverlayType.News)) return;
 

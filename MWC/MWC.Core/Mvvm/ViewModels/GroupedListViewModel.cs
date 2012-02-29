@@ -40,6 +40,8 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public void BeginUpdate ()
         {
+            IsUpdating = true;
+            
             //
             // Get the data off-thread, then do the rest of our work on-thread
             //

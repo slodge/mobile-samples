@@ -3,6 +3,7 @@ using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
 using MWC.BL.Managers;
+using Cirrious.MvvmCross.Exceptions;
 
 namespace MWC.Core.Mvvm.ViewModels
 {
@@ -27,6 +28,8 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public void Update (RSSEntry item)
         {
+            if (item == null)
+                throw new MvxException("News item missing!"); // this is not really an MvxException....
             ID = item.ID;
             Url = item.Url;
             Title = item.Title;
