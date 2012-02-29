@@ -79,7 +79,7 @@ namespace MWC.iOS {
 		
 #warning for now, we just use an iPhone  MvxTouchSingleViewsPresenter
             // initialize app for single screen iPhone display
-            var presenter = new SinglePanePresenter(this, window);
+            var presenter = new MWCPresenter(this, window);
 			var setup = new Setup(this, presenter);
             setup.Initialize();
 
@@ -87,6 +87,8 @@ namespace MWC.iOS {
             var start = this.GetService<IMvxStartNavigation>();
             start.Start();			
 			
+            window.MakeKeyAndVisible();
+
 			return true;
 		}
 			

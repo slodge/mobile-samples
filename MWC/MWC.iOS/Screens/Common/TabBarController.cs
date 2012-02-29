@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cirrious.MvvmCross.Touch.ExtensionMethods;
+using Cirrious.MvvmCross.Touch.Interfaces;
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
@@ -6,7 +8,9 @@ using MWC.Core.Mvvm.ViewModels;
 using Cirrious.MvvmCross.Views;
 
 namespace MWC.iOS.Screens.Common {
-	public class TabBarController : MvxTouchTabBarViewController<MainViewModel> 
+	public class TabBarController
+        : MvxTouchTabBarViewController<MainViewModel>
+        , IMWCTabBarPresenter
 	{
 		UIViewController homeScreen = null;
 		
@@ -27,10 +31,10 @@ namespace MWC.iOS.Screens.Common {
 			// home tab
 #warning IPad support removed (for now)			
 			if (true /*AppDelegate.IsPhone*/) {
-				homeScreen = base.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
+				homeScreen = this.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
 				homeScreen.Title = "Schedule";
 			} else {
-				homeScreen = base.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
+				homeScreen = this.CreateViewControllerFor<ScheduleViewModel>() as UIViewController;
 			}
 			
 			homeNav = new UINavigationController();
@@ -55,7 +59,7 @@ namespace MWC.iOS.Screens.Common {
 
 			// sessions
 			if (AppDelegate.IsPhone) {
-				sessionsScreen = CreateViewControllerFor<SessionListViewModel>() as DialogViewController;;
+                sessionsScreen = this.CreateViewControllerFor<SessionListViewModel>() as DialogViewController; ;
 				sessionNav = new UINavigationController();
 				sessionNav.TabBarItem = new UITabBarItem("Sessions"
 											, UIImage.FromBundle("Images/Tabs/sessions.png"), 2);
@@ -66,23 +70,23 @@ namespace MWC.iOS.Screens.Common {
                 //                            , UIImage.FromBundle("Images/Tabs/sessions.png"), 2);		
 			}
 			// maps tab
-            mapScreen = CreateViewControllerFor<MapsViewModel>() as UIViewController; 
+            mapScreen = this.CreateViewControllerFor<MapsViewModel>() as UIViewController; 
 			mapScreen.TabBarItem = new UITabBarItem("Map"
 										, UIImage.FromBundle("Images/Tabs/maps.png"), 3);
 			
 			if (AppDelegate.IsPhone) {
 				// exhibitors
-                exhibitorsScreen = CreateViewControllerFor<ExhibitorsListViewModel>() as UIViewController;
+                exhibitorsScreen = this.CreateViewControllerFor<ExhibitorsListViewModel>() as UIViewController;
 				exhibitorsScreen.TabBarItem = new UITabBarItem("Exhibitors"
 											, UIImage.FromBundle("Images/Tabs/exhibitors.png"), 4);
 				
 				// twitter feed
-                twitterFeedScreen = CreateViewControllerFor<TwitterViewModel>() as UIViewController; 
+                twitterFeedScreen = this.CreateViewControllerFor<TwitterViewModel>() as UIViewController; 
 				twitterFeedScreen.TabBarItem = new UITabBarItem("Twitter"
 											, UIImage.FromBundle("Images/Tabs/twitter.png"), 5);
 				
 				// news
-                newsFeedScreen = CreateViewControllerFor<NewsListViewModel>() as UIViewController; ;
+                newsFeedScreen = this.CreateViewControllerFor<NewsListViewModel>() as UIViewController; ;
 				newsFeedScreen.TabBarItem =  new UITabBarItem("News"
 											, UIImage.FromBundle("Images/Tabs/rss.png"), 6);
 			} else {
@@ -106,12 +110,12 @@ namespace MWC.iOS.Screens.Common {
 		
 			// favorites (only required on iPhone)
 			if (AppDelegate.IsPhone) {
-                favoritesScreen = base.CreateViewControllerFor<SessionListViewModel>(new { listKey = SessionListViewModel.FavoritesKey() }) as UIViewController;
+                favoritesScreen = this.CreateViewControllerFor<SessionListViewModel>(new { listKey = SessionListViewModel.FavoritesKey() }) as UIViewController;
 				favoritesScreen.TabBarItem =  new UITabBarItem("Favorites"
 											, UIImage.FromBundle("Images/Tabs/favorites.png"), 6);
 			}
 			// about tab
-            aboutScreen = CreateViewControllerFor<AboutXamarinViewModel>() as UIViewController;
+            aboutScreen = this.CreateViewControllerFor<AboutXamarinViewModel>() as UIViewController;
 			aboutScreen.TabBarItem = new UITabBarItem("About Xamarin"
 										, UIImage.FromBundle("Images/Tabs/about.png"), 8);
 			
@@ -174,6 +178,30 @@ namespace MWC.iOS.Screens.Common {
 	            return true;
 			else
 				return toInterfaceOrientation == UIInterfaceOrientation.Portrait;
+        }
+
+	    public bool GoBack()
+	    {
+	        var subNavigation = this.SelectedViewController as UINavigationController;
+            if (subNavigation == null)
+	            return false;
+
+            if (subNavigation.ViewControllers.Length <= 1)
+                return false;
+
+	        subNavigation.PopViewControllerAnimated(true);
+	        return true;
+	    }
+
+	    public bool ShowView(IMvxTouchView view)
+	    {
+            if (view is SpeakerDetailsViewModel || view is SpeakerListViewModel)
+            {
+                speakerNav.PushViewController((UIViewController) view, true);
+                return true;
+            }
+
+	        return false;
         }
 	}
 }

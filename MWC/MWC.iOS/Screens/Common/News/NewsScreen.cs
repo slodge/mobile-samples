@@ -29,7 +29,6 @@ namespace MWC.iOS.Screens.Common.News {
 		void HandleRefreshRequested (object sender, EventArgs e)
 		{
             throw new NotImplementedException("Needs to go to a IMvxCommand");
-			BL.Managers.NewsManager.Update ();
 		}
 
 		void HandleUpdateStarted(object sender, EventArgs ea)
@@ -75,7 +74,6 @@ namespace MWC.iOS.Screens.Common.News {
 		/// </summary>
 		void PopulateData ()
 		{
-
             if (ViewModel.Items.Count == 0)
             {
 				var section = new Section("Network unavailable") {

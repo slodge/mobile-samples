@@ -127,6 +127,8 @@
     <None Include="Info.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IMWCTabBarPresenter.cs" />
+    <Compile Include="MWCPresenter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Screens\Common\TabBarController.cs" />
@@ -199,7 +201,6 @@
     <Compile Include="UI\Controls\UnderlineLabel.cs" />
     <Compile Include="Screens\Common\About\AboutXamarinScreen.cs" />
     <Compile Include="Setup.cs" />
-    <Compile Include="SinglePanePresenter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
