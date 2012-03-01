@@ -87,7 +87,7 @@
                             >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Tap">
-                                    <commandbinding:MvxEventToCommand Command="{Binding Path=Command}" />
+                                    <commandbinding:MvxEventToCommand Command="{Binding Path=ShowDetailCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
 

@@ -34,6 +34,7 @@ namespace MWC.Core.Mvvm.ViewModels
     public class SpeakerListItemViewModel : GroupedListItemViewModel<Speaker>
     {
         public int ID { get; set; }
+        public string SpeakerKey { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
         public string Company { get; set; }
@@ -57,6 +58,7 @@ namespace MWC.Core.Mvvm.ViewModels
             SortKey = speaker.Name;
 
             ID = speaker.ID;
+            SpeakerKey = speaker.Key;
             Name = speaker.Name;
             Title = speaker.Title;
             Company = speaker.Company;
@@ -65,7 +67,7 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public IMvxCommand ShowDetailCommand
         {
-            get { return new MvxRelayCommand(() => RequestNavigate<SpeakerDetailsViewModel>(new { id = ID })); }
+            get { return new MvxRelayCommand(() => RequestNavigate<SpeakerDetailsViewModel>(new { key = SpeakerKey })); }
         }
     }
 }

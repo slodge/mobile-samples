@@ -189,7 +189,7 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public IMvxCommand ShowDetailCommand
         {
-            get { return new MvxRelayCommand(() => RequestNavigate<SessionDetailsViewModel>(new { id = ID } )); }
+            get { return new MvxRelayCommand(() => RequestNavigate<SessionDetailsViewModel>(new { key = SessionKey } )); }
         }
     }
 }
