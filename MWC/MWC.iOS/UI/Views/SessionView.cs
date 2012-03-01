@@ -42,6 +42,7 @@ namespace MWC.iOS.UI.Controls.Views
             : this(false)
 		{
 		}
+
 		public SessionView (bool isPopup) 
 		{
 			this.BackgroundColor = UIColor.White;
@@ -254,7 +255,7 @@ namespace MWC.iOS.UI.Controls.Views
 		/// Change the session info being displayed in the view
 		/// </summary>
 		public void Update (SessionDetailsViewModel session, bool shouldShowSpeakers)
-		{
+		    {
 			if (speakerTable != null) // need to re-set, incase index 10 was selected last time and new session has fewer speakers
 				speakerTable.SelectRow (NSIndexPath.FromRowSection (0,0), true, UITableViewScrollPosition.Top);
 

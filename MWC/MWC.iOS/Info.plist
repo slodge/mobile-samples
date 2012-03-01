@@ -22,7 +22,6 @@
 	<string>5.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
-		<integer>1</integer>
 		<integer>2</integer>
 	</array>
 	<key>UIStatusBarStyle</key>

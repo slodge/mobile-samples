@@ -3,23 +3,16 @@ using System.Drawing;
 using System;
 using MonoTouch.Foundation;
 using MWC.iOS.Screens.iPhone.Sessions;
+using Cirrious.MvvmCross.Touch.Interfaces;
 
 namespace MWC.iOS.Screens.iPad.Sessions {
-	public class SessionSplitView : IntelligentSplitViewController {
-		MonoTouch.Dialog.DialogViewController sessionsList;
-		SessionSpeakersMasterDetail sessionDetailsWithSpeakers;
-		//int day = -1;
-		bool showingDay = false;
-
-		public SessionSplitView ()
+	public class SessionSplitView
+        : GeneralSplitView
+    {
+		public SessionSplitView (UIViewController masterView, params Type[] supportedViewModelTypes)
+            : base(masterView, new SessionSpeakersMasterDetail(), supportedViewModelTypes)
 		{
 			Delegate = new SessionSplitViewDelegate();
-			
-			sessionsList = new SessionsScreen(this);
-			sessionDetailsWithSpeakers = new SessionSpeakersMasterDetail(-1);
-			
-			this.ViewControllers = new UIViewController[]
-				{sessionsList, sessionDetailsWithSpeakers};
 		}
 		
 		/// <summary>
@@ -29,40 +22,24 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
-			Console.WriteLine ("viewappear showingDay = " + showingDay);
-			if (!showingDay) {
-				var sl = ViewControllers[0] as SessionsScreen;
-				sl.ShowAll();
-				sessionsList = sl;
-			}
-			showingDay = false;
 		}
+
 		public override void ViewWillDisappear (bool animated)
 		{
 			base.ViewWillDisappear (animated);
 		}
 
-		public void ShowSession (int sessionID)
-		{
-			sessionDetailsWithSpeakers = this.ViewControllers[1] as SessionSpeakersMasterDetail;
-			sessionDetailsWithSpeakers.SelectSpeaker(sessionID);
-		}
-		public void ShowDay (int day)
-		{	
-			//this.day = day;
-			showingDay = true;
-			var sl = ViewControllers[0] as SessionsScreen;
-			sl.FitlerByDay(day);
-			sessionsList = sl;
-
-			sessionDetailsWithSpeakers = this.ViewControllers[1] as SessionSpeakersMasterDetail;
-			sessionDetailsWithSpeakers.SelectSpeaker(-1); // blank out for a new day
-
-		}
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
         {
             return true;
         }
+
+        public override void ShowDetail(UIViewController view)
+        {
+            var masterDetail = this.ViewControllers[1] as SessionSpeakersMasterDetail;
+            masterDetail.ShowView(view as IMvxTouchView);
+        }
+
 		public bool IsPortrait {
 			get {
 				return InterfaceOrientation == UIInterfaceOrientation.Portrait 
@@ -73,12 +50,11 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 
  	public class SessionSplitViewDelegate : UISplitViewControllerDelegate
     {
-#warning Put back in
-        //public override bool ShouldHideViewController (UISplitViewController svc, UIViewController viewController, UIInterfaceOrientation inOrientation)
-        //{
-        //    return inOrientation == UIInterfaceOrientation.Portrait
-        //        || inOrientation == UIInterfaceOrientation.PortraitUpsideDown;
-        //}
+        public override bool ShouldHideViewController (UISplitViewController svc, UIViewController viewController, UIInterfaceOrientation inOrientation)
+        {
+            return inOrientation == UIInterfaceOrientation.Portrait
+                || inOrientation == UIInterfaceOrientation.PortraitUpsideDown;
+        }
 
 		public override void WillHideViewController (UISplitViewController svc, UIViewController aViewController, UIBarButtonItem barButtonItem, UIPopoverController pc)
 		{

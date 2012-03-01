@@ -163,7 +163,7 @@ namespace MWC.iOS.Screens.iPhone.Exhibitors {
 				descriptionTextView.TextColor = UIColor.Gray;
 				descriptionTextView.Text = "No background information available.";
 			}
-            if (ViewModel.ImageUrl != "http://www.mobileworldcongress.com")
+            if (!string.IsNullOrEmpty(ViewModel.ImageUrl) && ViewModel.ImageUrl != "http://www.mobileworldcongress.com")
             {
 				// empty image shows this
                 var u = new Uri(ViewModel.ImageUrl);

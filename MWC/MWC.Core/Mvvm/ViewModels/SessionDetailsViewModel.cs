@@ -35,7 +35,7 @@ namespace MWC.Core.Mvvm.ViewModels
             }
         }
 
-        public SessionDetailsViewModel (string id = null, string key = null)
+        public SessionDetailsViewModel (string id = null, string key = null, string summaryOnly = null)
         {
             SpeakerKeys = new List<string> ();
 
@@ -49,8 +49,10 @@ namespace MWC.Core.Mvvm.ViewModels
                 session = SessionManager.GetSessionWithKey(key);
             }
 
+            var isSummaryOnly = !string.IsNullOrEmpty(summaryOnly);
+
             if (session != null)
-                Update(session);
+                Update(session, isSummaryOnly);
         }
 
         public string TimeSpanText
@@ -61,7 +63,7 @@ namespace MWC.Core.Mvvm.ViewModels
             }
         }
 
-        public void Update (Session session)
+        public void Update (Session session, bool summaryOnly = false)
         {
             ID = session.ID;
             Key = session.Key;
@@ -71,7 +73,8 @@ namespace MWC.Core.Mvvm.ViewModels
             Room = session.Room;
             SpeakerNames = session.SpeakerNames;
             Overview = CleanupPlainTextDocument(session.Overview);
-            Speakers = session.Speakers.Select(x => new SpeakerDetailsViewModel(Key = x.Key)).ToList();
+            if (!summaryOnly)
+                Speakers = session.Speakers.Select(x => new SpeakerDetailsViewModel(key: x.Key, summaryOnly: "true")).ToList();
 
             if (session.SpeakerKeys != null) {
                 SpeakerKeys = new List<string> (session.SpeakerKeys);

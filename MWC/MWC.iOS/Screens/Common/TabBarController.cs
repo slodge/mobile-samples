@@ -5,7 +5,7 @@ using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Touch.ExtensionMethods;
 using Cirrious.MvvmCross.Touch.Interfaces;
 using MWC.iOS.Interfaces;
-using MWC.iOS.Screens.iPad.Exhibitors;
+using MWC.iOS.Screens.iPad;
 using MWC.iOS.UI.Navigation;
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
@@ -17,6 +17,7 @@ using Cirrious.MvvmCross.Interfaces.ServiceProvider;
 using MWC.iOS.Screens.iPhone.Speakers;
 using MWC.iOS.Screens.iPhone.Sessions;
 using MWC.iOS.Screens.iPhone.Twitter;
+using MWC.iOS.Screens.iPad.Sessions;
 
 namespace MWC.iOS.Screens.Common {
 	public class TabBarController
@@ -68,7 +69,12 @@ namespace MWC.iOS.Screens.Common {
                 return CreateTabFor<TPrimaryType>(title, imageName, creationParameters, alsoSupports);
 
             var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
-            var splitView = new GeneralSplitView(screen, null, alsoSupports);
+            GeneralSplitView splitView;
+            if (typeof(TPrimaryType) == typeof(SessionListViewModel))
+                splitView = new SessionSplitView(screen, alsoSupports);
+            else
+                splitView = new GeneralSplitView(screen, null, alsoSupports);
+
 	        SetTitleAndTabBarItem(splitView, title, imageName);
 
             if (!_defaultSplitViews.ContainsKey(typeof(TPrimaryType)))
@@ -76,7 +82,6 @@ namespace MWC.iOS.Screens.Common {
 
             return splitView;
         }
-        
 
 		public override void ViewDidLoad ()
 		{
@@ -85,14 +90,13 @@ namespace MWC.iOS.Screens.Common {
 			var viewControllers = new UIViewController[]
                                   {
                                     CreateTabFor<ScheduleViewModel>("Schedule", "schedule"),
-                                    CreateTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
-                                    CreateTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
+                                    CreateSplittableTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
+                                    CreateSplittableTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
                                     CreateTabFor<MapsViewModel>("Map", "maps"),
                                     CreateSplittableTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
-                                    CreateTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
-                                    CreateTabFor<MapsViewModel>("Map", "maps"),
-                                    CreateTabFor<NewsListViewModel>("News", "rss", null, typeof(NewsItemViewModel)),
-                                    CreateTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
+                                    CreateSplittableTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
+                                    CreateSplittableTabFor<NewsListViewModel>("News", "rss", null, typeof(NewsItemViewModel)),
+                                    CreateSplittableTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
                                     CreateTabFor<AboutXamarinViewModel>("About Xamarin", "about"),
                                   };			
 			ViewControllers = viewControllers;
@@ -273,7 +277,7 @@ namespace MWC.iOS.Screens.Common {
             if (_defaultSplitViews.TryGetValue(view.ShowRequest.ViewModelType, out defaultSplitView))
             {
                 this.SelectedViewController = defaultSplitView;
-                defaultSplitView.PushMasterView((UIViewController)view, true);
+                defaultSplitView.PushMasterView((UIViewController)view);
                 return true;
             }
 
@@ -289,6 +293,9 @@ namespace MWC.iOS.Screens.Common {
 	            {
 	                if (currentViewModelAware is GeneralSplitView)
 	                {
+                        var splitView = currentViewModelAware as GeneralSplitView;
+                        splitView.ShowDetail((UIViewController)view);
+                        return true;
 	                }
 	                else if (currentViewModelAware is UINavigationController)
 	                {

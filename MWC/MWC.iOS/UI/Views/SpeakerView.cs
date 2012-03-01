@@ -5,6 +5,7 @@ using MonoTouch.Dialog;
 using MonoTouch.Dialog.Utilities;
 using System.Drawing;
 using MWC.BL;
+using MWC.Core.Mvvm.ViewModels;
 
 namespace MWC.iOS.UI.Controls.Views {
 	/// <summary>
@@ -20,15 +21,13 @@ namespace MWC.iOS.UI.Controls.Views {
 		
 		int y = 0;
 		int speakerId;
-		Speaker showSpeaker;
+		SpeakerDetailsViewModel showSpeaker;
 		EmptyOverlay emptyOverlay;
 
 		const int ImageSpace = 80;		
 		
-		public SpeakerView (int speakerID)
+		public SpeakerView ()
 		{
-			speakerId = speakerID;
-
 			BackgroundColor = UIColor.White;
 			
 			nameLabel = new UILabel () {
@@ -113,10 +112,9 @@ namespace MWC.iOS.UI.Controls.Views {
 		}
 		
 		// for masterdetail
-		public void Update(int speakerID)
+		public void Update(SpeakerDetailsViewModel viewModel)
 		{
-			speakerId = speakerID;
-			showSpeaker = BL.Managers.SpeakerManager.GetSpeaker (speakerId);
+			showSpeaker = viewModel;
 			Update ();
 			LayoutSubviews ();
 		}

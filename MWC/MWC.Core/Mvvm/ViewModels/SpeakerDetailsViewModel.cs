@@ -4,27 +4,37 @@ using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
 using MWC.BL.Managers;
+using Cirrious.MvvmCross.Platform.Diagnostics;
+using System;
 
 namespace MWC.Core.Mvvm.ViewModels
 {
     public class SpeakerDetailsViewModel : ViewModelBase
     {
-        public SpeakerDetailsViewModel(string id=null, string key=null)
+        public SpeakerDetailsViewModel(string id=null, string key=null, string summaryOnly=null)
         {
             var speaker = default(Speaker);
 
             if (id != null)
             {
-                speaker = SpeakerManager.GetSpeaker(int.Parse(id));
+                MvxTrace.Trace("Speaker loading... " + id);
+                int parsed;
+                if (!int.TryParse(id, out parsed))
+                {
+                    throw new FormatException("Cound not parse to int value '" + id + "'");
+                }
+                speaker = SpeakerManager.GetSpeaker(parsed);
             }
             else if (key != null)
             {
                 speaker = SpeakerManager.GetSpeakerWithKey(key);
             }
 
+            var isSummaryOnly = !string.IsNullOrEmpty(summaryOnly);
+
             if (speaker != null)
             {
-                Update(speaker);
+                Update(speaker, isSummaryOnly);
             }
         }
 
@@ -38,7 +48,7 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public List<SessionDetailsViewModel> Sessions { get; set; }
 
-        public void Update (Speaker speaker)
+        public void Update (Speaker speaker, bool summaryOnly)
         {
             ID = speaker.ID;
             Key = speaker.Key;
@@ -47,7 +57,8 @@ namespace MWC.Core.Mvvm.ViewModels
             Company = speaker.Company;
             ImageUrl = speaker.ImageUrl;
             Bio = CleanupPlainTextDocument (speaker.Bio);
-            Sessions = speaker.Sessions.Select(x => new SessionDetailsViewModel(key: x.Key)).ToList();
+            if (!summaryOnly)
+                Sessions = speaker.Sessions.Select(x => new SessionDetailsViewModel(key: x.Key, summaryOnly:"true")).ToList();
 
             if (string.IsNullOrWhiteSpace (Bio)) {
                 Bio = "No biographical information available.";
@@ -56,7 +67,7 @@ namespace MWC.Core.Mvvm.ViewModels
 
         public IMvxCommand ShowDetailCommand
         {
-            get { return new MvxRelayCommand(() => this.RequestNavigate<SessionDetailsViewModel>(new { id = ID })); }
+            get { return new MvxRelayCommand(() => this.RequestNavigate<SessionDetailsViewModel>(new { key = Key })); }
         }
     }
 }

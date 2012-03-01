@@ -4,13 +4,19 @@ using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.iOS.UI.Controls.Views;
+using Cirrious.MvvmCross.Binding.Touch.Views;
+using MWC.Core.Mvvm.ViewModels;
+using MWC.iOS.Interfaces;
+using Cirrious.MvvmCross.Touch.Interfaces;
+using Cirrious.MvvmCross.ExtensionMethods;
+using Cirrious.MvvmCross.Interfaces.ViewModels;
 
 namespace MWC.iOS.Screens.iPad.Sessions {
-	public class SessionSpeakersMasterDetail : UIViewController, ISessionViewHost {
-
+	public class SessionSpeakersMasterDetail
+        : UIViewController
+        , IViewModelAware
+    {
 		UINavigationBar navBar;
-		int speakerId;
-		List<MWC.BL.Speaker> speakersInSession;
 		SessionView sessionView;
 		SpeakerView speakerView;
 
@@ -19,21 +25,26 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 	
 		public UIPopoverController Popover;
 
-		public SessionSpeakersMasterDetail (int speakerID)
-		{
-			speakerId = speakerID;
-			
-			navBar = new UINavigationBar(new RectangleF(0,0,768, 44));
+		public SessionSpeakersMasterDetail ()
+             :base()
+        {
+        }
+
+        public override void ViewDidLoad ()
+        {
+            base.ViewDidLoad ();
+
+			navBar = new UINavigationBar(new RectangleF(0, 0, 768, 44));
 			navBar.SetItems(new UINavigationItem[]{new UINavigationItem("Session & Speaker Info")},false);
 			
 			View.BackgroundColor = UIColor.LightGray;
 			View.Frame = new RectangleF(0,0,768,768);
 
-			sessionView = new SessionView(this);
+			sessionView = new SessionView();
 			sessionView.Frame = new RectangleF(0,44,colWidth1,728);
 			sessionView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight;
 
-			speakerView = new SpeakerView(-1);
+			speakerView = new SpeakerView();
 			speakerView.Frame = new RectangleF(colWidth1+1,44,colWidth2,728);
 			speakerView.AutoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth;
 
@@ -42,7 +53,8 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 			View.AddSubview (navBar);
 		}
 
-		public void SelectSpeaker(int speakerID) 
+        /*
+		public void ShowView()
 		{
 			speakerId = speakerID;
 			
@@ -57,7 +69,9 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 				} else {	// no speaker (!?)
 					speakerView.Clear();
 				}
-			} else {
+			}
+            else
+            {
 				sessionView.Clear();
 				speakerView.Clear();
 			}
@@ -66,16 +80,41 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 				Popover.Dismiss (true);
 			}
 		}
+        */
 
-		public void SelectSpeaker (BL.Speaker speaker) {
-			speakerView.Update (speaker.ID);
-		}
-		
-		
+        public void ShowView (Cirrious.MvvmCross.Touch.Interfaces.IMvxTouchView view)
+        {
+            if (Popover != null) {
+               Popover.Dismiss (true);
+            }
+
+#warning This is very naughty code! Should really do better here - should display the view along with its controller - but this is just adapting the mwc sample for now
+            var type = view.ShowRequest.ViewModelType;
+            if (type == typeof(SessionDetailsViewModel))
+            {
+                sessionView.Update(HackLoadViewModel<SessionDetailsViewModel>(view));
+                speakerView.Clear();
+            }
+            else if (type == typeof(SpeakerDetailsViewModel))
+            {
+                speakerView.Update(HackLoadViewModel<SpeakerDetailsViewModel>(view));
+            }
+        }
+
+#warning This is very naughty code! Should really do better here - should display the view along with its controller - but this is just adapting the mwc sample for now
+        private TViewModel HackLoadViewModel<TViewModel>(IMvxTouchView view)
+            where TViewModel : class, IMvxViewModel
+        {
+            var typedView = view as IMvxTouchView<TViewModel>;
+            var viewModel = typedView.GetService<IMvxViewModelLoader>().LoadViewModel(view.ShowRequest);
+            return (TViewModel)viewModel;
+        }
+
 		protected void OnFavoriteChanged (NSNotification notification)
 		{
 			sessionView.UpdateFavorite();
 		}
+
 		NSObject ObserverFavoriteChanged;
 		/// <summary>
 		/// Keep favorite-stars in sync with changes made on other screens
@@ -88,6 +127,7 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 			ObserverFavoriteChanged = NSNotificationCenter.DefaultCenter.AddObserver(
 					AppDelegate.NotificationFavoriteUpdated, OnFavoriteChanged);			
 		}
+
 		/// <summary>
 		/// Keep favorite-stars in sync with changes made on other screens
 		/// </summary>
@@ -97,6 +137,7 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 			sessionView.UpdateFavorite ();
 			base.ViewWillDisappear (animated);
 		}
+
 		public void AddNavBarButton (UIBarButtonItem button)
 		{
 			button.Title = "Sessions";
@@ -107,5 +148,15 @@ namespace MWC.iOS.Screens.iPad.Sessions {
 		{
 			navBar.TopItem.SetLeftBarButtonItem (null, false);
 		}
+
+        #region IViewModelAware implementation
+
+        public bool CanShow (Cirrious.MvvmCross.Touch.Interfaces.IMvxTouchView view)
+        {
+            var vmType = view.ShowRequest.ViewModelType;
+            return (vmType == typeof(SpeakerDetailsViewModel) || vmType == typeof(SessionDetailsViewModel));
+        }
+
+        #endregion
 	}
 }
