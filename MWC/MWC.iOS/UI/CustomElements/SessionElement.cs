@@ -12,7 +12,8 @@ namespace MWC.iOS.UI.CustomElements
 	/// Session element, used on both iPhone (full screen)
 	/// and iPad (in a popover). 
 	/// </summary>
-	public class SessionElement : Element, IElementSizing {
+    public class SessionElement : BaseElement, IElementSizing
+    {
 		static NSString cellId = new NSString ("sessionElement");
 
         SessionListItemViewModel session;

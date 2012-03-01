@@ -20,10 +20,8 @@ namespace MWC.iOS.UI.CustomElements {
 	/// <summary>
 	/// Lifted this code from MT.D source, so it could be customized
 	/// </summary>
-	public class CustomBadgeElement {
-		public CustomBadgeElement ()
-		{
-		}
+	public static class CustomBadgeImage 
+    {
 		public static UIImage MakeCalendarBadge (UIImage template, string smallText, string bigText)
 		{
 			using (var cs = CGColorSpace.CreateDeviceRGB ()){

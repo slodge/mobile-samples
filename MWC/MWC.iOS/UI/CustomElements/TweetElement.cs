@@ -16,7 +16,8 @@ namespace MWC.iOS.UI.CustomElements {
 	/// the variable height was not returned after pull-to-refresh (MT.D bug?)
 	/// This was fixed by moving the implementation to TwitterScreenSizingSource
 	/// </remarks>
-	public class TweetElement : Element  {
+    public class TweetElement : BaseElement
+    {
 		static NSString cellId = new NSString ("TweetElement");
 
         TweetViewModel tweet;

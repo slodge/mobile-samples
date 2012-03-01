@@ -133,6 +133,9 @@
     <Compile Include="..\MWC.Core\DL\SQLite.cs">
       <Link>DL\SQLite.cs</Link>
     </Compile>
+    <Compile Include="..\MWC.Core\Mvvm\ViewModels\MapsViewModel.cs">
+      <Link>Mvvm\ViewModels\MapsViewModel.cs</Link>
+    </Compile>
     <Compile Include="..\MWC.Core\Mvvm\ViewModels\MoreViewModel.cs">
       <Link>Mvvm\ViewModels\MoreViewModel.cs</Link>
     </Compile>

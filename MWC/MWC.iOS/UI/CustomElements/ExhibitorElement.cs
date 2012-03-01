@@ -6,10 +6,10 @@ using MonoTouch.Foundation;
 using System.Text;
 
 namespace MWC.iOS.UI.CustomElements {
-	/// <summary>
+    /// <summary>
 	/// Exhibitor element for MonoTouch.Dialog
 	/// </summary>
-	public class ExhibitorElement : Element, IElementSizing {
+	public class ExhibitorElement : BaseElement, IElementSizing {
 
 		/// <summary>
 		/// Gets or sets the exhibitor.

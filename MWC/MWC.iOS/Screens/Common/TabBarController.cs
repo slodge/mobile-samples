@@ -5,6 +5,7 @@ using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Touch.ExtensionMethods;
 using Cirrious.MvvmCross.Touch.Interfaces;
 using MWC.iOS.Interfaces;
+using MWC.iOS.Screens.iPad.Exhibitors;
 using MWC.iOS.UI.Navigation;
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
@@ -23,7 +24,8 @@ namespace MWC.iOS.Screens.Common {
         , IMWCTabBarPresenter
 		, IMvxServiceConsumer<IMWCTabBarPresenterHost>
 	{
-        private Dictionary<Type, UINavigationController> _defaultDisplays = new Dictionary<Type, UINavigationController>();
+        private readonly Dictionary<Type, UINavigationController> _defaultNavigationControllers = new Dictionary<Type, UINavigationController>();
+        private readonly Dictionary<Type, GeneralSplitView> _defaultSplitViews = new Dictionary<Type, GeneralSplitView>();
 
 		public TabBarController (MvxShowViewModelRequest request)
 			: base(request)
@@ -32,49 +34,49 @@ namespace MWC.iOS.Screens.Common {
 		}
 
 	    private int _createdSoFarCount = 0;
-        private UINavigationController CreateNavigationControllerTabFor<TPrimaryType>(string title, string imageName, object creationParameters = null, params Type[] alsoSupports)
-            where TPrimaryType : class, IMvxViewModel
-        {
-            var controller = new ViewModelAwareUINavigationController();
-
-            if (!_defaultDisplays.ContainsKey(typeof(TPrimaryType)))
-                _defaultDisplays[typeof(TPrimaryType)] = controller;
-
-            if (alsoSupports != null)
-                foreach (var viewModelType in alsoSupports)
-                    controller.Add(viewModelType);
-
-		    var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
-            screen.Title = title;
-            screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle("Images/Tabs/" + imageName +".png"), _createdSoFarCount);
-			controller.PushViewController(screen, false);
-
-            _createdSoFarCount++;
-
-            return controller;
-        }
 
         private UIViewController CreateTabFor<TPrimaryType>(string title, string imageName, object creationParameters = null, params Type[] alsoSupports)
             where TPrimaryType : class, IMvxViewModel
         {
             var controller = new ViewModelAwareUINavigationController();
 
-            if (!_defaultDisplays.ContainsKey(typeof(TPrimaryType)))
-                _defaultDisplays[typeof(TPrimaryType)] = controller;
+            if (!_defaultNavigationControllers.ContainsKey(typeof(TPrimaryType)))
+                _defaultNavigationControllers[typeof(TPrimaryType)] = controller;
 
             if (alsoSupports != null)
                 foreach (var viewModelType in alsoSupports)
                     controller.Add(viewModelType);
 
             var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
-            screen.Title = title;
-            screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle("Images/Tabs/" + imageName + ".png"), _createdSoFarCount);
+            SetTitleAndTabBarItem(screen, title, imageName);
             controller.PushViewController(screen, false);
-
-            _createdSoFarCount++;
-
             return controller;
         }
+
+	    private void SetTitleAndTabBarItem(UIViewController screen, string title, string imageName)
+	    {
+	        screen.Title = title;
+	        screen.TabBarItem = new UITabBarItem(title, UIImage.FromBundle("Images/Tabs/" + imageName + ".png"),
+	                                             _createdSoFarCount);
+            _createdSoFarCount++;
+        }
+
+	    private UIViewController CreateSplittableTabFor<TPrimaryType>(string title, string imageName, object creationParameters = null, params Type[] alsoSupports)
+            where TPrimaryType : class, IMvxViewModel
+        {
+            if (AppDelegate.IsPhone)
+                return CreateTabFor<TPrimaryType>(title, imageName, creationParameters, alsoSupports);
+
+            var screen = this.CreateViewControllerFor<TPrimaryType>(creationParameters) as UIViewController;
+            var splitView = new GeneralSplitView(screen, null, alsoSupports);
+	        SetTitleAndTabBarItem(splitView, title, imageName);
+
+            if (!_defaultSplitViews.ContainsKey(typeof(TPrimaryType)))
+                _defaultSplitViews[typeof(TPrimaryType)] = splitView;
+
+            return splitView;
+        }
+        
 
 		public override void ViewDidLoad ()
 		{
@@ -86,14 +88,13 @@ namespace MWC.iOS.Screens.Common {
                                     CreateTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
                                     CreateTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
                                     CreateTabFor<MapsViewModel>("Map", "maps"),
-                                    CreateTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
+                                    CreateSplittableTabFor<ExhibitorsListViewModel>("Exhibitors", "exhibitors", null, typeof(ExhibitorDetailsViewModel)),
                                     CreateTabFor<TwitterViewModel>("Twitter", "twitter", null, typeof(TweetViewModel)),
                                     CreateTabFor<MapsViewModel>("Map", "maps"),
                                     CreateTabFor<NewsListViewModel>("News", "rss", null, typeof(NewsItemViewModel)),
                                     CreateTabFor<SessionListViewModel>("Favorites", "favorites", new { listKey = SessionListViewModel.FavoritesKey() }, typeof(SessionDetailsViewModel), typeof(SpeakerDetailsViewModel)),
                                     CreateTabFor<AboutXamarinViewModel>("About Xamarin", "about"),
-                                  };
-			
+                                  };			
 			ViewControllers = viewControllers;
 
             // tell the tab bar which controllers are allowed to customize. 
@@ -248,28 +249,60 @@ namespace MWC.iOS.Screens.Common {
 
 	    public bool ShowView(IMvxTouchView view)
 	    {
-	        var currentNav = this.SelectedViewController as ViewModelAwareUINavigationController;
-            if (currentNav != null)
-            {
-                if (currentNav.CanShow(view))
-                {
-                    var navigationToUse = IsInMoreController(currentNav) ? MoreNavigationController : currentNav;
-                    navigationToUse.PushViewController((UIViewController)view, true);
-					return true;
-            	}
-			}
-
-	        UINavigationController defaultNavigation;
-            if (_defaultDisplays.TryGetValue(view.ShowRequest.ViewModelType, out defaultNavigation))
-            {
-                var navigationToUse = IsInMoreController(defaultNavigation) ? MoreNavigationController : defaultNavigation;
-                this.SelectedViewController = defaultNavigation;
-                navigationToUse.PushViewController((UIViewController)view, true);
+	        if (TryShowViewInCurrentTab(view)) 
                 return true;
-            }
+
+	        if (TryShowViewInDefaulTab(view)) 
+                return true;
 
 	        return false;
         }
+
+	    private bool TryShowViewInDefaulTab(IMvxTouchView view)
+	    {
+	        UINavigationController defaultNavigation;
+	        if (_defaultNavigationControllers.TryGetValue(view.ShowRequest.ViewModelType, out defaultNavigation))
+	        {
+	            var navigationToUse = IsInMoreController(defaultNavigation) ? MoreNavigationController : defaultNavigation;
+	            this.SelectedViewController = defaultNavigation;
+	            navigationToUse.PushViewController((UIViewController) view, true);
+	            return true;
+	        }
+
+            GeneralSplitView defaultSplitView;
+            if (_defaultSplitViews.TryGetValue(view.ShowRequest.ViewModelType, out defaultSplitView))
+            {
+                this.SelectedViewController = defaultSplitView;
+                defaultSplitView.PushMasterView((UIViewController)view, true);
+                return true;
+            }
+
+            return false;
+        }
+
+	    private bool TryShowViewInCurrentTab(IMvxTouchView view)
+	    {
+	        var currentViewModelAware = this.SelectedViewController as IViewModelAware;
+	        if (currentViewModelAware != null)
+	        {
+	            if (currentViewModelAware.CanShow(view))
+	            {
+	                if (currentViewModelAware is GeneralSplitView)
+	                {
+	                }
+	                else if (currentViewModelAware is UINavigationController)
+	                {
+	                    var navigationController = currentViewModelAware as UINavigationController;
+	                    var navigationToUse = IsInMoreController(navigationController)
+	                                              ? MoreNavigationController
+	                                              : navigationController;
+	                    navigationToUse.PushViewController((UIViewController) view, true);
+	                    return true;
+	                }
+	            }
+	        }
+	        return false;
+	    }
 
 	    private bool IsInMoreController(UIViewController toTest)
 	    {

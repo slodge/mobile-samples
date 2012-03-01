@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Cirrious.MvvmCross.Binding.Interfaces;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Interfaces.Commands;
 using MonoTouch.Foundation;
@@ -7,6 +9,7 @@ using MonoTouch.Dialog;
 using System.Drawing;
 
 namespace MWC.iOS.UI.CustomElements {
+
 	/// <remarks>
 	/// Although not used for a MT.D Element, placed in namespace with the other cells
 	/// </remarks>
@@ -52,9 +55,9 @@ namespace MWC.iOS.UI.CustomElements {
 	            _when = value;
                 UIImage image;
                 if (AppDelegate.IsPad || AppDelegate.HasRetina) // use the big image
-                    image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadge(calendarImageBig, _when.ToString("MMM").ToUpper(), _when.ToString("dd"));
+                    image = MWC.iOS.UI.CustomElements.CustomBadgeImage.MakeCalendarBadge(calendarImageBig, _when.ToString("MMM").ToUpper(), _when.ToString("dd"));
                 else // use the small image
-                    image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadgeSmall(calendarImageSmall, _when.ToString("MMM").ToUpper(), _when.ToString("dd"));
+                    image = MWC.iOS.UI.CustomElements.CustomBadgeImage.MakeCalendarBadgeSmall(calendarImageSmall, _when.ToString("MMM").ToUpper(), _when.ToString("dd"));
                 // either way, on iPad it'll be 60 wide, 
                 // on iPhone it'll be 30 wide (but if Retina, a 60-wide image will be stuffed in)
 

@@ -39,9 +39,12 @@ namespace MWC.WP7.Views
             }
         }
 
-#warning Ideally we'd use the mvx code for favorites - but for now this hack will do
         private void HandleFavoriteClick(object sender, EventArgs e)
         {
+#warning Must be possible to do this better...
+            ViewModel.FavoriteSessionsCommand.Execute();
+            UpdateFavoriteButtonIcon(ViewModel.IsFavorite);
+            /*
             if (FavoritesManager.IsFavorite (ViewModel.Key)) {
                 FavoritesManager.RemoveFavoriteSession(ViewModel.Key);
                 UpdateFavoriteButtonIcon (false);
@@ -52,8 +55,8 @@ namespace MWC.WP7.Views
                 });
                 UpdateFavoriteButtonIcon (true);
             }
+             */
 
-            ViewModel.UpdateIsFavorite();
         }
 
 #warning Pinning disabled!

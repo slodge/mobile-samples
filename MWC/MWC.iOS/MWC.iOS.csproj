@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -101,7 +101,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="monotouch" />
+    <Reference Include="monotouch">
+      <HintPath>..\..\MvvxLibs\monotouch.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -131,6 +133,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Screens\Common\TabBarController.cs" />
+    <Compile Include="Screens\iPad\GeneralSplitView.cs" />
     <Compile Include="Screens\iPhone\Home\HomeScreen.cs" />
     <Compile Include="Screens\iPhone\Home\HomeScreen.designer.cs">
       <DependentUpon>HomeScreen.cs</DependentUpon>
@@ -144,6 +147,7 @@
       <DependentUpon>SpeakersScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Screens\iPhone\Exhibitors\ExhibitorsScreen.cs" />
+    <Compile Include="UI\CustomElements\BaseElement.cs" />
     <Compile Include="UI\CustomElements\ExhibitorElement.cs" />
     <Compile Include="UI\CustomElements\ExhibitorCell.cs" />
     <Compile Include="Screens\Common\Session\SessionDetailsScreen.cs" />
@@ -183,8 +187,8 @@
     <Compile Include="UI\Navigation\ViewModelAwareUINavigationController.cs" />
     <Compile Include="UI\Views\SpeakerView.cs" />
     <Compile Include="UI\Views\SessionView.cs" />
-    <None Include="Screens\iPad\Exhibitors\ExhibitorSplitView.cs" />
-    <None Include="Screens\iPad\Twitter\TwitterSplitView.cs" />
+    <Compile Include="Screens\iPad\GeneralSplitViewDelegate.cs" />
+    <Compile Include="Screens\iPad\Twitter\TwitterSplitView.cs" />
     <None Include="Screens\iPad\News\NewsSplitView.cs" />
     <Compile Include="Screens\Common\Map\MapScreen.cs" />
     <Compile Include="AL\FavoritesTableSource.cs" />
@@ -197,7 +201,7 @@
     <Compile Include="Screens\iPhone\Sessions\SessionDetailsScreen.cs" />
     <Compile Include="AL\SessionsTableSource.cs" />
     <Compile Include="UI\CustomElements\DayCell.cs" />
-    <Compile Include="UI\CustomElements\CustomBadgeElement.cs" />
+    <Compile Include="UI\CustomElements\CustomBadgeImage.cs" />
     <Compile Include="UI\Controls\IntelligentSplitViewController.cs" />
     <Compile Include="UI\Controls\UnderlineLabel.cs" />
     <Compile Include="Screens\Common\About\AboutXamarinScreen.cs" />

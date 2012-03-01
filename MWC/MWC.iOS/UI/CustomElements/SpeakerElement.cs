@@ -10,7 +10,8 @@ namespace MWC.iOS.UI.CustomElements {
 	/// on iPhone, pushes via MT.D
 	/// on iPad, sends view to SplitViewController
 	/// </summary>
-	public class SpeakerElement : Element  {
+    public class SpeakerElement : BaseElement
+    {
 		static NSString cellId = new NSString ("SpeakerElement");
 		SpeakerListItemViewModel speaker;
 

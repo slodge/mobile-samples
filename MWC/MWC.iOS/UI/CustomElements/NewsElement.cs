@@ -11,7 +11,8 @@ namespace MWC.iOS.UI.CustomElements {
 	/// Originally used MonoTouch.Dialog BadgeElement but created 
 	/// this custom element to fix layout issues I was having
 	/// </summary>
-	public class NewsElement : Element {
+    public class NewsElement : BaseElement
+    {
 
 		static NSString key = new NSString ("NewsElement");
 		UIImage image;

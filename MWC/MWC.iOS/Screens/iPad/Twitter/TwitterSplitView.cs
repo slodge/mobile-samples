@@ -5,9 +5,10 @@ using MonoTouch.UIKit;
 using MWC.iOS.Screens.iPhone.Twitter;
 
 namespace MWC.iOS.Screens.iPad.Twitter {
-	public class TwitterSplitView : UISplitViewController {
-		TwitterScreen twitterList;
-		
+	public class TwitterSplitView 
+        : UISplitViewController 
+    {
+		TwitterScreen twitterList;		
 		TweetDetailsScreen tweetScreen;
 		
 		public TwitterSplitView ()
@@ -16,7 +17,6 @@ namespace MWC.iOS.Screens.iPad.Twitter {
 			Delegate = new SplitViewDelegate();
 			
 			twitterList = new TwitterScreen(this);
-			
 			tweetScreen = new TweetDetailsScreen(null);
 			
 			ViewControllers = new UIViewController[]
@@ -27,8 +27,8 @@ namespace MWC.iOS.Screens.iPad.Twitter {
 		{
 			ViewControllers = new UIViewController[]
 				{twitterList, tweetView};
-
 		}
+
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
         {
             return true;

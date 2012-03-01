@@ -82,7 +82,7 @@ namespace MWC.iOS.Screens.Common.News {
                 foreach (var post in ViewModel.Items)
                 {
 					var published = post.Published;
-					var image = MWC.iOS.UI.CustomElements.CustomBadgeElement.MakeCalendarBadge (calendarImage
+					var image = MWC.iOS.UI.CustomElements.CustomBadgeImage.MakeCalendarBadge (calendarImage
 														, published.ToString ("MMM").ToUpper ()
 														, published.ToString ("dd"));
 					var badgeRow = new NewsElement (post, image);
