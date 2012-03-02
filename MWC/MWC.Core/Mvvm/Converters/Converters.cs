@@ -124,7 +124,7 @@ namespace MWC.Core.Mvvm.Converters
             var list = new List<object>();
             foreach (var group in grouped)
             {
-                list.Add(group.Key);
+                list.Add(group.Title);
                 list.AddRange(group.Items.Select(x => x as object));
             }
             return list;
