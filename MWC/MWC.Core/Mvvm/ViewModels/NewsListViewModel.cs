@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.Converters.Visibility;
+using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
 using MWC.BL.Managers;
 
@@ -22,6 +24,14 @@ namespace MWC.Core.Mvvm.ViewModels
                 NewsManager.UpdateFinished += HandleUpdateFinished;
                 NewsManager.Update ();
             });
+        }
+
+        public IMvxCommand RefreshCommand
+        {
+            get
+            {
+                return new MvxRelayCommand(BeginUpdate);
+            }
         }
 
         void HandleUpdateFinished (object sender, EventArgs e)

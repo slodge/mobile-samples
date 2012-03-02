@@ -28,7 +28,7 @@ namespace MWC.iOS.Screens.Common.News {
 		/// </summary>
 		void HandleRefreshRequested (object sender, EventArgs e)
 		{
-            throw new NotImplementedException("Needs to go to a IMvxCommand");
+		    ViewModel.RefreshCommand.Execute();
 		}
 
 		void HandleUpdateStarted(object sender, EventArgs ea)

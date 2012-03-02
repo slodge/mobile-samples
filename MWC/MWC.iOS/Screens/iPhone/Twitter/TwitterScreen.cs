@@ -37,8 +37,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
 		/// </summary>
 		void HandleRefreshRequested (object sender, EventArgs e)
 		{
-            throw new NotImplementedException("Need to go via a IMvxCommand here");
-			//BL.Managers.TwitterFeedManager.Update ();
+		    ViewModel.RefreshCommand.Execute();
 		}
 
 

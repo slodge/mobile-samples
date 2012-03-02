@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using Cirrious.MvvmCross.Commands;
 using Cirrious.MvvmCross.Converters.Visibility;
+using Cirrious.MvvmCross.Interfaces.Commands;
 using MWC.BL;
 using MWC.BL.Managers;
 
@@ -13,6 +15,8 @@ namespace MWC.Core.Mvvm.ViewModels
     {
         public void BeginUpdate ()
         {
+            if (IsUpdating)
+                return;
             IsUpdating = true;
 
             ThreadPool.QueueUserWorkItem (delegate {
@@ -22,6 +26,14 @@ namespace MWC.Core.Mvvm.ViewModels
                 TwitterFeedManager.UpdateFinished += HandleUpdateFinished;
                 TwitterFeedManager.Update ();
             });
+        }
+
+        public IMvxCommand RefreshCommand
+        {
+            get
+            {
+                return new MvxRelayCommand(BeginUpdate);
+            }
         }
 
         void HandleUpdateFinished (object sender, EventArgs e)
