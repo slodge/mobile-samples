@@ -4,7 +4,7 @@ using MWC.Core.Mvvm.ViewModels;
 
 namespace MWC.Core.Mvvm.ApplicationObjects
 {
-    public class StartApplicationObject 
+    public class StartApplicationObject
         : MvxApplicationObject
         , IMvxStartNavigation
     {

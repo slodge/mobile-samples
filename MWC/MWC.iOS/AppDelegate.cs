@@ -1,11 +1,12 @@
 using System;
 using System.Globalization;
 using System.Threading;
+using Cirrious.MvvmCross.Dialog.Touch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.ObjCRuntime;
 using Cirrious.MvvmCross.ExtensionMethods;
-using Cirrious.MvvmCross.Touch.Services;
+using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.Interfaces.ViewModels;
 using Cirrious.MvvmCross.Interfaces.ServiceProvider;
@@ -96,7 +97,7 @@ namespace MWC.iOS {
 		public override void ReceiveMemoryWarning (UIApplication application)
 		{
 			Console.WriteLine("==== Received Memory Warning ====");
-			MonoTouch.Dialog.Utilities.ImageLoader.Purge();
+			ImageLoader.Purge();
 		}
 	}
 }

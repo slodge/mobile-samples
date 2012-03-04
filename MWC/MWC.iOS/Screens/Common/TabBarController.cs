@@ -7,7 +7,6 @@ using Cirrious.MvvmCross.Touch.Interfaces;
 using MWC.iOS.Interfaces;
 using MWC.iOS.Screens.iPad;
 using MWC.iOS.UI.Navigation;
-using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 using Cirrious.MvvmCross.Touch.Views;
 using MWC.Core.Mvvm.ViewModels;
@@ -89,7 +88,7 @@ namespace MWC.iOS.Screens.Common {
 
 			var viewControllers = new UIViewController[]
                                   {
-                                    CreateTabFor<ScheduleViewModel>("Schedule", "schedule"),
+                                    CreateTabFor<ScheduleUpcomingAndFavoritesViewModel>("Schedule", "schedule"),
                                     CreateSplittableTabFor<SpeakerListViewModel>("Speakers", "speakers", null, typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
                                     CreateSplittableTabFor<SessionListViewModel>("Sessions", "sessions", null, typeof(SessionListViewModel), typeof(SpeakerDetailsViewModel), typeof(SessionDetailsViewModel)),
                                     CreateTabFor<MapsViewModel>("Map", "maps"),

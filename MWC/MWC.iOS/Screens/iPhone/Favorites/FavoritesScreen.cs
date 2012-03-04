@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.Dialog;
 using MWC.BL;
 using MWC.iOS.Screens.Common.Session;
 using MWC.iOS.UI.CustomElements;

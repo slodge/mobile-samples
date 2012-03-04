@@ -5,7 +5,6 @@ using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Interfaces.Commands;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.Dialog;
 using System.Drawing;
 
 namespace MWC.iOS.UI.CustomElements {

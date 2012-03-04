@@ -5,8 +5,9 @@ using System.Text;
 using Cirrious.MvvmCross.Application;
 using Cirrious.MvvmCross.Dialog.Touch;
 using Cirrious.MvvmCross.Touch.Interfaces;
-using Cirrious.MvvmCross.Touch.Services;
+using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Binding.Binders;
+using Cirrious.MvvmCross.Touch.Views;
 using MWC.Core.Mvvm;
 using MWC.Core.Mvvm.Converters;
 using MWC.Core.Mvvm.ViewModels;
@@ -38,8 +39,7 @@ namespace MWC.iOS
         }
 
         #region Overrides of MvxBaseSetup
-		
-		
+				
         protected override MvxApplication CreateApp()
         {
             var app = new App();

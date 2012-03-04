@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Cirrious.MvvmCross.Application;
 using Cirrious.MvvmCross.ViewModels;
 using MWC.Core.Mvvm.ViewModels;
 

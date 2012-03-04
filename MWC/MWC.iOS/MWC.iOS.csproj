@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -101,6 +101,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="monotouch">
+      <HintPath>..\..\MvvxLibs\monotouch.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -116,10 +119,6 @@
     <Reference Include="CirriousMvvmCrossTouch">
       <HintPath>..\..\MvvxLibs\CirriousMvvmCrossTouch.dll</HintPath>
     </Reference>
-    <Reference Include="MonoTouch.Dialog">
-      <HintPath>..\..\MvvxLibs\MonoTouch.Dialog.dll</HintPath>
-    </Reference>
-    <Reference Include="monotouch" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Cirrious.MvvmCross.Dialog.Touch.Dialog;
+using Cirrious.MvvmCross.Dialog.Touch.Dialog.Elements;
 using Cirrious.MvvmCross.Views;
 using MWC.Core.Mvvm.ViewModels;
-using MonoTouch.Dialog;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.iOS.Screens.Common;
@@ -27,7 +28,7 @@ namespace MWC.iOS.Screens.iPhone.Twitter {
         //    splitView = twitterSplitView;
         //}
 
-		public override Source CreateSizingSource (bool unevenRows)
+		public override Cirrious.MvvmCross.Dialog.Touch.Dialog.DialogViewController.Source CreateSizingSource (bool unevenRows)
 		{
 			return new TwitterScreenSizingSource(this);
 		}

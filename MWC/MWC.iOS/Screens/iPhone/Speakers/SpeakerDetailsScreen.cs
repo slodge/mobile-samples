@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using Cirrious.MvvmCross.Binding.Touch.Views;
+using Cirrious.MvvmCross.Dialog.Touch.Dialog.Utilities;
 using Cirrious.MvvmCross.Views;
 using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;
-using MonoTouch.Dialog.Utilities;
 
 namespace MWC.iOS.Screens.iPhone.Speakers {
 	/// <summary>

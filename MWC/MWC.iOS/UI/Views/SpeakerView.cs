@@ -1,8 +1,7 @@
 using System;
+using Cirrious.MvvmCross.Dialog.Touch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.Dialog;
-using MonoTouch.Dialog.Utilities;
 using System.Drawing;
 using MWC.BL;
 using MWC.Core.Mvvm.ViewModels;

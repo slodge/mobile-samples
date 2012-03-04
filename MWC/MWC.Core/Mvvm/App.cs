@@ -19,8 +19,6 @@ namespace MWC.Core.Mvvm
     {
         public App()
         {
-            Title = "MWC goes MvvmCross";
-
             this.RegisterServiceType<IJsonStoreHelper, JsonStoreHelper>();
 
             this.RegisterServiceInstance<IApplicationSettings>(new ApplicationSettings.ApplicationSettings());

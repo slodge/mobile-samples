@@ -5,7 +5,6 @@ using System.Text;
 using Cirrious.MvvmCross.Binding.Touch.Views;
 using Cirrious.MvvmCross.Views;
 using MWC.Core.Mvvm.ViewModels;
-using MonoTouch.Dialog.Utilities;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MWC.BL;

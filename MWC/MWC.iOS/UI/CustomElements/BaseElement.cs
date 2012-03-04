@@ -1,4 +1,4 @@
-using MonoTouch.Dialog;
+using Cirrious.MvvmCross.Dialog.Touch.Dialog.Elements;
 using MonoTouch.UIKit;
 
 namespace MWC.iOS.UI.CustomElements

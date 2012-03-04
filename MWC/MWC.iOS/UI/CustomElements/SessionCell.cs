@@ -2,7 +2,6 @@ using System;
 using MWC.Core.Mvvm.ViewModels;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
-using MonoTouch.Dialog;
 using System.Drawing;
 using MWC.BL;
 using MWC.BL.Managers;

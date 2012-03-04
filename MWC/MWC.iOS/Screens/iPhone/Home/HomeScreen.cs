@@ -16,7 +16,7 @@ namespace MWC.iOS.Screens.iPhone.Home {
 	/// plus (iPad only) "what's on" in the next two 'timeslots'
 	/// and the "favorites" list.
 	/// </summary>
-	public partial class HomeScreen : MvxBindingTouchViewController<ScheduleViewModel> 
+    public partial class HomeScreen : MvxBindingTouchViewController<ScheduleUpcomingAndFavoritesViewModel> 
     {
 		UI.Controls.LoadingOverlay loadingOverlay;
 		NSObject ObserverRotation;
@@ -30,16 +30,16 @@ namespace MWC.iOS.Screens.iPhone.Home {
 		{
 			base.ViewDidLoad ();
 			
-			BL.Managers.UpdateManager.UpdateFinished += HandleUpdateFinished; 
-			
 			SessionTable.SeparatorColor = UIColor.Black;
 			SessionTable.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine; 
 			
-#warning IsPhone commented out			
-			if (true /*AppDelegate.IsPhone*/) {
+			if (AppDelegate.IsPhone) 
+            {
 				MwcLogoImageView.Image = UIImage.FromBundle("/Images/Home");
 				MwcLogoImageView.Frame = new RectangleF(0,0,320,480);
-			} else {
+			} 
+            else 
+            {
 				// IsPad
 				MwcLogoImageView.Image = UIImage.FromBundle("/Images/Home-Portrait~ipad");
 				
@@ -73,35 +73,7 @@ namespace MWC.iOS.Screens.iPhone.Home {
 				FavoritesTable.BackgroundView = clearView3;	
 			}
 
-			//TODO: Craig, i want to look at encapsulating this at the BL layer, 
-			// i don't know if that's a feasible approach, but i think this is 
-			// generally a good pattern.
-			//
-			// if we're in the process of updating, populate the table when it's done
-			// alas, if we keep it in the app layer, it gives us an opportunity to 
-			// show a spinner over the table with an "updating" message.
-			if(BL.Managers.UpdateManager.IsUpdating)
-			{
-				if (AppDelegate.IsPhone)
-					loadingOverlay = new MWC.iOS.UI.Controls.LoadingOverlay (SessionTable.Frame);
-				else {	// IsPad (rotates!)
-					var overlayFrame = View.Frame;
-					overlayFrame.Y = 330;
-					overlayFrame.Height = 768 - 330;
-					loadingOverlay = new MWC.iOS.UI.Controls.LoadingOverlay (overlayFrame);
-					loadingOverlay.AutoresizingMask = UIViewAutoresizing.FlexibleDimensions;
-				}
-				View.AddSubview (loadingOverlay);
-				
-				Console.WriteLine("UpdateManager.IsUpdating ~ wait for them to finish");
-			}
-			else { PopulateTable(); }
-		}
-
-		public override void ViewDidUnload ()
-		{
-			base.ViewDidUnload ();
-			BL.Managers.UpdateManager.UpdateFinished -= HandleUpdateFinished; 
+            PopulateTable();
 		}
 
         protected void PopulateTable()
@@ -120,16 +92,6 @@ namespace MWC.iOS.Screens.iPhone.Home {
             if (AppDelegate.IsPad)
                 PopulateiPadTables();
         }
-       
-        void HandleUpdateFinished(object sender, EventArgs e)
-		{
-			Console.WriteLine("Updates finished, going to populate table.");
-			InvokeOnMainThread ( () => {
-				PopulateTable ();
-				if (loadingOverlay != null)
-					loadingOverlay.Hide ();
-			});
-		}
 
 		public override bool ShouldAutorotateToInterfaceOrientation (UIInterfaceOrientation toInterfaceOrientation)
 		{
@@ -229,8 +191,7 @@ namespace MWC.iOS.Screens.iPhone.Home {
 				OnDeviceRotated(null);
 				
 				// We attempt to re-populate to refresh the 'Favorites' and 'Up Next' lists (which need to change over time)
-				if (!BL.Managers.UpdateManager.IsUpdating)
-					PopulateiPadTables();
+				PopulateiPadTables();
 			
 				ObserverRotation = NSNotificationCenter.DefaultCenter.AddObserver(
 					AppDelegate.NotificationOrientationDidChange, OnDeviceRotated);

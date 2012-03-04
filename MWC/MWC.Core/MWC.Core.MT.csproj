@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Distribution</Configuration>
@@ -80,14 +80,7 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="BL\" />
-    <Folder Include="DAL\" />
-    <Folder Include="DL\" />
-    <Folder Include="BL\Managers\" />
-    <Folder Include="BL\Contracts\" />
-    <Folder Include="SAL\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="DL\MwcDatabase.cs" />
     <Compile Include="DL\SQLite.cs" />
@@ -101,6 +94,7 @@
     <Compile Include="BL\Managers\SpeakerManager.cs" />
     <Compile Include="BL\Managers\ExhibitorManager.cs" />
     <Compile Include="BL\Managers\TwitterFeedManager.cs" />
+    <Compile Include="Mvvm\ViewModels\ScheduleUpcomingAndFavoritesViewModel.cs" />
     <Compile Include="SAL\MwcSiteParser.cs" />
     <Compile Include="BL\Managers\NewsManager.cs" />
     <Compile Include="BL\Contracts\IBusinessEntity.cs" />

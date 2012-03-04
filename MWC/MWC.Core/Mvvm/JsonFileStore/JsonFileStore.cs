@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cirrious.MvvmCross.ExtensionMethods;
-using Cirrious.MvvmCross.Interfaces.Services;
+using Cirrious.MvvmCross.Interfaces.Platform;
 using Cirrious.MvvmCross.Platform.Diagnostics;
 using Newtonsoft.Json;
 
