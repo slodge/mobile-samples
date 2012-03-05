@@ -1,8 +1,6 @@
 TipCalc
 =======
 
-`TipCalc` is a tip calculator which follows my specific requirements:
+`TipCalc` has been ported to a sample in https://github.com/slodge/MvvmCross/tree/master/Sample%20-%20Tutorial/Tutorial - see https://github.com/slodge/MvvmCross/wiki/Tutorial-Part-3:-TipCalc
 
-1. The tip includes the pre-tax value ("Subtotal"), not the post-tax value.
-2. The tip is calculated so that the post-tax value + tip is a multiple of
-$0.25.
+![TipCalc MvvmCross](https://github.com/slodge/MvvmCross/raw/master/Sample%20-%20Tutorial/Help/TipCalc.png)
